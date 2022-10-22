@@ -1,43 +1,72 @@
 <template>
   <div class="login-view">
     <el-container class="login">
+      <el-header class="nav-header">
+        <el-menu
+            :default-active="activeIndex2"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="rgba(0,0,0,0.30)"
+            text-color="#"
+            active-text-color="#ffd04b"
+            style="border-bottom-color: transparent">
+          <el-menu-item index="1">处理中心</el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">我的工作台</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+            <el-submenu index="2-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="2-4-1">选项1</el-menu-item>
+              <el-menu-item index="2-4-2">选项2</el-menu-item>
+              <el-menu-item index="2-4-3">选项3</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <el-menu-item index="3" disabled>消息中心</el-menu-item>
+          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+        </el-menu>
+      </el-header>
 
       <el-main>
         <el-card class="login-card">
-          <el-form :model="registerForm" ref="registerForm" label-width="auto" class="login-form">
+          <el-form :model="loginForm" ref="loginForm" label-width="auto" class="login-form">
             <h1 align="left" style="color: #fff;font-size: 32px;font-weight: 700; margin: 0 0 28px; padding: 0;">
-              注册
+              登录
             </h1>
             <el-form-item
                 prop="username">
-              <el-input v-model="registerForm.username" placeholder="用户名"></el-input>
+              <el-input v-model="loginForm.username" placeholder="用户名"></el-input>
             </el-form-item>
-
-            <el-form-item
-                prop="email">
-              <el-input v-model="registerForm.email" placeholder="邮箱"></el-input>
-            </el-form-item>
-
             <el-form-item
                 prop="password">
-              <el-input type="password" v-model="registerForm.password" placeholder="密码"></el-input>
+              <el-input type="password" v-model="loginForm.password" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="danger" @click="submitRegisterForm(registerForm)"
+              <el-button type="danger" @click="submitLoginForm(loginForm)"
                          style="width: 100%;
                        margin-top: 24px;
                        margin-bottom: 12px;
                        background-color: crimson;
                        font: 16px Helvetica Neue,Helvetica,Arial,sans-serif;">
-                注册
+                登录
               </el-button>
               <div class="login-form-help">
+                <div class="ui-binary-input login-remember-me" style="float:left">
+                  <el-checkbox v-model="isRememberAccount" value="true" tabindex="0" class="login-remember-me-label-text">
+                    记住我
+                  </el-checkbox>
+                </div>
                 <div style="float:right; position:absolute; right: 0;">
                   <a class="login-help-link" href="/LoginHelp">需要帮助？</a>
                 </div>
               </div>
             </el-form-item>
-
+            <div class="login-signup-now">
+              还没有账号？
+              <a class="login-href" target="_self" href="/">马上注册！</a>
+            </div>
           </el-form>
         </el-card>
       </el-main>
@@ -48,17 +77,15 @@
 
 <script>
 import * as api from "@/api/request";
-import Vue from "vue";
 
 export default {
   data() {
     return {
       activeIndex: '1',
       activeIndex2: '1',
-      registerForm: {
+      loginForm: {
         username: '',
         password: '',
-        email:'',
       },
       isRememberAccount: true
     };
@@ -67,11 +94,11 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    async submitRegisterForm(registerForm) {
-      console.log(registerForm.valueOf());
-      await api.postRequest('/register', registerForm);
-      //Api.Login()
-      await this.$router.push('/login');
+    submitLoginForm(loginForm) {
+      console.log(loginForm.valueOf())
+      api.postRequest('/login', loginForm);
+      this.$router.push('/home')
+      // Api.Login()
     },
     addUser() {
       // Vue.$router.push()
