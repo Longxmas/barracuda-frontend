@@ -9,7 +9,7 @@ import Axios from 'axios'
 
 Vue.config.productionTip = false
 
-Axios.defaults.baseURL = '/api'
+Axios.defaults.baseURL = '/api';
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 

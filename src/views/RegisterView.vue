@@ -69,7 +69,7 @@ export default {
     },
     async submitRegisterForm(registerForm) {
       console.log(registerForm.valueOf());
-      await api.postRequest('/register', registerForm);
+      await api.postRequest('/register/', registerForm);
       //Api.Login()
       await this.$router.push('/login');
     },

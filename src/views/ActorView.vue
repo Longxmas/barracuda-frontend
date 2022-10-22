@@ -72,7 +72,7 @@
 
         <v-card elevation="0">
           <div class="parent_center">
-            <v-carousel class="movie_photo">
+            <v-carousel class="movie_photo" >
               <v-carousel-item
                   v-for="(item,i) in movies"
                   :key="i"
@@ -80,7 +80,7 @@
                   reverse-transition="fade-transition"
                   transition="fade-transition"
               >
-                <v-img :src="item.src" contain width="100%">
+                <v-img :src="item.src" contain >
                 </v-img>
               </v-carousel-item>
             </v-carousel>
@@ -95,22 +95,55 @@
           <p></p>
 
           <v-container fluid>
-            <v-row>
+            <v-row >
               <v-col
                   v-for="(item,i) in photos"
                   :key="i"
-                  :href="item.src"
+                  class="parent_center"
               >
-                <v-card class="parent_center">
-                  <v-img :src="item.src" class="actor-photo"></v-img>
+                <v-card class="parent_center actor-photo" :href="item.src">
+                  <v-img :src="item.src"></v-img>
                 </v-card>
 
               </v-col>
             </v-row>
           </v-container>
 
+        </v-card-text>
+
+        <v-card-text>
+          <p></p>
+          <p class="personal-introduction-title"> 合作过的影人 </p>
+          <p></p>
+
+            <v-row>
+              <v-col
+                  v-for="(item,i) in partners"
+                  :key="i"
+                  class="parent_center"
+              >
+                <v-card
+                    class="mx-auto"
+                    elevation="0"
+                    max-width="400"
+                    style="text-align: center"
+                >
+                  <v-img
+                      :src="item.src" class="actor-photo"
+                  >
+                  </v-img>
+
+                  <v-card-text class="text--primary" style="padding: 1px !important;">
+                    <div>{{ item.name }}</div>
+                  </v-card-text>
+                </v-card>
+
+
+              </v-col>
+            </v-row>
 
         </v-card-text>
+
 
 
       </v-card>
@@ -136,11 +169,44 @@ export default {
         {
           name: "真探",
           src: require("../assets/p2.webp"),
-        }
+        },
+        {
+          name: "真探",
+          src: require("../assets/background.jpg"),
+        },
 
       ],
 
       photos: [
+        {
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          src: require("../assets/interstellar2.png"),
+        },
+      ],
+
+
+      partners: [
+        {
+          name:"麦克雷",
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          src: require("../assets/interstellar2.png"),
+        },
         {
           src: require("../assets/interstellar2.png"),
         },
@@ -188,7 +254,7 @@ export default {
 
 .introduction {
   margin-left: 400px;
-  max-width: 800px !important;
+  max-width: 900px !important;
 }
 
 .actor-name {
@@ -220,13 +286,14 @@ export default {
 
 .movie_photo {
   align-self: center;
-  width: 400px !important;
+  height: 400px !important;
+  width: 300px !important;
   align-content: center;
 }
 
 .actor-photo {
   height: 200px;
-  width: 150px;
+  width: 130px;
 }
 
 </style>

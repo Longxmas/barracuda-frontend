@@ -65,7 +65,7 @@
             </el-form-item>
             <div class="login-signup-now">
               还没有账号？
-              <a class="login-href" target="_self" href="/">马上注册！</a>
+              <a class="login-href" target="_self" href="/register">马上注册！</a>
             </div>
           </el-form>
         </el-card>
@@ -95,13 +95,14 @@ export default {
       console.log(key, keyPath);
     },
     submitLoginForm(loginForm) {
-      console.log(loginForm.valueOf())
-      api.postRequest('/login', loginForm);
-      this.$router.push('/home')
+      console.log(loginForm)
+      let it = api.postRequest('/login/', loginForm);
+      console.log(it);
+      //this.$router.push('/home')
       // Api.Login()
     },
     addUser() {
-      // Vue.$router.push()
+      this.$router.push('/register')
     }
   }
 }
