@@ -8,14 +8,17 @@
     >
       <div class="d-flex align-center">
         <v-spacer></v-spacer>
-        <v-img
-            alt="Vuetify Logo"
-            class="shrink mr-2"
-            contain
-            src="./assets/mm7.png"
-            transition="scale-transition"
-            width="150"
-        />
+        <a href="/home">
+          <v-img
+              alt="Vuetify Logo"
+              class="shrink mr-2"
+              contain
+              src="./assets/mm7.png"
+              transition="scale-transition"
+              width="150"
+          />
+        </a>
+
 
       </div>
 
