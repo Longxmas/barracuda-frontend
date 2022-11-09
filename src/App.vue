@@ -33,7 +33,7 @@
 
           <v-col style="max-width: 100px">
             <v-card style="background-color: transparent" flat width="100px">
-              <a href="/actor" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+              <a href="/allActor" style="width: 80px; text-decoration: none; color: #ff8d1a;">
                 <v-card-text class="text-center text-h6" style="padding-top: 30px;">
                   <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">人物</p>
                 </v-card-text>

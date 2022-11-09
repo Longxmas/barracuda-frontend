@@ -1,13 +1,16 @@
 <template>
   <div id="allMovieView">
+
+    <v-container fluid style="width: 90%; margin-top: 10px; margin-left: 50px">
       <h1>所有电影</h1>
       <v-container fluid>
         <v-row>
-          <v-col cols="3">
+          <v-col cols="3"
+                 style="padding: 15px 50px 0 0">
             <v-expansion-panels style="margin-bottom: 20px">
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  <h2>排序</h2>
+                  <h3>排序</h3>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   结果排序
@@ -22,7 +25,7 @@
             <v-expansion-panels style="margin-bottom: 20px">
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  <h2>筛选</h2>
+                  <h3>筛选</h3>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <p>显示</p>
@@ -67,7 +70,8 @@
                         v-for="tag in tags"
                         :key="tag"
                         :label="tag"
-                    > {{ tag }} </v-chip>
+                    > {{ tag }}
+                    </v-chip>
                   </v-chip-group>
 
                   <v-divider></v-divider>
@@ -123,51 +127,47 @@
             </v-btn>
           </v-col>
 
-          <v-col cols="9">
-            <v-card>
-              <v-card-title>
-                <h2>电影列表</h2>
-              </v-card-title>
-              <v-card-text>
-                <v-item-group>
-                  <v-container fluid>
-                    <v-row>
-                      <v-col
-                          v-for="movie in movies"
-                          :key="movie.id"
-                          cols="3"
-                      >
-                        <v-card
-                            :href="'/movie/' + movie.id"
-                            style="margin-bottom: 20px"
-                        >
-                          <v-img
-                              :src="movie.poster"
-                              height="400px"
-                          ></v-img>
-                          <v-card-title>
-                            {{ movie.title }}
-                          </v-card-title>
-                          <v-card-subtitle>
-                            {{ movie.year }}
-                          </v-card-subtitle>
-                        </v-card>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-item-group>
-              </v-card-text>
-            </v-card>
+          <v-col cols="9" style="margin-top: 0; padding: 15px 0 0 0">
+            <v-item-group>
+              <v-container fluid>
+                <v-row>
+                  <v-col
+                      v-for="movie in movies"
+                      :key="movie.id"
+                      style="margin-top: 0; padding: 0px 0 0 15px"
+                  >
+                    <v-card
+                        :href="'/movie/' + movie.id"
+                        style="margin-bottom: 20px"
+                        max-width="180px"
+                    >
+                      <v-img
+                          :src="movie.poster"
+                          contain
+                      ></v-img>
+                      <v-card-title>
+                        {{ movie.title }}
+                      </v-card-title>
+                      <v-card-subtitle>
+                        {{ movie.year }}
+                      </v-card-subtitle>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-item-group>
           </v-col>
         </v-row>
       </v-container>
+    </v-container>
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'allMovieView',
-  data () {
+  data() {
     return {
       name: "allMovieView",
       sortType: [
@@ -235,14 +235,102 @@ export default {
           title: 'SHIROBAKO ',
           year: '2014',
         },
+        {
+          id: 1,
+          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
+          title: 'ぼっち・ざ・ろっく！',
+          year: '2022',
+        },
+        {
+          id: 2,
+          poster: 'https://lain.bgm.tv/pic/cover/l/64/5a/290980_Jju6q.jpg',
+          title: 'ヤマノススメ Next Summit',
+          year: '2022',
+        },
+        {
+          id: 3,
+          poster: 'https://lain.bgm.tv/pic/cover/c/0f/50/262897_d3555.jpg',
+          title: 'ゆるキャン△ SEASON 2',
+          year: '2021',
+        },
+        {
+          id: 3,
+          poster: 'https://lain.bgm.tv/pic/cover/l/e5/69/265_Z5Uou.jpg',
+          title: '新世紀エヴァンゲリオン',
+          year: '1995',
+        },
+        {
+          id: 4,
+          poster: 'https://lain.bgm.tv/pic/cover/l/73/26/110467_Fx9tT.jpg',
+          title: 'SHIROBAKO ',
+          year: '2014',
+        },
+        {
+          id: 1,
+          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
+          title: 'ぼっち・ざ・ろっく！',
+          year: '2022',
+        },
+        {
+          id: 2,
+          poster: 'https://lain.bgm.tv/pic/cover/l/64/5a/290980_Jju6q.jpg',
+          title: 'ヤマノススメ Next Summit',
+          year: '2022',
+        },
+        {
+          id: 3,
+          poster: 'https://lain.bgm.tv/pic/cover/c/0f/50/262897_d3555.jpg',
+          title: 'ゆるキャン△ SEASON 2',
+          year: '2021',
+        },
+        {
+          id: 3,
+          poster: 'https://lain.bgm.tv/pic/cover/l/e5/69/265_Z5Uou.jpg',
+          title: '新世紀エヴァンゲリオン',
+          year: '1995',
+        },
+        {
+          id: 4,
+          poster: 'https://lain.bgm.tv/pic/cover/l/73/26/110467_Fx9tT.jpg',
+          title: 'SHIROBAKO ',
+          year: '2014',
+        },
+        {
+          id: 1,
+          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
+          title: 'ぼっち・ざ・ろっく！',
+          year: '2022',
+        },
+        {
+          id: 2,
+          poster: 'https://lain.bgm.tv/pic/cover/l/64/5a/290980_Jju6q.jpg',
+          title: 'ヤマノススメ Next Summit',
+          year: '2022',
+        },
+        {
+          id: 3,
+          poster: 'https://lain.bgm.tv/pic/cover/c/0f/50/262897_d3555.jpg',
+          title: 'ゆるキャン△ SEASON 2',
+          year: '2021',
+        },
+        {
+          id: 3,
+          poster: 'https://lain.bgm.tv/pic/cover/l/e5/69/265_Z5Uou.jpg',
+          title: '新世紀エヴァンゲリオン',
+          year: '1995',
+        },
+        {
+          id: 4,
+          poster: 'https://lain.bgm.tv/pic/cover/l/73/26/110467_Fx9tT.jpg',
+          title: 'SHIROBAKO ',
+          year: '2014',
+        },
       ]
     }
   },
-  methods: {
-
-  },
+  methods: {},
   computed: {
-    dateRangeText () {
+    dateRangeText() {
       return this.dates.join(' ~ ')
     },
   },
