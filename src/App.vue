@@ -9,7 +9,7 @@
       <v-container>
         <v-row justify="space-between">
           <v-col class="align-center" style="max-width: 200px; padding-top: 30px">
-            <a href="/home">
+            <a href="/">
               <v-img
                   alt="MeetMovies Logo"
                   class="shrink mr-2"
