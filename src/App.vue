@@ -6,7 +6,7 @@
         dark
         hide-on-scroll
     >
-      <v-container>
+      <v-container fluid>
         <v-row justify="space-between">
           <v-col class="align-center" style="max-width: 200px; padding-top: 35px">
             <a href="/">
