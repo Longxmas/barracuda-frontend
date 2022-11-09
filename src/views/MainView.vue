@@ -30,84 +30,100 @@
 
       <v-container fluid>
         <v-row>
-          <v-col col="3">
+          <v-col cols="9">
             <v-card elevation="0">
               <v-card-title>
                 <h3>最新电影</h3>
               </v-card-title>
               <v-card-text>
 
-                <v-sheet
-                    class="mx-auto"
-                    elevation="5">
-                  <v-slide-group
-                      class="pa-4"
-                      center-active
-                      show-arrows>
-                    <v-slide-item
-                        v-for="n in 5"
-                        :key="n">
-                      <v-card
-                          outlined
-                          >
-                          <v-img
-                              max-width="200px"
-                              src="../assets/interstellar2.png"
-                          ></v-img>
-                        <v-card-text>
-                          Fuck you
-                        </v-card-text>
-                      </v-card>
-                    </v-slide-item>
-                  </v-slide-group>
-                </v-sheet>
+                <ul style="width: auto" class="photo-ul">
+                  <li v-for="(item,i) in hotMovies"
+                      :key="i"
+                      class="parent_center">
+                    <v-card
+                        class="mx-auto"
+                        elevation="0"
+                        max-width="400"
+                        style="text-align: center"
+                        :href="'/movie/' + item.id"
+                    >
+                      <v-img
+                          :src="item.src"
+                          max-width="200px"
+                          height="300px"
+                      >
+                      </v-img>
+
+                      <!-- TODO::VALUE应当是评分-->
+                      <v-progress-circular
+                          :value="80"
+                          color="#1aa953"
+                          width="6"
+                          size="50"
+                          rotate="270"
+                          style="margin-top: -50px; margin-right: 100px; background-color: darkslategrey; border-radius: 100%"
+                      >
+                        <span  style="color: white; font-family: YouSheBiaoTi, bold,serif; font-size: 20px">{{ 80}}</span>
+                      </v-progress-circular>
+
+                      <v-card-text class="text--primary" style="padding: 4px !important;">
+                        <div ><h3>{{ item.name }}</h3></div>
+                      </v-card-text>
+
+                    </v-card>
+                  </li>
+                </ul>
 
               </v-card-text>
             </v-card>
 
-            <v-divider></v-divider>
+
+            <v-card elevation="0">
+              <v-card-title>
+                <h3>最热门电影</h3>
+              </v-card-title>
+              <v-card-text>
+
+                <ul style="width: auto" class="photo-ul">
+                  <li v-for="(item,i) in hotMovies"
+                      :key="i"
+                      class="parent_center">
+                    <v-card
+                        class="mx-auto"
+                        elevation="0"
+                        max-width="400"
+                        style="text-align: center"
+                        :href="'/movie/' + item.id"
+                    >
+                      <v-img
+                          :src="item.src"
+                          max-width="200px"
+                          height="300px"
+                      >
+                      </v-img>
+
+                      <v-card-text class="text--primary" style="padding: 10px !important;">
+                        <div ><h3>{{ item.name }}</h3></div>
+                      </v-card-text>
+
+                    </v-card>
+                  </li>
+                </ul>
+
+              </v-card-text>
+            </v-card>
+
+
 
             <v-card>
               <v-card-title>
-                <p>最热门电影</p>
+                <h3>最新影评</h3>
               </v-card-title>
-              <v-card-text>
-                <v-sheet
-                    class="mx-auto"
-                    elevation="8">
-                  <v-slide-group
-                      class="pa-4"
-                      center-active
-                      show-arrows>
-                    <v-slide-item
-                        v-for="n in 5"
-                        :key="n">
-                      <v-card
-                          outlined>
-                        <v-img
-                            max-width="200px"
-                            src="../assets/interstellar2.png"
-                        ></v-img>
-                        <v-card-text>
-                          Fuck you
-                        </v-card-text>
-                      </v-card>
-                    </v-slide-item>
-                  </v-slide-group>
-                </v-sheet>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn>查看全部最热门电影</v-btn>
-              </v-card-actions>
-            </v-card>
-
-            <v-divider></v-divider>
-
-            <v-card>
-              <v-card-title>最新影评</v-card-title>
-              <v-card-text>
-                <v-list>
+              <v-card-text style="padding: 0 0 0 0">
+                <v-list style="margin: auto">
                   <v-list-item>
+
                     <v-card>
                       <v-card-text>
                         <v-container fluid>
@@ -172,9 +188,6 @@
                 </v-list>
               </v-card-text>
               <v-card-actions>
-                <v-btn>
-                  查看全部影评
-                </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -213,10 +226,44 @@ export default {
 
           hotMovies:[
             {
-
+              name: "星际穿越",
+              src: require("../assets/interstellar2.png"),
             },
             {
-
+              name: "真探",
+              src: require("../assets/p2.webp"),
+            },
+            {
+              name: "星际穿越",
+              src: require("../assets/interstellar2.png"),
+            },
+            {
+              name: "真探",
+              src: require("../assets/p2.webp"),
+            },
+            {
+              name: "星际穿越",
+              src: require("../assets/interstellar2.png"),
+            },
+            {
+              name: "真探",
+              src: require("../assets/p2.webp"),
+            },
+            {
+              name: "星际穿越",
+              src: require("../assets/interstellar2.png"),
+            },
+            {
+              name: "真探",
+              src: require("../assets/p2.webp"),
+            },
+            {
+              name: "星际穿越",
+              src: require("../assets/interstellar2.png"),
+            },
+            {
+              name: "真探",
+              src: require("../assets/p2.webp"),
             },
           ]
         };
