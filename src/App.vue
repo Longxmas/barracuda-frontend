@@ -8,7 +8,7 @@
     >
       <v-container>
         <v-row justify="space-between">
-          <v-col class="align-center" style="max-width: 200px; padding-top: 30px">
+          <v-col class="align-center" style="max-width: 200px; padding-top: 35px">
             <a href="/">
               <v-img
                   alt="MeetMovies Logo"
@@ -22,31 +22,30 @@
           </v-col>
 
           <v-col style="max-width: 100px">
-              <v-card style="background-color: transparent" flat width="100px">
-                <a href="/movie" style="width: 80px; text-decoration: none; color:  #ff8d1a; font-family: YouSheBiaoTi,serif">
-                  <v-card-text class="text-center text-h6" style="padding-top: 25px">
-                    电影
-                  </v-card-text>
-                </a>
-              </v-card>
+            <v-card style="background-color: transparent" flat width="100px">
+              <a href="/allMovie" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                <v-card-text class="text-center text-h6" style="padding-top: 30px;">
+                  <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">电影</p>
+                </v-card-text>
+              </a>
+            </v-card>
           </v-col>
 
           <v-col style="max-width: 100px">
-              <v-card style="background-color: transparent" flat width="100px">
-                <a href="/actor" style="width: 80px; text-decoration: none; color:  #ff8d1a; font-family: YouSheBiaoTi,serif">
-                <v-card-text class="text-center text-h6" style="padding-top: 25px">
-                  人物
+            <v-card style="background-color: transparent" flat width="100px">
+              <a href="/actor" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                <v-card-text class="text-center text-h6" style="padding-top: 30px;">
+                  <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">人物</p>
                 </v-card-text>
-                </a>
-              </v-card>
-
+              </a>
+            </v-card>
           </v-col>
 
           <v-col style="max-width: 100px">
 
               <v-card style="background-color: transparent" flat width="100px">
                 <a href="/review" style="width: 80px; text-decoration: none; color: #ff8d1a;">
-                <v-card-text class="text-center text-h6" style="padding-top: 25px;">
+                <v-card-text class="text-center text-h6" style="padding-top: 30px;">
                   <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">影评</p>
                 </v-card-text>
                 </a>
@@ -58,27 +57,27 @@
 
           <v-col style="max-width: 100px">
             <v-card style="background-color: transparent" flat width="100px">
-              <v-card-actions style="padding-top: 20px">
-                <v-btn color="red">
-                登录
-                </v-btn>
-              </v-card-actions>
+              <a href="/login" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                <v-card-text class="text-center text-h6" style="padding-top: 30px;">
+                  <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">登录</p>
+                </v-card-text>
+              </a>
             </v-card>
           </v-col>
 
           <v-col style="max-width: 100px">
             <v-card style="background-color: transparent" flat width="100px">
-              <v-card-actions style="padding-top: 20px">
-                <v-btn color="blue">
-                  注册
-                </v-btn>
-              </v-card-actions>
+              <a href="/register" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                <v-card-text class="text-center text-h6" style="padding-top: 30px;">
+                  <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">注册</p>
+                </v-card-text>
+              </a>
             </v-card>
           </v-col>
 
           <v-col style="max-width: 100px">
             <v-card style="background-color: transparent" flat width="100px">
-              <v-card-text>
+              <v-card-text style="padding-top: 21.5px;">
                 <v-btn icon @click="searchBox = !searchBox">
                   <v-icon>
                     mdi-movie-search
@@ -89,6 +88,7 @@
           </v-col>
         </v-row>
       </v-container>
+
       <template v-slot:extension v-if="searchBox">
         <v-text-field></v-text-field>
         <v-btn icon>
@@ -141,6 +141,11 @@ export default {
   /* font-properties */
   font-family: 'YouSheBiaoTi';
   src:url('assets/fonts/youshebiaoti.ttf');
+}
+
+.title-text {
+  padding-top: 25px ;
+  font-family: YouSheBiaoTi,sans-serif;
 }
 
 </style>

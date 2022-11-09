@@ -189,12 +189,10 @@
               <p class="personal-introduction-title"> 合作过的影人 </p>
               <p></p>
 
-              <v-row>
-                <v-col
-                    v-for="(item,i) in partners"
+              <ul class="photo-ul">
+                <li v-for="(item,i) in partners"
                     :key="i"
-                    class="parent_center"
-                >
+                    class="parent_center">
                   <v-card
                       class="mx-auto"
                       elevation="0"
@@ -210,8 +208,10 @@
                       <div>{{ item.name }}</div>
                     </v-card-text>
                   </v-card>
-                </v-col>
-              </v-row>
+                </li>
+              </ul>
+
+
             </v-card-text>
 
           </v-card>
@@ -279,15 +279,39 @@ export default {
           src: require("../assets/interstellar2.png"),
         },
         {
+          name: "麦克雷",
           src: require("../assets/interstellar2.png"),
         },
         {
+          name: "麦克雷",
           src: require("../assets/interstellar2.png"),
         },
         {
+          name: "麦克雷",
           src: require("../assets/interstellar2.png"),
         },
         {
+          name: "麦克雷",
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          name: "麦克雷",
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          name: "麦克雷",
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          name: "麦克雷",
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          name: "麦克雷",
+          src: require("../assets/interstellar2.png"),
+        },
+        {
+          name: "麦克雷",
           src: require("../assets/interstellar2.png"),
         },
       ]
@@ -314,6 +338,11 @@ export default {
 </style>
 
 <style>
+.actor-view{
+
+}
+
+
 .actor-container {
   margin: 60px;
   max-width: 100%;
@@ -369,5 +398,33 @@ export default {
   height: 200px;
   width: 130px;
 }
+
+.photo-ul {
+  width: 800px;
+  height: auto;
+  overflow-x: scroll;
+  white-space:nowrap;  /* ul中的内容不换行 */
+}
+
+.photo-ul li {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+
+/* 1,滚动条 */
+
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  background-color: #afb6b5;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;  /* 整体 圆角 */
+}
+
 
 </style>

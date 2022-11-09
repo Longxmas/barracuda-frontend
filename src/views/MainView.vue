@@ -1,12 +1,12 @@
 <template>
     <div id="mainView">
-      <v-container fluid>
+      <v-container fluid style="padding-top: 0">
         <v-card max-height="800px">
           <v-img src="../assets/mainpage_background.png" max-height="300px">
             <v-card-text class="home-search-box">
-              <h1 style="color: white">欢迎。</h1>
+              <h1 style="color: white" class="main-h1">欢迎。</h1>
               <br>
-              <h2 style="color: white">这里有海量的电影、剧集和人物等你来发现。快来探索吧！</h2>
+              <h2 id ="main-h2" style="color: white" class="main-h2">这里有海量的电影、剧集和人物等你来发现。快来探索吧！</h2>
               <v-container fluid style="margin-top: 45px">
                 <v-row>
                   <v-col cols="10" style="padding-left: 0">
@@ -31,14 +31,15 @@
       <v-container fluid>
         <v-row>
           <v-col col="3">
-            <v-card>
+            <v-card elevation="0">
               <v-card-title>
-                <p>最新电影</p>
+                <h3>最新电影</h3>
               </v-card-title>
               <v-card-text>
+
                 <v-sheet
                     class="mx-auto"
-                    elevation="8">
+                    elevation="5">
                   <v-slide-group
                       class="pa-4"
                       center-active
@@ -47,7 +48,8 @@
                         v-for="n in 5"
                         :key="n">
                       <v-card
-                          outlined>
+                          outlined
+                          >
                           <v-img
                               max-width="200px"
                               src="../assets/interstellar2.png"
@@ -59,10 +61,8 @@
                     </v-slide-item>
                   </v-slide-group>
                 </v-sheet>
+
               </v-card-text>
-              <v-card-actions>
-                <v-btn>查看全部最新电影</v-btn>
-              </v-card-actions>
             </v-card>
 
             <v-divider></v-divider>
@@ -209,7 +209,16 @@ export default {
     data() {
         return {
           name: "mainView",
-          background_image: require("../assets/mainpage_background.png")
+          background_image: require("../assets/mainpage_background.png"),
+
+          hotMovies:[
+            {
+
+            },
+            {
+
+            },
+          ]
         };
     },
     methods: {
@@ -222,13 +231,12 @@ export default {
 </script>
 
 <style>
-h1 {
+.main-h1 {
   font-family: 微软雅黑,serif;
   font-size: 45px;
-  line-height: 30%;
 }
 
-h2 {
+.main-h2 {
   font-family: 微软雅黑,serif;
   font-size: 30px;
   line-height: normal;
