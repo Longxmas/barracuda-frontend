@@ -1,6 +1,6 @@
 <template>
     <div id="mainView">
-      <v-container fluid style="padding-top: 0">
+      <v-container fluid style="padding-top: 0;">
         <v-card max-height="800px">
           <v-img src="../assets/mainpage_background.png" max-height="300px">
             <v-card-text class="home-search-box">
@@ -62,7 +62,7 @@
                           width="6"
                           size="50"
                           rotate="270"
-                          style="margin-top: -50px; margin-right: 100px; background-color: darkslategrey; border-radius: 100%"
+                          style="margin-top: -30px; margin-right: 100px; background-color: #022811; border-radius: 100%"
                       >
                         <span  style="color: white; font-family: YouSheBiaoTi, bold,serif; font-size: 20px">{{ 80}}</span>
                       </v-progress-circular>
@@ -81,7 +81,7 @@
 
             <v-card elevation="0">
               <v-card-title>
-                <h3>最热门电影</h3>
+                <h3>热门电影</h3>
               </v-card-title>
               <v-card-text>
 
@@ -103,6 +103,18 @@
                       >
                       </v-img>
 
+                      <!-- TODO::VALUE应当是评分-->
+                      <v-progress-circular
+                          :value="80"
+                          color="#1aa953"
+                          width="6"
+                          size="50"
+                          rotate="270"
+                          style="margin-top: -30px; margin-right: 100px; background-color: #022811; border-radius: 100%"
+                      >
+                        <span  style="color: white; font-family: YouSheBiaoTi, bold,serif; font-size: 20px">{{ 80}}</span>
+                      </v-progress-circular>
+
                       <v-card-text class="text--primary" style="padding: 10px !important;">
                         <div ><h3>{{ item.name }}</h3></div>
                       </v-card-text>
@@ -116,7 +128,7 @@
 
 
 
-            <v-card>
+            <v-card elevation="0">
               <v-card-title>
                 <h3>最新影评</h3>
               </v-card-title>
@@ -129,22 +141,29 @@
                         <v-container fluid>
                           <v-row>
                             <v-img src="../assets/interstellar2.png" max-width="150px"></v-img>
-                            <v-col col="9">
+                            <v-col col="9" style="margin-left: 5px">
                               <v-container fluid>
                                 <v-row>
-                                  <a>父母决定儿女的命运，国家决定父母的命运</a>
+                                  <a> <h3>父母决定儿女的命运，国家决定父母的命运</h3></a>
                                 </v-row>
+                                <br>
+                                <br>
                                 <v-row>
                                   <v-avatar>
                                     <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
                                   </v-avatar>
+                                  &ensp;
                                   <a style="margin-top: 15px; margin-bottom: 15px">林愈静</a>
+                                  &ensp;
                                   <p style="margin-top: 15px; margin-bottom: 15px">评论</p>
                                   <a style="margin-top: 15px; margin-bottom: 15px">《青红》</a>
+                                  <v-spacer></v-spacer>
                                   <v-rating style="margin-top: 15px; margin-bottom: 15px"
                                             :value="4.5" color="amber" dense half-increments readonly size="14">
                                   </v-rating>
                                 </v-row>
+                                <br>
+                                <br>
                                 <v-row>
                                   <p>各位豆瓣的朋友大家好，我是演员胡军。很高兴在这里跟大家分享《长津湖》的创作过程和心得。 从正式入驻豆瓣的那天起，我陆续接到很多私信。有人说，雷爹，你走的时候哭死我了；有人说，雷爹，我想给你蒸大包子；... (全文)</p>
                                 </v-row>
@@ -162,19 +181,29 @@
                         <v-container fluid>
                           <v-row>
                             <v-img src="../assets/interstellar2.png" max-width="150px"></v-img>
-                            <v-col col="9">
+                            <v-col col="9" style="margin-left: 5px">
                               <v-container fluid>
                                 <v-row>
-                                  <a>雷公的“破防”——胡军《长津湖》创作手记</a>
+                                  <a> <h3>父母决定儿女的命运，国家决定父母的命运</h3></a>
                                 </v-row>
+                                <br>
+                                <br>
                                 <v-row>
                                   <v-avatar>
                                     <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
                                   </v-avatar>
-                                  <a style="margin-top: 15px; margin-bottom: 15px">胡军</a>
+                                  &ensp;
+                                  <a style="margin-top: 15px; margin-bottom: 15px">林愈静</a>
+                                  &ensp;
                                   <p style="margin-top: 15px; margin-bottom: 15px">评论</p>
-                                  <a style="margin-top: 15px; margin-bottom: 15px">《长津湖》</a>
+                                  <a style="margin-top: 15px; margin-bottom: 15px">《青红》</a>
+                                  <v-spacer></v-spacer>
+                                  <v-rating style="margin-top: 15px; margin-bottom: 15px"
+                                            :value="4.5" color="amber" dense half-increments readonly size="14">
+                                  </v-rating>
                                 </v-row>
+                                <br>
+                                <br>
                                 <v-row>
                                   <p>各位豆瓣的朋友大家好，我是演员胡军。很高兴在这里跟大家分享《长津湖》的创作过程和心得。 从正式入驻豆瓣的那天起，我陆续接到很多私信。有人说，雷爹，你走的时候哭死我了；有人说，雷爹，我想给你蒸大包子；... (全文)</p>
                                 </v-row>
