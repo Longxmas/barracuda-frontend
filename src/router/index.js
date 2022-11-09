@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import registerView from "@/views/RegisterView";
 import loginView from "@/views/LoginView";
 import actorView from "@/views/ActorView";
+import movieView from "@/views/MovieView";
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: actorView
+  },
+  {
+    path: '/movie',
+    name: 'movie',
+    component: movieView
   }
 ]
 

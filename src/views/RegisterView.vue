@@ -1,7 +1,7 @@
 <template>
   <div class="login-view">
     <el-container class="login">
-
+      <el-header></el-header>
       <el-main>
         <el-card class="login-card">
           <el-form :model="registerForm" ref="registerForm" label-width="auto" class="login-form">
@@ -41,6 +41,7 @@
           </el-form>
         </el-card>
       </el-main>
+      <el-footer></el-footer>
     </el-container>
   </div>
 
@@ -48,7 +49,6 @@
 
 <script>
 import * as api from "@/api/request";
-import Vue from "vue";
 
 export default {
   data() {
