@@ -129,9 +129,7 @@
                 <h2>电影列表</h2>
               </v-card-title>
               <v-card-text>
-                <v-item-group
-                    multiple
-                >
+                <v-item-group>
                   <v-container fluid>
                     <v-row>
                       <v-col
