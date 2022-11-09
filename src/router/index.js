@@ -5,6 +5,7 @@ import loginView from "@/views/LoginView";
 import actorView from "@/views/ActorView";
 import movieView from "@/views/MovieView";
 import MainView from "@/views/MainView";
+import allMovieView from "@/views/AllMovieView";
 
 Vue.use(VueRouter)
 
@@ -50,6 +51,11 @@ const routes = [
     path: '/movie',
     name: 'movie',
     component: movieView
+  },
+  {
+    path: '/allmovie',
+    name: 'allmovie',
+    component: allMovieView
   }
 ]
 
