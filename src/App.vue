@@ -91,6 +91,11 @@
       </v-container>
       <template v-slot:extension v-if="searchBox">
         <v-text-field></v-text-field>
+        <v-btn icon>
+          <v-icon>
+            mdi-movie-search
+          </v-icon>
+        </v-btn>
       </template>
     </v-app-bar>
     <v-main>
