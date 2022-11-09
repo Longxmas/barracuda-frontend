@@ -1,7 +1,7 @@
 <template>
   <div class="actor-view">
     <v-container class="actor-container">
-      <v-row >
+      <v-row>
         <v-col style="max-width: 450px">
           <!-- actor pthoto-card-->
           <v-card
@@ -54,7 +54,7 @@
             >
               <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-              <v-toolbar-title >影人信息</v-toolbar-title>
+              <v-toolbar-title>影人信息</v-toolbar-title>
 
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -69,7 +69,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   性别
                 </v-chip>
-                <v-card-text align="right"> {{actor_information.sex}}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.sex }}</v-card-text>
               </v-list-item>
 
               <v-list-item>
@@ -81,7 +81,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   出生日期
                 </v-chip>
-                <v-card-text align="right"> {{actor_information.birthtime}}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.birthtime }}</v-card-text>
               </v-list-item>
 
               <v-list-item>
@@ -93,7 +93,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   出生地
                 </v-chip>
-                <v-card-text align="right"> {{actor_information.birthplace}}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.birthplace }}</v-card-text>
               </v-list-item>
 
               <v-list-item>
@@ -105,7 +105,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   职业
                 </v-chip>
-                <v-card-text align="right" style=""> {{actor_information.career}}</v-card-text>
+                <v-card-text align="right" style=""> {{ actor_information.career }}</v-card-text>
               </v-list-item>
 
             </v-list>
@@ -167,7 +167,7 @@
               <p class="personal-introduction-title"> 影人图片 </p>
               <p></p>
 
-              <v-container fluid >
+              <v-container fluid>
                 <v-row>
                   <v-col
                       v-for="(item,i) in photos"
@@ -213,6 +213,7 @@
                 </v-col>
               </v-row>
             </v-card-text>
+
           </v-card>
 
         </v-col>
@@ -223,6 +224,8 @@
   </div>
 
 
+
+
 </template>
 
 <script>
@@ -231,11 +234,11 @@ export default {
   data() {
     return {
       actor_information: {
-        sex:"男",
-        birthtime:"1969年11月04日",
-        birthplace:"美国,得克萨斯州,尤瓦尔迪",
-        career:"演员/制片人/配音",
-        imdbCode:"nm0000190",
+        sex: "男",
+        birthtime: "1969年11月04日",
+        birthplace: "美国,得克萨斯州,尤瓦尔迪",
+        career: "演员/制片人/配音",
+        imdbCode: "nm0000190",
       },
 
       movies: [
@@ -366,6 +369,5 @@ export default {
   height: 200px;
   width: 130px;
 }
-
 
 </style>

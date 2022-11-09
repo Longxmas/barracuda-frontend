@@ -1,23 +1,23 @@
 <template>
     <div id="mainView">
       <v-container fluid>
-        <v-card max-height="300px">
+        <v-card max-height="800px">
           <v-img src="../assets/mainpage_background.png" max-height="300px">
-            <v-card-text>
+            <v-card-text class="home-search-box">
               <h1 style="color: white">欢迎。</h1>
               <br>
               <h2 style="color: white">这里有海量的电影、剧集和人物等你来发现。快来探索吧！</h2>
-              <v-container fluid>
+              <v-container fluid style="margin-top: 45px">
                 <v-row>
-                  <v-col col="10">
+                  <v-col cols="10" style="padding-left: 0">
                     <v-text-field
                         label="搜索电影、剧集、人物..."
                         solo
                         color="white"
                     ></v-text-field>
                   </v-col>
-                  <v-col col="5">
-                    <v-btn rounded color="primary" dar large>
+                  <v-col cols="2">
+                    <v-btn rounded color="warning" light large>
                       搜索
                     </v-btn>
                   </v-col>
@@ -220,3 +220,23 @@ export default {
     }
 }
 </script>
+
+<style>
+h1 {
+  font-family: 微软雅黑,serif;
+  font-size: 45px;
+  line-height: 30%;
+}
+
+h2 {
+  font-family: 微软雅黑,serif;
+  font-size: 30px;
+  line-height: normal;
+}
+
+.home-search-box {
+  padding: 60px 0 0 70px;
+
+}
+
+</style>

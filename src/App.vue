@@ -23,7 +23,7 @@
 
           <v-col style="max-width: 100px">
               <v-card style="background-color: transparent" flat width="100px">
-                <a href="/movie" style="width: 80px; text-decoration: none; color: yellow">
+                <a href="/movie" style="width: 80px; text-decoration: none; color:  #ff8d1a; font-family: YouSheBiaoTi,serif">
                   <v-card-text class="text-center text-h6" style="padding-top: 25px">
                     电影
                   </v-card-text>
@@ -33,7 +33,7 @@
 
           <v-col style="max-width: 100px">
               <v-card style="background-color: transparent" flat width="100px">
-                <a href="/actor" style="width: 80px; text-decoration: none; color: yellow">
+                <a href="/actor" style="width: 80px; text-decoration: none; color:  #ff8d1a; font-family: YouSheBiaoTi,serif">
                 <v-card-text class="text-center text-h6" style="padding-top: 25px">
                   人物
                 </v-card-text>
@@ -45,9 +45,9 @@
           <v-col style="max-width: 100px">
 
               <v-card style="background-color: transparent" flat width="100px">
-                <a href="/review" style="width: 80px; text-decoration: none; color: yellow">
-                <v-card-text class="text-center text-h6" style="padding-top: 25px">
-                  影评
+                <a href="/review" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                <v-card-text class="text-center text-h6" style="padding-top: 25px;">
+                  <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23.5px">影评</p>
                 </v-card-text>
                 </a>
               </v-card>
@@ -136,5 +136,11 @@ export default {
 </script>
 
 <style>
+
+@font-face {
+  /* font-properties */
+  font-family: 'YouSheBiaoTi';
+  src:url('assets/fonts/youshebiaoti.ttf');
+}
 
 </style>
