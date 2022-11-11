@@ -138,27 +138,40 @@
             </v-card-text>
 
 
-            <v-card-text>
-              <p class="personal-introduction-title"> 代表作 </p>
-            </v-card-text>
+            <v-card style="margin:10px" elevation="0">
+              <v-card-title> <span class="personal-introduction-title">代表作</span></v-card-title>
+              <v-card-text>
+                <v-sheet
+                    class="mx-auto"
+                    elevation="5"
+                    style="padding-top: 2%">
+                  <v-slide-group
+                      class="pa-4"
+                      center-active
+                      show-arrows>
+                    <v-slide-item
+                        v-for="(item,i) in movies"
+                        :key="i">
+                      <v-card
+                          elevation="0"
+                          style="margin-right: 10px">
+                        <v-scale-transition>
+                          <v-img
+                              height="400px"
+                              max-height="400px"
+                              width="300px"
+                              :src="item.src"
 
-            <v-card elevation="0">
-              <div class="parent_center">
-                <v-carousel class="movie_photo">
-                  <v-carousel-item
-                      v-for="(item,i) in movies"
-                      :key="i"
-                      :href="item.src"
-                      reverse-transition="fade-transition"
-                      transition="fade-transition"
-                      class="parent_center"
-                  >
-                    <v-img :src="item.src" style="position: center; vertical-align: middle">
-                    </v-img>
-                  </v-carousel-item>
-                </v-carousel>
-              </div>
-
+                          ></v-img>
+                        </v-scale-transition>
+                        <v-card-text style="text-align: center">
+                          <span style="font-family: 黑体, serif; font-size: 20px; color: #0b1c22">{{ item.name }}</span>
+                        </v-card-text>
+                      </v-card>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-sheet>
+              </v-card-text>
             </v-card>
 
 
@@ -167,20 +180,28 @@
               <p class="personal-introduction-title"> 影人图片 </p>
               <p></p>
 
-              <v-container fluid>
-                <v-row>
-                  <v-col
-                      v-for="(item,i) in photos"
-                      :key="i"
-                      class="parent_center"
+              <ul class="photo-ul">
+                <li v-for="(item,i) in photos"
+                    :key="i"
+                    class="parent_center">
+                  <v-card
+                      class="mx-auto"
+                      elevation="0"
+                      max-width="400"
+                      style="text-align: center"
                   >
-                    <v-card class="parent_center actor-photo" :href="item.src">
-                      <v-img :src="item.src"></v-img>
-                    </v-card>
+                    <v-img
+                        :src="item.src" class="actor-photo"
+                    >
+                    </v-img>
 
-                  </v-col>
-                </v-row>
-              </v-container>
+                    <v-card-text class="text--primary" style="padding: 1px !important;">
+                      <div>{{ item.name }}</div>
+                    </v-card-text>
+                  </v-card>
+                </li>
+              </ul>
+
 
             </v-card-text>
 
