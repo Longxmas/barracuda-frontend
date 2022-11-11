@@ -143,6 +143,18 @@ export default {
   src:url('assets/fonts/youshebiaoti.ttf');
 }
 
+@font-face {
+  /* font-properties */
+  font-family: 'consensus';
+  src:url('assets/fonts/consensus-bold.otf');
+}
+
+@font-face {
+  /* font-properties */
+  font-family: 'gotham-bold';
+  src:url('assets/fonts/gotham-bold.otf');
+}
+
 .title-text {
   padding-top: 25px ;
   font-family: YouSheBiaoTi,sans-serif;
