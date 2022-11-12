@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import registerView from "@/views/RegisterView";
-import loginView from "@/views/LoginView";
-import actorView from "@/views/ActorView";
-import movieView from "@/views/MovieView";
+import registerView from "@/views/auth/RegisterView";
+import loginView from "@/views/auth/LoginView";
+import actorView from "@/views/actor/ActorView";
+import movieView from "@/views/movie/MovieView";
 import MainView from "@/views/MainView";
-import allMovieView from "@/views/AllMovieView";
-import allActorView from "@/views/AllActorView";
+import allMovieView from "@/views/movie/AllMovieView";
+import allActorView from "@/views/actor/AllActorView";
 
 Vue.use(VueRouter)
 
