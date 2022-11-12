@@ -155,6 +155,12 @@ export default {
   src:url('assets/fonts/gotham-bold.otf');
 }
 
+@font-face {
+  /* font-properties */
+  font-family: 'source-sans-pro-bold';
+  src:url('assets/fonts/SourceSansPro-Bold.ttf');
+}
+
 .title-text {
   padding-top: 25px ;
   font-family: YouSheBiaoTi,sans-serif;

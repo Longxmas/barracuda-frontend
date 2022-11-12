@@ -14,6 +14,7 @@
                       label="搜索电影、剧集、人物..."
                       solo
                       color="white"
+                      style="border-radius: 30px"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="2">
@@ -155,14 +156,10 @@
                         >
                           <v-row no-gutters>
                             <v-col cols="7" style="padding:  0 0 0 0">
-                              <v-card
-                                  max-height="400"
-                                  elevation="0"
-                                  :href="'/movie/' + item.id"
-                              >
-                                <v-img :src="item.src">
+
+                                <v-img :src="item.src" height="100%">
                                 </v-img>
-                              </v-card>
+
                             </v-col>
 
                             <v-col cols="5" style="padding:  0 0 0 0">

@@ -7,6 +7,7 @@ import movieView from "@/views/MovieView";
 import MainView from "@/views/MainView";
 import allMovieView from "@/views/AllMovieView";
 import allActorView from "@/views/AllActorView";
+import UserProfileView from "@/views/UserProfileView";
 
 Vue.use(VueRouter)
 
@@ -62,6 +63,11 @@ const routes = [
     path: '/allactor',
     name: 'allactor',
     component: allActorView
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserProfileView
   }
 ]
 
