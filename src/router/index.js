@@ -9,6 +9,10 @@ import UserProfileView from "@/views/UserProfileView";
 import allMovieView from "@/views/movie/AllMovieView";
 import allActorView from "@/views/actor/AllActorView";
 import favoritesView from "@/views/favoritesView";
+import reviewHomeView from "@/views/review/ReviewHomeView";
+import reviewMovieView from "@/views/movie/ReviewMovieView";
+import reviewDetail from "@/views/review/ReviewDetail";
+
 
 Vue.use(VueRouter)
 
@@ -74,6 +78,21 @@ const routes = [
     path: '/user/favorites',
     name: 'favorites',
     component: favoritesView
+    },
+  {
+    path: '/review',
+    name: 'reviewhome',
+    component: reviewHomeView
+  },
+  {
+    path: '/moviereview',
+    name: 'moviereview',
+    component: reviewMovieView
+  },
+  {
+    path: '/reviewdetail',
+    name: 'reviewdetail',
+    component: reviewDetail
   }
 ]
 

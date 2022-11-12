@@ -1,13 +1,13 @@
 <template>
     <div id="movieView">
-        <v-tabs centered v-model="topTabName">
-            <v-tab>概览</v-tab>
-            <v-tab>媒体</v-tab>
-            <v-tab>讨论区</v-tab>
-        </v-tabs>
+      <v-tabs centered v-model="activeIndex">
+        <v-tab :href="`#tab-1`">概览</v-tab>
+        <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
+        <v-tab @click="jumpToDiscussion" :href="`#tab-3`">讨论区</v-tab>
+      </v-tabs>
 
-        <v-tabs-items v-model="topTabName">
-        <v-tab-item> <!--概览部分-->
+        <v-tabs-items v-model="activeIndex">
+        <v-tab-item :value="`tab-1`"> <!--概览部分-->
             <v-container fluid> 
                 <v-row>
                     <v-col cols="3">
@@ -192,10 +192,10 @@
                 </v-row>
             </v-container>
         </v-tab-item>
-        <v-tab-item> <!--媒体部分-->
+        <v-tab-item :value="`tab-2`"> <!--媒体部分-->
             <h1> 媒体 </h1>
         </v-tab-item>
-        <v-tab-item> <!--影评部分-->
+        <v-tab-item :value="`tab-3`"> <!--影评部分-->
             <h1> 影评 </h1>
         </v-tab-item>
         </v-tabs-items>
@@ -207,7 +207,7 @@ export default {
     data() {
         return {
             name: "movieView",
-            topTabName: "overview",
+            activeIndex: "tab-1",
             discussionHeaders: [
                 { text: "头像", value: "avatar"},
                 { text: "标题", value: "title" },
@@ -234,6 +234,12 @@ export default {
         };
     },
     methods: {
+      jumpToDiscussion() {
+        this.$router.push('/moviereview');
+      },
+      jumpToMedia() {
+        this.$router.push('/moviemedia');
+      }
     },
     computed: {
 
