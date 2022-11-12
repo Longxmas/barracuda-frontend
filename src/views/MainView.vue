@@ -208,8 +208,10 @@
                     <v-card-text>
                       <v-container fluid>
                         <v-row>
-                          <v-img src="../assets/interstellar2.png" max-width="150px"></v-img>
-                          <v-col col="9" style="margin-left: 5px">
+                          <v-col cols="2">
+                            <v-img src="../assets/interstellar2.png"></v-img>
+                          </v-col>
+                          <v-col cols="10">
                             <v-container fluid>
                               <v-row>
                                 <a><h3>父母决定儿女的命运，国家决定父母的命运</h3></a>
@@ -250,8 +252,10 @@
                     <v-card-text>
                       <v-container fluid>
                         <v-row>
-                          <v-img src="../assets/interstellar2.png" max-width="150px"></v-img>
-                          <v-col col="9" style="margin-left: 5px">
+                          <v-col cols="2">
+                            <v-img src="../assets/interstellar2.png"></v-img>
+                          </v-col>
+                          <v-col cols="10">
                             <v-container fluid>
                               <v-row>
                                 <a><h3>父母决定儿女的命运，国家决定父母的命运</h3></a>
@@ -275,9 +279,7 @@
                               <br>
                               <br>
                               <v-row>
-                                <p>各位豆瓣的朋友大家好，我是演员胡军。很高兴在这里跟大家分享《长津湖》的创作过程和心得。
-                                  从正式入驻豆瓣的那天起，我陆续接到很多私信。有人说，雷爹，你走的时候哭死我了；有人说，雷爹，我想给你蒸大包子；...
-                                  (全文)</p>
+                                <p>abcde</p>
                               </v-row>
                             </v-container>
                           </v-col>
