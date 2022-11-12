@@ -1,5 +1,5 @@
 <template>
-  <div id="UserProfileView">
+  <div id="favoritesView">
 
     <!-- user profile page-->
     <!-- avator -->
@@ -31,67 +31,6 @@
 
 
     <v-tabs-items v-model="topTabName">
-      <v-tab-item>
-        <!--概览部分-->
-        <v-card class="mx-auto my-10" max-width="800px" max-height="800px">
-          <v-img :src="user.infoBackground">
-
-          </v-img>
-          <v-container fluid>
-            <v-row class="my-2">
-              <v-col cols="4">
-                <v-card-title class="pl-3 pt-1 pb-8"><h2>个人信息</h2></v-card-title>
-                <v-card-text>
-
-                  <h4 style="font-size: 19px">用户名</h4>
-                  <span style="color: black; font-size: 17px; line-height: 30px">{{ user.name }}</span>
-                  <br>
-                  <br>
-                  <h4 style="font-size: 19px">邮箱</h4>
-                  <span style="color: black; font-size: 17px;  line-height: 30px">{{ user.email }}</span>
-                  <br>
-                  <br>
-                  <h4 style="font-size: 19px">偏好的电影类型</h4>
-                  <span style="color: black; font-size: 17px;  line-height: 30px"
-                        v-for="(item,k) in user.prefers"
-                        :key="k">
-                    {{ item }}
-                  </span>
-                  <br>
-                  <br>
-                  <h4 style="font-size: 19px">注册时间</h4>
-                  <span style="color: black; font-size: 17px;  line-height: 30px">{{ user.created_at }} </span>
-                  <br>
-                  <br>
-                </v-card-text>
-              </v-col>
-
-              <v-col cols="8">
-                <v-card-text style="margin-top: 10%; height: 100%">
-                  <h4 style="font-size: 19px">个人描述</h4>
-                  <br>
-                  <span style="color: black; font-size: 17px">{{ user.description }} </span>
-
-                  <br>
-                  <br>
-                  <v-btn color="#41b2e2" style="margin-left: 70%;margin-top: 5%; color: white"
-                         @click.stop="editInfoDialog=true">
-                    <span>编辑个人资料</span>
-                  </v-btn>
-
-
-                </v-card-text>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-
-
-      </v-tab-item>
-
-      <v-tab-item>
-        您参与的讨论
-      </v-tab-item>
 
       <!--片单-->
       <v-tab-item>
@@ -155,8 +94,7 @@
                                 <v-btn icon color="pink" large>
                                   <v-icon>mdi-heart</v-icon>
                                 </v-btn>
-                                <span
-                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的收藏</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的收藏</span>
                               </v-col>
 
                               <v-col cols="8" sm="2">
@@ -189,8 +127,7 @@
 
                                 </v-menu>
 
-                                <span
-                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的评分</span>
+                                  <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的评分</span>
 
 
                               </v-col>
@@ -219,99 +156,12 @@
 
     </v-tabs-items>
 
-
-    <v-dialog v-model="editInfoDialog" max-width="800px">
-      <v-card>
-        <v-toolbar color="green lighten-3" class="text-h6">编辑个人资料</v-toolbar>
-        <v-card-text>
-          <v-form ref="editForm" v-model="editedItem.valid" class="mt-12 mb-1" lazy-validation>
-            <v-row>
-              <v-col cols="12" sm="8" md="6">
-                <v-text-field color="success" v-model="editedItem.id" :label="user_headers[0].text"
-                              disabled></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="8" md="6">
-                <v-text-field
-                    color="success"
-                    v-model="editedItem.name"
-                    :label="user_headers[1].text"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="8" md="6">
-                <v-text-field
-                    color="success"
-                    v-model="editedItem.email"
-                    :label="user_headers[2].text"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="8" md="6">
-                <v-text-field
-                    color="success"
-                    v-model="editedItem.created_at"
-                    :label="user_headers[4].text"
-                    disabled
-                ></v-text-field>
-              </v-col>
-
-              <v-card-text>
-                <h3 class="title mb-2">偏好的电影类型</h3>
-
-                <v-chip-group
-                    v-model="amenities"
-                    column
-                    multiple
-                >
-                  <!-- TODO:用列表进行展示-->
-                  <v-chip filter outlined v-for="(item,k) in prefer_headers"
-                          :key=k>{{ item.text }}
-                  </v-chip>
-                </v-chip-group>
-
-              </v-card-text>
-
-              <v-col cols="12" sm="8" md="6">
-                <v-card-text class="pa-0">
-                  {{ user_headers[5].text }}
-                </v-card-text>
-                <br>
-                <v-text-field
-                    color="success"
-                    v-model="editedItem.description"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="8" md="6">
-                <v-card-text class="pa-0 pb-5">
-                  用户头像
-                </v-card-text>
-                <v-avatar>
-                  <v-img :src="editedItem.avatar"></v-img>
-                </v-avatar>
-
-                <v-btn class="ml-10">
-                  上传头像
-                </v-btn>
-
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-btn class="ma-2 ml-3" color="success" @click="editInfoDialog = false">取消修改</v-btn>
-              <v-btn class="ma-2 ml-3" color="error" @click="submitUserProfile">确认修改</v-btn>
-            </v-row>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: "UserProfileView",
+  name: "favoritesView",
 
   data() {
     return {

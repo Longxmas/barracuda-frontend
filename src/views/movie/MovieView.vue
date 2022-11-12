@@ -15,7 +15,7 @@
                             height="400px"
                             max-height="400px"
                             width="300px"
-                            src="../assets/interstellar2.png"
+                            src="../../assets/interstellar2.png"
                         ></v-img>
                     </v-col>
                     <v-col cols="8">
@@ -82,7 +82,7 @@
                                                     height="400px"
                                                     max-height="400px"
                                                     width="300px"
-                                                    src="../assets/interstellar2.png"
+                                                    src="../../assets/interstellar2.png"
                                                     ></v-img>
                                                 </v-scale-transition>
                                                 <v-card-text>
@@ -137,7 +137,7 @@
                                                     height="400px"
                                                     max-height="400px"
                                                     width="300px"
-                                                    src="../assets/interstellar2.png"
+                                                    src="../../assets/interstellar2.png"
                                                     ></v-img>
                                                 </v-scale-transition>
                                                 <v-card-text>
@@ -217,14 +217,14 @@ export default {
             ],
             discussionItems: [
                 {
-                    avatar: require("../assets/logo.png"),
+                    avatar: require("../../assets/logo.png"),
                     title: "太好看了吧",
                     reply_count: 100,
                     time: "2020-10-10",
                     user: "user1",
                 },
                 {
-                    avatar: require("../assets/logo.png"),
+                    avatar: require("../../assets/logo.png"),
                     title: "太垃圾了吧",
                     reply_count: 100,
                     time: "2020-10-10",

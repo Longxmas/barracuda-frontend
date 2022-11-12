@@ -13,7 +13,7 @@
                 class="white--text align-end"
                 height="450px"
                 width="350px"
-                src="../assets/maconar.jpg"
+                src="../../assets/maconar.jpg"
             >
             </v-img>
 
@@ -265,31 +265,31 @@ export default {
       movies: [
         {
           name: "星际穿越",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "真探",
-          src: require("../assets/p2.webp"),
+          src: require("../../assets/p2.webp"),
         },
         {
           name: "真探",
-          src: require("../assets/background.jpg"),
+          src: require("../../assets/background.jpg"),
         },
 
       ],
 
       photos: [
         {
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
       ],
 
@@ -297,43 +297,43 @@ export default {
       partners: [
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
         {
           name: "麦克雷",
-          src: require("../assets/interstellar2.png"),
+          src: require("../../assets/interstellar2.png"),
         },
       ]
     }

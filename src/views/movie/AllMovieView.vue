@@ -53,10 +53,14 @@
                       label="Date range"
                       prepend-icon="mdi-calendar"
                       readonly
+                      clearable
+                      style="font-size: 15px"
+                      @click:clear="clearDate"
                   ></v-text-field>
                   <v-date-picker
                       v-model="dates"
                       range
+                      full-width
                   ></v-date-picker>
                   <v-divider></v-divider>
                   <p style="margin-top: 20px">类型</p>
@@ -328,10 +332,14 @@ export default {
       ]
     }
   },
-  methods: {},
+  methods: {
+    clearDate() {
+      this.dates = []
+    },
+  },
   computed: {
     dateRangeText() {
-      return this.dates.join(' ~ ')
+      return this.dates.join('~')
     },
   },
 }

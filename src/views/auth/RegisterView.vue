@@ -138,7 +138,7 @@ export default {
 }
 
 .login-view {
-  background: url('../assets/background.jpg');
+  background: url('../../assets/background.jpg');
   background-size: cover;
 }
 
