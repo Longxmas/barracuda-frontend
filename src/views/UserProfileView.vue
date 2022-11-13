@@ -24,7 +24,6 @@
       <v-tab style="color: black">概览</v-tab>
       <v-tab style="color: black">讨论</v-tab>
       <v-tab style="color: black">片单</v-tab>
-      <v-tab style="color: black">评分</v-tab>
       <v-tab style="color: black">关注影人</v-tab>
       <v-tab style="color: black">兴趣小组</v-tab>
     </v-tabs>
