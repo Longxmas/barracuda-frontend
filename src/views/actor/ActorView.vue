@@ -255,6 +255,8 @@ export default {
   data() {
     return {
       actor_information: {
+        id: 1,
+        name:'马修·麦康纳',
         sex: "男",
         birthtime: "1969年11月04日",
         birthplace: "美国,得克萨斯州,尤瓦尔迪",
