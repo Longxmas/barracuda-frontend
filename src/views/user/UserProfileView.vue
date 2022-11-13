@@ -189,7 +189,7 @@
 
                     <v-container fluid>
                       <v-row>
-                        <v-img src="../assets/interstellar2.png" max-width="150px"
+                        <v-img src="../../assets/interstellar2.png" max-width="150px"
                                style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
                         <v-col style="margin-left: 5px">
                           <v-container fluid>
@@ -561,8 +561,8 @@ export default {
             "我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影",
         created_at: "2022-11-12",
         prefers: ["喜剧", "爱情", "动作"],
-        avatar: require("../assets/pics/spiderman.jpg"),
-        infoBackground: require("../assets/pics/back.jpg")
+        avatar: require("../../assets/pics/spiderman.jpg"),
+        infoBackground: require("../../assets/pics/back.jpg")
       },
       editedItem: {
         // TODO: 改成向后端请求user_profile后，这里就不用赋初值了
@@ -572,7 +572,7 @@ export default {
         prefers: ["喜剧", "爱情", "动作"],
         email: '15807386853@qq.com',
         description: "我爱看电影",
-        avatar: require("../assets/pics/spiderman.jpg"),
+        avatar: require("../../assets/pics/spiderman.jpg"),
         valid: true
       },
       editInfoDialog: false,
@@ -639,7 +639,7 @@ export default {
         {
           id: 0,
           name: '宋康昊',
-          avatar: require('../assets/pics/songKangHao.jpg'),
+          avatar: require('../../assets/pics/songKangHao.jpg'),
           birthtime: "1985-6-17",
           introduction: '宋康昊（Kang-ho Song），1985年6月17日出生于韩国首尔，韩国男演员、导演、编剧。' +
               '2007年毕业于韩国演艺学院表演系。2007年至2008年，出演电视剧《爱情的故事》。2009年，出演电视剧《爱情的故事2》。' +
@@ -651,7 +651,7 @@ export default {
         {
           id: 1,
           name: '马修·麦康纳',
-          avatar: require('../assets/maconar.jpg'),
+          avatar: require('../../assets/maconar.jpg'),
           birthtime: "1969-11-04",
           introduction: '马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，\n' +
               '                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，\n' +
@@ -663,7 +663,7 @@ export default {
         {
           id: 1,
           name: '马修·麦康纳',
-          avatar: require('../assets/maconar.jpg'),
+          avatar: require('../../assets/maconar.jpg'),
           birthtime: "1969-11-04",
           introduction: '马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，\n' +
               '                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，\n' +
@@ -675,7 +675,7 @@ export default {
         {
           id: 1,
           name: '马修·麦康纳',
-          avatar: require('../assets/maconar.jpg'),
+          avatar: require('../../assets/maconar.jpg'),
           birthtime: "1969-11-04",
           introduction: '马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，\n' +
               '                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，\n' +
@@ -693,7 +693,7 @@ export default {
           movie_name: '赛博朋克：边缘行者',
           movie_id: 2,
           /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../assets/pics/syberpunk.jpg'),
+          movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
@@ -709,7 +709,7 @@ export default {
           movie_name: '赛博朋克：边缘行者',
           movie_id: 2,
           /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../assets/pics/syberpunk.jpg'),
+          movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
@@ -725,7 +725,7 @@ export default {
           movie_name: '赛博朋克：边缘行者',
           movie_id: 2,
           /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../assets/pics/syberpunk.jpg'),
+          movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
@@ -741,7 +741,7 @@ export default {
           movie_name: '赛博朋克：边缘行者',
           movie_id: 2,
           /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../assets/pics/syberpunk.jpg'),
+          movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
@@ -757,7 +757,7 @@ export default {
           movie_name: '赛博朋克：边缘行者',
           movie_id: 2,
           /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../assets/pics/syberpunk.jpg'),
+          movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
           introduction: "我的瑞贝卡呜呜呜呜呜呜呜"
         }
@@ -766,21 +766,21 @@ export default {
         {
           id: 1,
           name: '科幻片死忠粉',
-          avatar: require('../assets/interstellar2.png'),
+          avatar: require('../../assets/interstellar2.png'),
           created_at: '2022-11-13',
           introduction: '科幻片永远的神，欢迎大家分享喜欢的科幻电影，一起讨论科幻片的魅力！'
         },
         {
           id: 2,
           name: '爱情至上',
-          avatar: require('../assets/pics/syberpunk.jpg'),
+          avatar: require('../../assets/pics/syberpunk.jpg'),
           created_at: '2022-11-15',
           introduction: '生命诚可贵，爱情价更高'
         },
         {
           id: 3,
           name: '动作片yyds',
-          avatar: require('../assets/pics/syberpunk.jpg'),
+          avatar: require('../../assets/pics/syberpunk.jpg'),
           created_at: '2022-11-13',
           introduction: '我们喜欢看拳拳到肉的动作片，欢迎大家分享喜欢的动作片，一起讨论动作片的魅力！'
         }
@@ -900,7 +900,7 @@ export default {
 }
 
 .inner_content {
-  background-image: url("../assets/pics/userBackground.svg");
+  background-image: url("../../assets/pics/userBackground.svg");
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: center -250px;

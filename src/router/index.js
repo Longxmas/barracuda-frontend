@@ -5,7 +5,7 @@ import loginView from "@/views/auth/LoginView";
 import actorView from "@/views/actor/ActorView";
 import movieView from "@/views/movie/MovieView";
 import MainView from "@/views/MainView";
-import UserProfileView from "@/views/UserProfileView";
+import UserProfileView from "@/views/user/UserProfileView";
 import allMovieView from "@/views/movie/AllMovieView";
 import allActorView from "@/views/actor/AllActorView";
 import favoritesView from "@/views/favoritesView";

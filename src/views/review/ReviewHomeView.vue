@@ -11,7 +11,7 @@
           <v-list-item
             v-for="review in reviews"
             :key="review.id">
-            <v-container fluid>
+            <v-container>
               <v-row>
                 <v-col cols="1">
                   <v-img :src="review.movie_poster"></v-img>
