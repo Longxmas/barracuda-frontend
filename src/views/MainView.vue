@@ -136,7 +136,7 @@
             <v-card-text>
               <v-container style="padding: 0 0 0 0">
                 <v-row style="padding-left: 0">
-                  <v-col cols="12">
+                  <v-col cols="10">
 
                     <v-carousel
                         cycle
@@ -152,23 +152,22 @@
                       >
                         <v-container
                             height="400px"
-                            style="padding: 0 0 0 0"
+                            class="pa-0"
                         >
                           <v-row no-gutters>
-                            <v-col cols="7" style="padding:  0 0 0 0">
-
-                                <v-img :src="item.src" height="100%">
+                            <v-col cols="4" class="pa-0">
+                                <v-img :src="item.src" height="100%" aspect-ratio="1">
                                 </v-img>
 
                             </v-col>
 
-                            <v-col cols="5" style="padding:  0 0 0 0">
+                            <v-col cols="8" class="pa-0">
                               <v-card
                                   max-height="400"
                                   style="background-color: ghostwhite;"
                                   height="400"
                               >
-                                <v-card style="padding: 20% 10% 0 10%; background: transparent"  elevation="0">
+                                <v-card style="padding: 25% 10% 0 10%; background: transparent"  elevation="0">
                                   <span style="font-family: 微软雅黑,serif; font-size: 20px; line-height: normal; ">
                                     《蜘蛛侠：平行宇宙》续集中字预告片正式流出
                                   </span>
@@ -193,7 +192,7 @@
           </v-card>
 
 
-          <v-card elevation="0">
+          <v-card elevation="0" width="100%">
             <v-card-title>
               <h3>最新影评</h3>
             </v-card-title>
@@ -201,7 +200,7 @@
               <v-list style="margin: auto">
                 <v-list-item>
 
-                  <v-card>
+                  <v-card width="100%">
                     <v-card-text>
                       <v-container fluid>
                         <v-row>
@@ -211,7 +210,7 @@
                           <v-col cols="10">
                             <v-container fluid>
                               <v-row>
-                                <a><h3>父母决定儿女的命运，国家决定父母的命运</h3></a>
+                                <a><h3 style="color: steelblue; font-size: 20px">父母决定儿女的命运，国家决定父母的命运</h3></a>
                               </v-row>
                               <br>
                               <br>
@@ -243,52 +242,8 @@
                     </v-card-text>
                   </v-card>
                 </v-list-item>
-
-                <v-list-item>
-                  <v-card>
-                    <v-card-text>
-                      <v-container fluid>
-                        <v-row>
-                          <v-col cols="2">
-                            <v-img src="../assets/interstellar2.png"></v-img>
-                          </v-col>
-                          <v-col cols="10">
-                            <v-container fluid>
-                              <v-row>
-                                <a><h3>父母决定儿女的命运，国家决定父母的命运</h3></a>
-                              </v-row>
-                              <br>
-                              <br>
-                              <v-row>
-                                <v-avatar>
-                                  <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
-                                </v-avatar>
-                                &ensp;
-                                <a style="margin-top: 15px; margin-bottom: 15px">林愈静</a>
-                                &ensp;
-                                <p style="margin-top: 15px; margin-bottom: 15px">评论</p>
-                                <a style="margin-top: 15px; margin-bottom: 15px">《青红》</a>
-                                <v-spacer></v-spacer>
-                                <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                                          :value="4.5" color="amber" dense half-increments readonly size="14">
-                                </v-rating>
-                              </v-row>
-                              <br>
-                              <br>
-                              <v-row>
-                                <p>abcde</p>
-                              </v-row>
-                            </v-container>
-                          </v-col>
-                        </v-row>
-                      </v-container>
-                    </v-card-text>
-                  </v-card>
-                </v-list-item>
               </v-list>
             </v-card-text>
-            <v-card-actions>
-            </v-card-actions>
           </v-card>
         </v-col>
 

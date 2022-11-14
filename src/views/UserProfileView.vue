@@ -108,20 +108,9 @@
                         <v-col style="margin-left: 5px">
                           <v-container fluid>
 
-                            <v-row>
-                              <v-progress-circular
-                                  :value="80"
-                                  color="#13C00DFF"
-                                  width="3"
-                                  size="40"
-                                  rotate="270"
-                                  class="ma-auto"
-                                  style="background-color: #0b1c22; border-radius: 100%"
-                              >
-                                <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">80</span>
-                              </v-progress-circular>
+                            <v-row class="pl-0 pt-3">
 
-                              <v-col>
+                              <v-col class="pa-0">
                                 <a>
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                       class="ma-auto pa-0 ">{{ review.title }}</h3>
@@ -502,7 +491,8 @@
                 >
                   <!-- TODO:用列表进行展示-->
                   <v-chip filter outlined v-for="(item,k) in prefer_headers"
-                          :key=k>{{ item.text }}
+                          :key=k :input-value="item.id">
+                    {{ item.text }}
                   </v-chip>
                 </v-chip-group>
 

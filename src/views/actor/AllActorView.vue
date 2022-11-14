@@ -9,7 +9,6 @@
           <v-row>
             <v-col v-for="actor in actors"
                    :key="actor.id"
-                   style="padding: 15px 0 0 0"
                    >
               <v-card max-width="220px">
                 <v-img :src="actor.photo"

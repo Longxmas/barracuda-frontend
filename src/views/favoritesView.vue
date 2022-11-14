@@ -358,7 +358,6 @@ export default {
 <style scoped>
 
 .user-background {
-
   background-image: radial-gradient(at 30% top, #073844 0%, rgba(3, 37, 65, 1) 70%);
 }
 
