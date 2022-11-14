@@ -125,6 +125,8 @@
                               <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                               &ensp;
                               <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  review.movie_name}}</a>
+                              &ensp;
+                              <p class="my-auto" style="font-size: 16px"> {{review.time}} </p>
                               <v-spacer></v-spacer>
                               <v-rating style="margin-top: 15px; margin-bottom: 15px"
                                         :value="review.rating" color="amber" dense half-increments readonly size="14">
@@ -144,6 +146,28 @@
                                         font-size: 16px;
                                         color: black;">
                                 {{ review.introduction }} </p>
+                            </v-row>
+
+                            <v-row>
+                              <v-btn small class="mr-5" style="color: white;background-color: skyblue">
+                                <v-icon small class="my-auto"> mdi-heart</v-icon>
+                                &ensp;
+                                {{review.like_count}}
+                              </v-btn>
+
+                              <v-btn small class="mr-5" style="color: white;background-color: darkorange">
+                                <v-icon small class="my-auto"> mdi-message</v-icon>
+                                &ensp;
+                                {{review.reply_count}}
+                              </v-btn>
+
+                              <v-btn small class="mr-5" style="color: white;background-color: limegreen"
+                                @click="deleteReview(review)">
+                                <v-icon small class="my-auto"> mdi-delete</v-icon>
+                                &ensp;
+                                <span class="my-auto">删除影评</span>
+                              </v-btn>
+
                             </v-row>
 
                           </v-container>
@@ -685,6 +709,9 @@ export default {
           /*movie_pic应当是后端查询后返回*/
           movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
+          time: '2022-11-12',
+          like_count: 170,
+          reply_count: 100,
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
               '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
@@ -701,6 +728,9 @@ export default {
           /*movie_pic应当是后端查询后返回*/
           movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
+          time: '2022-11-12',
+          like_count: 170,
+          reply_count: 100,
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
               '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
@@ -717,6 +747,9 @@ export default {
           /*movie_pic应当是后端查询后返回*/
           movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
+          time: '2022-11-12',
+          like_count: 170,
+          reply_count: 100,
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
               '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
@@ -733,6 +766,9 @@ export default {
           /*movie_pic应当是后端查询后返回*/
           movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
+          time: '2022-11-12',
+          like_count: 170,
+          reply_count: 100,
           introduction:
               ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
               '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
@@ -749,6 +785,9 @@ export default {
           /*movie_pic应当是后端查询后返回*/
           movie_picture: require('../../assets/pics/syberpunk.jpg'),
           rating: '4.5',
+          time: '2022-11-12',
+          like_count: 170,
+          reply_count: 100,
           introduction: "我的瑞贝卡呜呜呜呜呜呜呜"
         }
       ],
@@ -791,6 +830,9 @@ export default {
       this.editInfoDialog = false;
       console.log(this.editedItem);
       alert("修改成功");
+    },
+    deleteReview(review) {
+      alert("删除成功" + review.id);
     }
   },
 
@@ -875,7 +917,8 @@ export default {
           value: 'suspense'
         }
       ]
-    }
+    },
+
   }
 
 

@@ -136,7 +136,7 @@
             <v-card-text>
               <v-container style="padding: 0 0 0 0">
                 <v-row style="padding-left: 0">
-                  <v-col cols="10">
+                  <v-col cols="10" class="mx-auto">
 
                     <v-carousel
                         cycle
@@ -144,6 +144,7 @@
                         hide-delimiter-background
                         hide-delimiters
                         show-arrows-on-hover
+
                     >
 
                       <v-carousel-item

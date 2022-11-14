@@ -166,4 +166,14 @@ export default {
   font-family: YouSheBiaoTi,sans-serif;
 }
 
+h3 {
+  color: black;
+}
+
+h2 {
+  color: black;
+}
+
+
+
 </style>

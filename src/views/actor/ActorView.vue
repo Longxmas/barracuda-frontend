@@ -423,7 +423,6 @@ export default {
 }
 
 .photo-ul {
-  width: 800px;
   height: auto;
   overflow-x: scroll;
   white-space:nowrap;  /* ul中的内容不换行 */
