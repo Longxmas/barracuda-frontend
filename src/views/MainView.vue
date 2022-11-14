@@ -156,8 +156,8 @@
                         >
                           <v-row no-gutters>
                             <v-col cols="4" class="pa-0">
-                                <v-img :src="item.src" height="100%" aspect-ratio="1">
-                                </v-img>
+                              <v-img :src="item.src" height="100%" aspect-ratio="1">
+                              </v-img>
 
                             </v-col>
 
@@ -167,13 +167,14 @@
                                   style="background-color: ghostwhite;"
                                   height="400"
                               >
-                                <v-card style="padding: 25% 10% 0 10%; background: transparent"  elevation="0">
+                                <v-card style="padding: 25% 10% 0 10%; background: transparent" elevation="0">
                                   <span style="font-family: 微软雅黑,serif; font-size: 20px; line-height: normal; ">
                                     《蜘蛛侠：平行宇宙》续集中字预告片正式流出
                                   </span>
                                   <br>
                                   <br>
-                                  <span style="font-family: 微软雅黑, serif; font-size: 15px; line-height: normal; color: #afb6b5">
+                                  <span
+                                      style="font-family: 微软雅黑, serif; font-size: 15px; line-height: normal; color: #afb6b5">
                                     《蜘蛛侠：纵横宇宙（上）》延期至2023年6月2日北美上映，《蜘蛛侠：纵横宇宙（下）》官宣2024年3月29日北美上映！
                                   </span>
                                 </v-card>
@@ -195,55 +196,49 @@
           <v-card elevation="0" width="100%">
             <v-card-title>
               <h3>最新影评</h3>
+              <v-card width="100%">
+                <v-card-text>
+                  <v-container fluid>
+                    <v-row>
+                      <v-col cols="2">
+                        <v-img src="../assets/interstellar2.png"></v-img>
+                      </v-col>
+                      <v-col cols="10">
+                        <v-container fluid>
+                          <v-row>
+                            <a><h3 style="color: steelblue; font-size: 20px">父母决定儿女的命运，国家决定父母的命运</h3>
+                            </a>
+                          </v-row>
+                          <br>
+                          <br>
+                          <v-row>
+                            <v-avatar>
+                              <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
+                            </v-avatar>
+                            &ensp;
+                            <a style="margin-top: 15px; margin-bottom: 15px">林愈静</a>
+                            &ensp;
+                            <p style="margin-top: 15px; margin-bottom: 15px">评论</p>
+                            <a style="margin-top: 15px; margin-bottom: 15px">《青红》</a>
+                            <v-spacer></v-spacer>
+                            <v-rating style="margin-top: 15px; margin-bottom: 15px"
+                                      :value="4.5" color="amber" dense half-increments readonly size="14">
+                            </v-rating>
+                          </v-row>
+                          <br>
+                          <br>
+                          <v-row>
+                            <p>各位豆瓣的朋友大家好，我是演员胡军。很高兴在这里跟大家分享《长津湖》的创作过程和心得。
+                              从正式入驻豆瓣的那天起，我陆续接到很多私信。有人说，雷爹，你走的时候哭死我了；有人说，雷爹，我想给你蒸大包子；...
+                              (全文)</p>
+                          </v-row>
+                        </v-container>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+              </v-card>
             </v-card-title>
-            <v-card-text style="padding: 0 0 0 0">
-              <v-list style="margin: auto">
-                <v-list-item>
-
-                  <v-card width="100%">
-                    <v-card-text>
-                      <v-container fluid>
-                        <v-row>
-                          <v-col cols="2">
-                            <v-img src="../assets/interstellar2.png"></v-img>
-                          </v-col>
-                          <v-col cols="10">
-                            <v-container fluid>
-                              <v-row>
-                                <a><h3 style="color: steelblue; font-size: 20px">父母决定儿女的命运，国家决定父母的命运</h3></a>
-                              </v-row>
-                              <br>
-                              <br>
-                              <v-row>
-                                <v-avatar>
-                                  <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
-                                </v-avatar>
-                                &ensp;
-                                <a style="margin-top: 15px; margin-bottom: 15px">林愈静</a>
-                                &ensp;
-                                <p style="margin-top: 15px; margin-bottom: 15px">评论</p>
-                                <a style="margin-top: 15px; margin-bottom: 15px">《青红》</a>
-                                <v-spacer></v-spacer>
-                                <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                                          :value="4.5" color="amber" dense half-increments readonly size="14">
-                                </v-rating>
-                              </v-row>
-                              <br>
-                              <br>
-                              <v-row>
-                                <p>各位豆瓣的朋友大家好，我是演员胡军。很高兴在这里跟大家分享《长津湖》的创作过程和心得。
-                                  从正式入驻豆瓣的那天起，我陆续接到很多私信。有人说，雷爹，你走的时候哭死我了；有人说，雷爹，我想给你蒸大包子；...
-                                  (全文)</p>
-                              </v-row>
-                            </v-container>
-                          </v-col>
-                        </v-row>
-                      </v-container>
-                    </v-card-text>
-                  </v-card>
-                </v-list-item>
-              </v-list>
-            </v-card-text>
           </v-card>
         </v-col>
 

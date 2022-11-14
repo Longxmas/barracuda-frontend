@@ -9,10 +9,11 @@
       <v-tab-item :value="`tab-1`"></v-tab-item>
       <v-tab-item :value="`tab-2`"></v-tab-item>
       <v-tab-item :value="`tab-3`">
+        <v-container fluid style="width: 90%; margin-top: 10px; margin-left: 50px">
         <h1>快来发表看法吧~</h1>
         <v-container fluid>
           <v-row>
-            <v-col>
+            <v-col style="padding: 15px 50px 0 0">
               <v-breadcrumbs
                   :items="breadcrumbs_items"
                   large>
@@ -21,7 +22,7 @@
                 </template>
               </v-breadcrumbs>
             </v-col>
-            <v-col class="d-flex flex-row-reverse">
+            <v-col class="d-flex flex-row-reverse" style="padding: 15px 50px 0 0">
               <v-btn>创建新讨论</v-btn>
             </v-col>
           </v-row>
@@ -31,18 +32,26 @@
             <v-data-table
                 :headers="discussionHeaders"
                 :items="discussionItems"
-                class="elevation-1">
+                class="elevation-1"
+                calculate-widths>
               <template v-slot:[`item.avatar`]="{ item }">
-                <v-img :src="item.avatar" width="20px"></v-img>
+                <v-avatar>
+                  <v-img :src="item.avatar" width="20px"></v-img>
+                </v-avatar>
               </template>
               <template v-slot:[`item.last_reply`]="{ item }">
-                <p>于{{item.time}}</p>
-                <br>
+                <p style="white-space: nowrap;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          text-align: right;">
+                  于{{item.time}}
+                </p>
                 <p>由{{item.user}}最后回复</p>
               </template>
             </v-data-table>
           </v-card-text>
         </v-card>
+        </v-container>
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -67,8 +76,8 @@ export default {
         }
       ],
       discussionHeaders: [
-        { text: "", value: "avatar"},
-        { text: "主题", value: "title" },
+        { text: "", value: "avatar", widths: '5%'},
+        { text: "主题", value: "title"},
         { text: "回复数", value: "reply_count" },
         { text: "最后回复", value: "last_reply" },
       ],
