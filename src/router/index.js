@@ -13,6 +13,7 @@ import reviewMovieView from "@/views/movie/ReviewMovieView";
 import reviewDetail from "@/views/review/ReviewDetail";
 import allGroupView from "@/views/group/AllGroupView";
 import groupDetailView from "@/views/group/GroupDetailView";
+import groupDiscussionDetail from "@/views/group/GroupDiscussionDetail";
 
 
 Vue.use(VueRouter)
@@ -56,13 +57,13 @@ const routes = [
     component: actorView
   },
   {
-    path: '/movie',
+    path: '/movie/:id',
     name: 'movie',
     component: movieView
   },
   {
-    path: '/allmovie',
-    name: 'allmovie',
+    path: '/movie',
+    name: 'allMovie',
     component: allMovieView
   },
   {
@@ -99,6 +100,11 @@ const routes = [
     path: '/group',
     name: 'group',
     component: groupDetailView
+  },
+  {
+    path: '/groupdiscusssion',
+    name: 'groupdiscusssion',
+    component: groupDiscussionDetail
   }
 ]
 
