@@ -5,9 +5,12 @@
       <h1>所有电影</h1>
       <v-container fluid>
         <v-row>
-          <v-col cols="3"
+          <v-col lg="4"
+                 md="4"
+                 sm="6"
+                 xs="8"
                  style="padding: 15px 50px 0 0">
-            <v-expansion-panels style="margin-bottom: 20px">
+            <v-expansion-panels style="margin-bottom: 20px;">
               <v-expansion-panel>
                 <v-expansion-panel-header>
                   <h3>排序</h3>
@@ -16,6 +19,7 @@
                   结果排序
                   <v-select
                       :items="sortType"
+                      v-model="selectSortType"
                       label="排序方式"
                   ></v-select>
                 </v-expansion-panel-content>
@@ -131,15 +135,21 @@
             </v-btn>
           </v-col>
 
-          <v-col cols="9" style="margin-top: 0;">
+          <v-col lg="8"
+                 md="8"
+                 sm="6"
+                 xs="4" style="margin-top: 0;">
             <v-item-group>
               <v-container fluid>
-                <v-row justify="start">
+                <v-row>
                   <v-col
                       v-for="movie in movies"
                       :key="movie.id"
                       class="pt-0"
-                      align-self="start"
+                      lg="3"
+                      md="4"
+                      sm="6"
+                      xs="12"
                   >
                     <v-card
                         :href="'/movie/' + movie.id"
@@ -180,6 +190,7 @@ export default {
         '按时间排序',
         '按热度排序',
       ],
+      selectSortType: '按热度排序',
       ratingSelector: 5,
       displayType: null,
       dates: ['2019-09-10', '2019-09-20'],

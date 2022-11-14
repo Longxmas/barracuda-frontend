@@ -12,6 +12,8 @@ import favoritesView from "@/views/favoritesView";
 import reviewHomeView from "@/views/review/ReviewHomeView";
 import reviewMovieView from "@/views/movie/ReviewMovieView";
 import reviewDetail from "@/views/review/ReviewDetail";
+import allGroupView from "@/views/group/AllGroupView";
+import groupDetailView from "@/views/group/GroupDetailView";
 
 
 Vue.use(VueRouter)
@@ -93,6 +95,16 @@ const routes = [
     path: '/reviewdetail',
     name: 'reviewdetail',
     component: reviewDetail
+  },
+  {
+    path: '/allgroup',
+    name: 'allgroup',
+    component: allGroupView
+  },
+  {
+    path: '/group',
+    name: 'group',
+    component: groupDetailView
   }
 ]
 

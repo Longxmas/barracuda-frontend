@@ -56,7 +56,7 @@
 
               <v-col cols="1" class="mx-0 pl-0" align-self="center">
                 <v-card style="background-color: transparent" flat>
-                  <a href="/review" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                  <a href="/allgroup" style="width: 80px; text-decoration: none; color: #ff8d1a;">
                     <v-card-text class="text-center text-h6" style="padding-top: 30px; width: 120px">
                       <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23px">兴趣小组</p>
                     </v-card-text>
@@ -111,9 +111,7 @@
           </template>
         </v-app-bar>
         <v-main>
-          <v-container fluid>
           <router-view/>
-          </v-container>
         </v-main>
     </v-app>
   </div>

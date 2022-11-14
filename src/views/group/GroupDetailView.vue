@@ -1,0 +1,277 @@
+<template>
+  <div id='groupDetailView'>
+    <v-tabs centered v-model="topTabName">
+      <v-tab style="color: black">概览</v-tab>
+      <v-tab style="color: black">讨论</v-tab>
+      <v-tab style="color: black">成员</v-tab>
+    </v-tabs>
+    <v-tabs-items v-model="topTabName">
+      <v-tab-item>
+        <v-container fluid>
+          <v-row>
+            <v-col lg="9" md="6" sm="12" xs="12" style="margin-top: 0;">
+              <v-card>
+                <v-card-title>
+                  <h1>弱智吧</h1>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>
+                  <v-container fluid>
+                    <v-row>
+                      <v-col lg="3" md="6" sm="12" xs="12">
+                        <v-avatar rounded size="200">
+                          <v-img
+                              aspect-ratio="1"
+                              src="../../assets/ruozhi.png">
+                          </v-img>
+                        </v-avatar>
+                      </v-col>
+                      <v-col lg="9" md="6" sm="12" xs="12">
+                        <p>来到了弱智吧，就好像回到了家一样</p>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-divider></v-divider>
+                  <v-card-actions class="d-flex justify-space-between">
+                    创建于 XXXX-XX-XX
+                    <v-btn rounded>加入这个小组</v-btn>
+                  </v-card-actions>
+                </v-card-text>
+              </v-card>
+              <v-card>
+                <v-card-title>最新讨论</v-card-title>
+                <v-card-text>
+                  <v-data-table
+                      :headers="discussionHeaders"
+                      :items="recentDiscussionItems"
+                      hide-default-footer
+                      class="elevation-1">
+                  </v-data-table>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn>查看全部讨论</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+            <v-col lg="3" md="6" sm="12" xs="12">
+              <v-card>
+                <v-card-title>
+                  最近加入的成员
+                </v-card-title>
+                <v-card-text>
+                  <v-container fluid>
+                    <v-item-group multiple>
+                      <v-row>
+                        <v-col v-for="member in recent_members"
+                               :key="member.id"
+                               lg="3"
+                               md="4"
+                               sm="6"
+                               xs="12">
+                              <v-container fluid>
+                                <v-row justify="center">
+                                  <v-avatar rounded size="50" style="align-self: center">
+                                    <v-img :src="member.photo"></v-img>
+                                  </v-avatar>
+                                </v-row>
+                                <v-row justify="center">
+                                  <h3>{{ member.name }}</h3>
+                                </v-row>
+                              </v-container>
+                        </v-col>
+                      </v-row>
+                    </v-item-group>
+                  </v-container>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-tab-item>
+
+      <v-tab-item>
+        <v-card>
+          <v-card-title>
+            <v-container fluid>
+              <v-row>
+                <v-col>
+                  小组讨论
+                </v-col>
+                <v-col class="d-flex flex-row-reverse" style="padding: 15px 50px 0 0">
+                  <v-btn>创建新讨论</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-title>
+          <v-card-text>
+            <v-data-table
+                :headers="discussionHeaders"
+                :items="allDiscussionItems"
+                class="elevation-1"
+                calculate-widths>
+              <template v-slot:[`item.avatar`]="{ item }">
+                <v-avatar>
+                  <v-img :src="item.avatar" width="20px"></v-img>
+                </v-avatar>
+              </template>
+              <template v-slot:[`item.last_reply`]="{ item }">
+                <p style="white-space: nowrap;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          text-align: right;">
+                  于{{item.time}}
+                </p>
+                <p>由{{item.user}}最后回复</p>
+              </template>
+            </v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+
+      <v-tab-item>
+        <v-card>
+          <v-card-title>
+            小组成员
+          </v-card-title>
+          <v-card-text>
+              <v-item-group multiple>
+                <v-container fluid>
+                <v-row>
+                  <v-col v-for="member in all_members"
+                         :key="member.id"
+                         class="pt-0"
+                         lg="3"
+                         md="6"
+                         sm="6"
+                         xs="6">
+                    <v-card width="100%">
+                      <v-card-text>
+                        <v-container fluid>
+                          <v-row>
+                            <v-col lg="3" md="6" sm="12" xs="12">
+                              <v-avatar rounded size="60">
+                                <v-img :src="member.photo"></v-img>
+                              </v-avatar>
+                            </v-col>
+                            <v-col lg="9" md="6" sm="12" xs="12">
+                              <h3>{{ member.name }}</h3>
+                              <p>加入于{{ member.join_time }}</p>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <p>{{member.introduction}}</p>
+                          </v-row>
+                        </v-container>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+                </v-container>
+              </v-item-group>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'groupDetailView',
+  data() {
+    return {
+      topTabName: '',
+      recent_members: [
+        {
+          id: 1,
+          name: '张三',
+          photo: require('../../assets/ruozhi.png'),
+          introduction: '我是张三，我是弱智'
+        },
+        {
+          id: 2,
+          name: '李四',
+          photo: require('../../assets/ruozhi.png'),
+          introduction: '我是李四，我是弱智'
+        }
+      ],
+      all_members: [
+        {
+          id: 1,
+          name: '张三',
+          join_time: '2020-01-01',
+          photo: require('../../assets/ruozhi.png'),
+          introduction: '我是张三，我是弱智'
+        },
+        {
+          id: 2,
+          name: '李四',
+          join_time: '2020-01-01',
+          photo: require('../../assets/ruozhi.png'),
+          introduction: '我是李四，我是弱智'
+        },
+        {
+          id: 3,
+          name: '王五',
+          join_time: '2020-01-01',
+          photo: require('../../assets/ruozhi.png'),
+          introduction: '我是王五，我是弱智'
+        },
+        {
+          id: 6,
+          name: '赵六',
+          join_time: '2020-01-01',
+          photo: require('../../assets/ruozhi.png'),
+          introduction: '我是赵六，我是弱智'
+        }
+      ],
+      discussionHeaders: [
+        {text: "话题", value: "topic"},
+        {text: "作者", value: "author"},
+        {text: "回复", value: "reply_count"},
+        {text: "最后回复", value: "last_reply_time"},
+      ],
+      recentDiscussionItems: [
+        {
+          topic: "每次我把垃圾扔到垃圾桶时，我都有一种大义灭亲的自豪感",
+          author: '无垢的纯白',
+          reply_count: "20",
+          last_reply_time: "2022-2-22",
+        },
+        {
+          topic: "地下赌马是不是也叫私密马赛？",
+          author: '月夜魔术师',
+          reply_count: "20",
+          last_reply_time: "2022-2-22",
+        },
+      ],
+      allDiscussionItems: [
+        {
+          topic: "每次我把垃圾扔到垃圾桶时，我都有一种大义灭亲的自豪感",
+          author: '无垢的纯白',
+          reply_count: 20,
+          last_reply_time: "2022-2-22",
+        },
+        {
+          topic: "地下赌马是不是也叫私密马赛？",
+          author: '月夜魔术师',
+          reply_count: 20,
+          last_reply_time: "2022-2-22",
+        },
+        {
+          topic: '我叫斧新，最近减肥瘦了两斤，你也可以叫我父亲',
+          author: '动物园超级园长',
+          reply_count: 22,
+          last_reply_time: "2022-2-22",
+        }
+      ]
+    }
+  },
+  methods: {
+
+  },
+  computed: {
+
+  }
+}
+</script>
