@@ -196,49 +196,69 @@
           <v-card elevation="0" width="100%">
             <v-card-title>
               <h3>最新影评</h3>
-              <v-card width="100%">
-                <v-card-text>
-                  <v-container fluid>
-                    <v-row>
-                      <v-col cols="2">
-                        <v-img src="../assets/interstellar2.png"></v-img>
-                      </v-col>
-                      <v-col cols="10">
-                        <v-container fluid>
+            </v-card-title>
+            <v-card-text style="padding: 0 0 0 0">
+              <v-list style="margin: auto">
+                <v-list-item>
+                    <v-card elevation="5" class="mb-5" style="border-radius: 10px" width="100%">
+                      <v-card-text class="pa-0">
+                        <v-container fluid >
                           <v-row>
-                            <a><h3 style="color: steelblue; font-size: 20px">父母决定儿女的命运，国家决定父母的命运</h3>
-                            </a>
-                          </v-row>
-                          <br>
-                          <br>
-                          <v-row>
-                            <v-avatar>
-                              <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
-                            </v-avatar>
-                            &ensp;
-                            <a style="margin-top: 15px; margin-bottom: 15px">林愈静</a>
-                            &ensp;
-                            <p style="margin-top: 15px; margin-bottom: 15px">评论</p>
-                            <a style="margin-top: 15px; margin-bottom: 15px">《青红》</a>
-                            <v-spacer></v-spacer>
-                            <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                                      :value="4.5" color="amber" dense half-increments readonly size="14">
-                            </v-rating>
-                          </v-row>
-                          <br>
-                          <br>
-                          <v-row>
-                            <p>各位豆瓣的朋友大家好，我是演员胡军。很高兴在这里跟大家分享《长津湖》的创作过程和心得。
-                              从正式入驻豆瓣的那天起，我陆续接到很多私信。有人说，雷爹，你走的时候哭死我了；有人说，雷爹，我想给你蒸大包子；...
-                              (全文)</p>
+                            <v-img src="../assets/interstellar2.png" max-width="150px"
+                                   style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
+                            <v-col style="margin-left: 5px">
+                              <v-container fluid>
+                                <v-row>
+                                  <v-col>
+                                    <a>
+                                      <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
+                                          class="ma-auto pa-0 ">tsetststestestestestestest</h3>
+                                    </a>
+
+                                  </v-col>
+                                </v-row>
+
+                                <v-row>
+                                  <v-avatar>
+                                    <v-img src="../assets/interstellar2.png" alt="Avatar"></v-img>
+                                  </v-avatar>
+
+                                  <a style="margin-top: 15px; margin-bottom: 15px; margin-left: 15px; font-size: 16px">testtest</a>
+                                  &ensp;
+                                  <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
+                                  &ensp;
+                                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">ande</a>
+                                  <v-spacer></v-spacer>
+                                  <v-rating style="margin-top: 15px; margin-bottom: 15px"
+                                            :value="4.5" color="amber" dense half-increments readonly size="14">
+                                  </v-rating>
+                                </v-row>
+
+
+                                <v-row class="pt-3">
+                                  <p style="text-overflow: ellipsis;
+                                        overflow: hidden;
+                                        display: -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 4;
+                                        line-height: 20px;
+                                        max-height: 80px;
+                                        font-family: 微软雅黑,serif;
+                                        font-size: 16px;
+                                        color: black;">
+                                    abbccddeeffgg </p>
+                                </v-row>
+
+                              </v-container>
+                            </v-col>
                           </v-row>
                         </v-container>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-              </v-card>
-            </v-card-title>
+
+                      </v-card-text>
+                    </v-card>
+                </v-list-item>
+              </v-list>
+            </v-card-text>
           </v-card>
         </v-col>
 

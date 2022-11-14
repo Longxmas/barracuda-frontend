@@ -131,14 +131,15 @@
             </v-btn>
           </v-col>
 
-          <v-col cols="9" style="margin-top: 0; padding: 15px 0 0 0">
+          <v-col cols="9" style="margin-top: 0;">
             <v-item-group>
               <v-container fluid>
-                <v-row>
+                <v-row justify="start">
                   <v-col
                       v-for="movie in movies"
                       :key="movie.id"
-                      style="margin-top: 0; padding: 0px 0 0 15px"
+                      class="pt-0"
+                      align-self="start"
                   >
                     <v-card
                         :href="'/movie/' + movie.id"
