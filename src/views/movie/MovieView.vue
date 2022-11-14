@@ -225,17 +225,17 @@
 
                                   <v-row class="pl-5">
                                     <v-btn small class="mr-5" style="color: white;background-color: skyblue"
-                                    @click="like_review(review)">
-                                        <v-icon small class="my-auto"> mdi-heart</v-icon>
+                                           @click="like_review(review)">
+                                      <v-icon small class="my-auto"> mdi-heart</v-icon>
                                       &ensp;
-                                      {{review.like_count}}
+                                      {{ review.like_count }}
                                     </v-btn>
 
                                     <v-btn small class="mr-5" style="color: white;background-color: darkorange"
-                                      @click="jumpToReview(review)">
+                                           @click="jumpToReview(review)">
                                       <v-icon small class="my-auto"> mdi-message</v-icon>
                                       &ensp;
-                                      {{review.reply_count}}
+                                      {{ review.reply_count }}
                                     </v-btn>
                                   </v-row>
 
@@ -258,30 +258,27 @@
               <v-card style="margin:10px">
                 <v-card-title><h3>媒体</h3></v-card-title>
                 <v-card-text>
-                  <v-sheet
-                      class="mx-auto"
-                      width="100%"
-                      elevation="0">
-                    <v-slide-group
-                        class="pa-4"
-                        center-active
-                        show-arrows
+
+                  <v-container fluid>
+                    <ul class="poster-ul">
+                      <li v-for="(item,i) in pictures"
+                          :key="i"
+                          style="display: inline-block; height: 400px">
+                        <v-card
+                            elevation="10"
+                            style="border-radius: 0"
                         >
-                      <v-slide-item
-                          v-for="(pic,n) in pictures"
-                          :key="n">
-                        <v-card elevation="0">
-                          <v-scale-transition>
-                            <v-img
-                                max-height="400px"
-                                contain
-                                :src="pic.src"
-                            ></v-img>
-                          </v-scale-transition>
+                          <v-img
+                              :src="item.src"
+                              style="border-radius: 0;"
+                              :style="caculateImageFitPattern(400,item.src)">
+                          </v-img>
                         </v-card>
-                      </v-slide-item>
-                    </v-slide-group>
-                  </v-sheet>
+                      </li>
+                    </ul>
+                  </v-container>
+
+
                 </v-card-text>
                 <v-card-actions>
                   <v-btn>查看全部媒体</v-btn>
@@ -413,7 +410,7 @@ export default {
       ],
       reviews: [
         {
-          id:1,
+          id: 1,
           avatar: require("../../assets/pics/spiderman.jpg"),
           title: "太好看了吧",
           introduction: "我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！" +
@@ -427,7 +424,7 @@ export default {
           user: "user1",
         },
         {
-          id:2,
+          id: 2,
           avatar: require("../../assets/pics/anne.jpg"),
           title: "略有失望",
           introduction: "最强科幻片不过如此",
@@ -487,9 +484,16 @@ export default {
       alert("点赞成功");
       review.like_count += 1;
     },
+    caculateImageFitPattern(fixedHeight, src) {
+      let imgObj = new Image();
+      imgObj.src = src;
+      let ratio = imgObj.width / imgObj.height;
+      return "width: " + fixedHeight * ratio + "px; height: " + fixedHeight + "px;";
+    },
   },
   computed: {},
 }
+
 </script>
 
 <style scoped>
@@ -504,5 +508,9 @@ export default {
   margin-right: 5px;
 }
 
+.poster-ul {
+  overflow-x: scroll;
+  white-space: nowrap; /* ul中的内容不换行 */
+}
 
 </style>
