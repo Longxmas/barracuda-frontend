@@ -17,7 +17,7 @@
                   max-height="800px"
                   aspect-ratio="0.75"
                   contain
-                  :src=movie.poster
+                  :src=movie.image
                   style="border-radius: 10px"
               ></v-img>
             </v-col>
@@ -25,19 +25,18 @@
             <v-col cols="8">
               <v-card-text>
                 <v-row style="height:50px" class="mt-3 pb-0">
-                  <h1 style="font-size: 40px">{{ movie.name }}</h1>
-                  <h1 style="font-size: 40px; color: dimgray">({{ movie.year }})</h1>
+                  <h1 style="font-size: 40px">{{ movie.movie_name }}</h1>
+                  <h1 style="font-size: 40px; color: dimgray">({{ movie.release_date.substring(0,4) }})</h1>
                 </v-row>
                 <v-row>
-                  <h3>{{ movie.publisedtime }} ({{ movie.country }})</h3>
-                  &ensp;
-                  &ensp;
-                  <h1>·</h1>
+                  <h3 class="mt-2">{{ movie.release_date }} ({{ movie.region }})</h3>
+                  <h1 class="mt-2">·</h1>
                   <h3 v-for="(tag,k) in movie.genres" :key="k">
-                    {{ tag }} &ensp;</h3>
-                  &ensp; &ensp;
-                  <h1>·</h1>
-                  <h3>2h 49m</h3>
+                    <v-chip class="mt-0">
+                      {{ tag.name }}
+                    </v-chip>&ensp;</h3>
+                  <h1 class="mt-2">·</h1>
+                  <h3 class="mt-2">2h 49m</h3>
                 </v-row>
                 <v-row class="pt-5 pb-5">
                   <v-progress-circular
@@ -118,7 +117,7 @@
                 </v-row>
 
                 <v-row>
-                  <p style="font-size: medium">{{ movie.introduction }}</p>
+                  <p style="font-size: medium">{{ movie.overview }}</p>
                 </v-row>
 
                 <v-row>
@@ -153,14 +152,18 @@
                           class="mx-auto"
                           elevation="1"
                           max-width="400"
-                          style="text-align: center"
+                          style="text-align: center; align-self: center"
                       >
-                        <v-img
-                            :src="item.src" class="actor-photo"
-                        >
-                        </v-img>
+                        <v-card-title>
+                          <v-img
+                              height="250"
+                              aspect-ratio="1"
+                              :src="item.image" class="actor-photo"
+                          >
+                          </v-img>
+                        </v-card-title>
                         <v-card-text class="text--primary" style="padding: 8px ;">
-                          <span>{{ item.name }}</span>
+                          <span>{{ item.celebrity_name }}</span>
                         </v-card-text>
                       </v-card>
                     </li>
@@ -245,15 +248,12 @@
                           </v-container>
                         </v-card-text>
                       </v-card>
-
-
                     </v-list-item>
                   </v-list>
                 </v-card-text>
               </v-card>
 
               <v-divider></v-divider>
-
 
               <v-card style="margin:10px">
                 <v-card-title><h3>媒体</h3></v-card-title>
@@ -335,71 +335,38 @@
 </template>
 
 <script>
+import {queryMovieDetail, queryMovieStaff} from "@/api/movie";
+
 export default {
+  name: "movieDetail",
+  async mounted() {
+    await this.refresh();
+  },
   data() {
     return {
       name: "movieView",
       activeIndex: "tab-1",
       movie: {
-        id: 1,
-        name: "星际穿越",
-        introduction: "世界在历经极端气候与粮食危机，地球濒临末日之际，一位电机工程师与一群专业研究者还有顶尖太空人，" +
-            "扛起人类史上最重要的任务，越过已知的银河，" +
-            "在星际间寻找未来出路。同时必须先割舍无法与家人见面的亲情牵绊，在爱与勇气、生存与挑战中，跨越星际拯救人类。\n",
-        year: 2014,
-        country: "美国",
-        language: "英语",
-        length: 169,
-        score: 8.6,
-        director: "克里斯托弗·诺兰",
-        writer: "乔纳森·诺兰",
-        publisedtime: "2014-11-07",
-        status: "已上映",
-        genres: [
-          "科幻",
-          "冒险",
-          "剧情"
-        ],
-        poster: require('../../assets/interstellar2.png'),
-
+        "id": 1,
+        "movie_name": "摔跤吧！爸爸 Dangal",
+        "overview": "\t马哈维亚（阿米尔·汗 Aamir Khan饰）曾经是一名前途无量的摔跤运动员，在放弃了职业生涯后，他最大的遗憾就是没有能够替国家赢得金牌。马哈维亚将这份希望寄托在了尚未出生的儿子身上，哪知道妻子接连给他生了两个女儿，取名吉塔（法缇玛·萨那·纱卡 Fatima Sana Shaikh饰）和巴比塔（桑亚·玛荷塔 Sanya Malhotra饰）。让马哈维亚没有想到的是，两个姑娘展现出了杰出的摔跤天赋，让他幡然醒悟，就算是女孩，也能够昂首挺胸的站在比赛场上，为了国家和她们自己赢得荣誉。\n\t就这样，在马哈维亚的指导下，吉塔和巴比塔开始了艰苦的训练，两人进步神速，很快就因为在比赛中连连获胜而成为了当地的名人。为了获得更多的机会，吉塔进入了国家体育学院学习，在那里，她将面对更大的诱惑和更多的选择。\n",
+        "release_date": "2016-12-23",
+        "duration": "2H41M",
+        "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2401676338.jpg",
+        "region": "印度",
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "genres": [{"id": 1, "name": "剧情"}, {"id": 2, "name": "家庭"}, {"id": 3, "name": "传记"}, {"id": 4, "name": "运动"}]
       },
       actors: [
-        {
-          name: "马修·麦康纳",
-          src: require('../../assets/maconar.jpg'),
-        },
-        {
-          name: "安妮·海瑟薇",
-          src: require('../../assets/pics/anne.jpg'),
-        },
-        {
-          name: "杰西卡·查斯坦",
-          src: require('../../assets/pics/jessica.jpg'),
-        },
-        {
-          name: "安妮·海瑟薇",
-          src: require('../../assets/pics/anne.jpg'),
-        },
-        {
-          name: "安妮·海瑟薇",
-          src: require('../../assets/pics/anne.jpg'),
-        },
-        {
-          name: "安妮·海瑟薇",
-          src: require('../../assets/pics/anne.jpg'),
-        },
-        {
-          name: "安妮·海瑟薇",
-          src: require('../../assets/pics/anne.jpg'),
-        },
-        {
-          name: "安妮·海瑟薇",
-          src: require('../../assets/pics/anne.jpg'),
-        },
-
+        {"id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
+          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p39941.jpg",
+          "birthday": "1956年12月15日", "place_of_birth":
+              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"},
+        {"id": 86, "celebrity_name": "迈克尔·刘易斯 Michael Lewis", "biography": "",
+          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p1453114346.61.jpg", "birthday":
+              "+1960年10月15日", "place_of_birth": "美国,路易斯安那州,新奥尔良", "gender": 1, "career": "编剧"}
       ],
-
-
       reviewHeaders: [
         {text: "头像", value: "avatar"},
         {text: "标题", value: "title"},
@@ -459,6 +426,17 @@ export default {
     };
   },
   methods: {
+    async refresh() {
+      let response = await queryMovieDetail('', this.$route.params.id);
+      if (response.status === 200) {
+        this.movie = response.data;
+      }
+      response = await queryMovieStaff('', this.$route.params.id);
+      if (response.status === 200) {
+        this.actors = response.data.celebrities;
+      }
+      console.log(this.actors)
+    },
     jumpToDiscussion() {
       this.$router.push('/moviereview');
     },
