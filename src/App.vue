@@ -103,8 +103,8 @@
           </v-container>
 
           <template v-slot:extension v-if="searchBox">
-            <v-text-field></v-text-field>
-            <v-btn icon>
+            <v-text-field v-model="query"></v-text-field>
+            <v-btn icon @click="searchNow">
               <v-icon>
                 mdi-movie-search
               </v-icon>
@@ -112,7 +112,7 @@
           </template>
         </v-app-bar>
         <v-main>
-          <router-view/>
+          <router-view @showSearchBar="showSearchBar"/>
         </v-main>
     </v-app>
   </div>
@@ -125,6 +125,7 @@ export default {
 
   data () {
     return {
+      query: '',
       searchBox: false,
     }
   },
@@ -135,6 +136,13 @@ export default {
     };
   },
   methods: {
+    searchNow() {
+      this.$router.push('/search/movie?query=' + this.query);
+    },
+    showSearchBar(query_word) {
+      this.searchBox = true;
+      this.query = query_word;
+    },
     changeColor() {
       if (
           document.body.scrollTop > 100 ||

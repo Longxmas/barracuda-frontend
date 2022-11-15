@@ -6,10 +6,9 @@
       <v-tab @click="jumpToComment" :href="`#tab-3`">短评区</v-tab>
       <v-tab :href="`#tab-4`">影评区</v-tab>
     </v-tabs>
+
     <v-tabs-items v-model="activeIndex">
-      <v-tab-item :value="`tab-1`"></v-tab-item>
-      <v-tab-item :value="`tab-2`"></v-tab-item>
-      <v-tab-item :value="`tab-3`">
+      <v-tab-item :value="`tab-4`">
         <v-container fluid style="width: 90%; margin-top: 10px; margin-left: 50px">
         <h1>快来发表看法吧~</h1>
         <v-container fluid>
@@ -73,7 +72,7 @@ export default {
         {
           text: '电影名称',
           disabled: false,
-          href: '/moviereview',
+          href: '/movie/'+this.$route.params.id,
         }
       ],
       discussionHeaders: [
@@ -102,13 +101,13 @@ export default {
   },
   methods: {
     jumpToOverView() {
-      this.$router.push('/movie');
+      this.$router.push('/movie/'+this.$route.params.id);
     },
     jumpToMedia() {
-      this.$router.push('/moviemedia');
+      this.$router.push('/movie/'+this.$route.params.id+'/media/images');
     },
     jumpToComment() {
-      this.$router.push('/moviecomment');
+      this.$router.push('/movie/'+this.$route.params.id+'/comment');
     }
   },
   computed: {

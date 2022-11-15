@@ -8,7 +8,10 @@ import vuetify from './plugins/vuetify'
 import Axios from 'axios'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import videoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 
+Vue.use(videoPlayer)
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 

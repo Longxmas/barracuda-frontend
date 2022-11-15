@@ -393,12 +393,6 @@
           </v-row>
         </v-container>
       </v-tab-item>
-      <v-tab-item :value="`tab-2`"> <!--媒体部分-->
-        <h1> 媒体 </h1>
-      </v-tab-item>
-      <v-tab-item :value="`tab-3`"> <!--影评部分-->
-        <h1> 影评 </h1>
-      </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
@@ -558,7 +552,7 @@ export default {
       this.$router.push('/movie/'+this.$route.params.id+'/review');
     },
     jumpToMedia() {
-      this.$router.push('/movie/'+this.$route.params.id+'/media');
+      this.$router.push('/movie/'+this.$route.params.id+'/media/images');
     },
     jumpToComment() {
       this.$router.push('/movie/'+this.$route.params.id+'/comment');
