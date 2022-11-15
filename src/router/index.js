@@ -49,7 +49,7 @@ const routes = [
     component: loginView
   },
   {
-    path: '/actor',
+    path: '/actor/:id',
     name: 'actor',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -67,8 +67,8 @@ const routes = [
     component: allMovieView
   },
   {
-    path: '/allactor',
-    name: 'allactor',
+    path: '/actor',
+    name: 'allActor',
     component: allActorView
   },
   {

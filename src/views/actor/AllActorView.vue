@@ -10,19 +10,19 @@
             <v-col v-for="actor in actors"
                    :key="actor.id"
                    >
-              <v-card max-width="220px">
-                <v-img :src="actor.photo"
+              <v-card max-width="220px" :href="'/actor/' + actor.id">
+                <v-img :src="actor.image"
                         contain
                 >
                 </v-img>
                 <v-card-title>
-                  {{ actor.name }}
+                  {{ actor.celebrity_name }}
                 </v-card-title>
                 <v-card-subtitle>
                   {{ actor.birthday }}
                 </v-card-subtitle>
                 <v-card-text>
-                  {{ actor.masterpiece }}
+                  {{ actor.career }}
                 </v-card-text>
               </v-card>
             </v-col>
@@ -53,122 +53,48 @@
 </template>
 
 <script>
+import {queryAllCelebrities} from "@/api/celebrity";
+
 export default {
   name: 'allActorView',
+  async mounted() {
+    await this.refresh();
+  },
   data() {
     return {
       name: "allActorView",
       actors: [
         {
-          id: 1,
-          name: "Angeli Khang",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/jhNtIfmSlzsyQlo94BibQ2WIa7N.jpg",
-          masterpiece: '清纯人妻, Eva, Mahjong Nights'
+          "id": 1,
+          "celebrity_name": "涅提·蒂瓦里 Nitesh Tiwari",
+          "biography": "",
+          "image": "https://img9.doubanio.com/view/celebrity/raw/public/p1484120321.24.jpg",
+          "birthday": "",
+          "place_of_birth": "",
+          "gender": 1,
+          "career": "编剧 / 导演 / 制片人"
         },
         {
-          id: 2,
-          name: "Joey King",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/kL0lWLJA6lbvmPM3YL0ISE6rVr6.jpg",
-          masterpiece: '亲吻亭, 亲吻亭2, 恶行'
+          "id": 2,
+          "celebrity_name": "比于什·古普塔 Piyush Gupta",
+          "biography": "",
+          "image": "https://img1.doubanio.com/view/celebrity/raw/public/p1498636219.48.jpg",
+          "birthday": "",
+          "place_of_birth": "",
+          "gender": 1,
+          "career": "编剧"
         },
-        {
-          id: 3,
-          name: "Min Do-yoon",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/bHHn3krbHyxQIWb4JbHkPlV6Uu1.jpg",
-          masterpiece: '女老师3, 聊天软件：姐姐的口'
-        },
-        {
-          id: 4,
-          name: "Chloë Grace Moretz",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/j9d4i2xsLGUhwpuy5y0fkx1qAcz.jpg",
-          masterpiece: '第五波, 海扁王, 魔女嘉莉'
-        },
-        {
-          id: 5,
-          name: "Chloë Grace Moretz",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/j9d4i2xsLGUhwpuy5y0fkx1qAcz.jpg",
-          masterpiece: '第五波, 海扁王, 魔女嘉莉'
-        },
-        {
-          id: 1,
-          name: "Angeli Khang",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/jhNtIfmSlzsyQlo94BibQ2WIa7N.jpg",
-          masterpiece: '清纯人妻, Eva, Mahjong Nights'
-        },
-        {
-          id: 2,
-          name: "Joey King",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/kL0lWLJA6lbvmPM3YL0ISE6rVr6.jpg",
-          masterpiece: '亲吻亭, 亲吻亭2, 恶行'
-        },
-        {
-          id: 3,
-          name: "Min Do-yoon",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/bHHn3krbHyxQIWb4JbHkPlV6Uu1.jpg",
-          masterpiece: '女老师3, 聊天软件：姐姐的口'
-        },
-        {
-          id: 4,
-          name: "Chloë Grace Moretz",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/j9d4i2xsLGUhwpuy5y0fkx1qAcz.jpg",
-          masterpiece: '第五波, 海扁王, 魔女嘉莉'
-        },
-        {
-          id: 5,
-          name: "Chloë Grace Moretz",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/j9d4i2xsLGUhwpuy5y0fkx1qAcz.jpg",
-          masterpiece: '第五波, 海扁王, 魔女嘉莉'
-        },
-        {
-          id: 1,
-          name: "Angeli Khang",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/jhNtIfmSlzsyQlo94BibQ2WIa7N.jpg",
-          masterpiece: '清纯人妻, Eva, Mahjong Nights'
-        },
-        {
-          id: 2,
-          name: "Joey King",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/kL0lWLJA6lbvmPM3YL0ISE6rVr6.jpg",
-          masterpiece: '亲吻亭, 亲吻亭2, 恶行'
-        },
-        {
-          id: 3,
-          name: "Min Do-yoon",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/bHHn3krbHyxQIWb4JbHkPlV6Uu1.jpg",
-          masterpiece: '女老师3, 聊天软件：姐姐的口'
-        },
-        {
-          id: 4,
-          name: "Chloë Grace Moretz",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/j9d4i2xsLGUhwpuy5y0fkx1qAcz.jpg",
-          masterpiece: '第五波, 海扁王, 魔女嘉莉'
-        },
-        {
-          id: 5,
-          name: "Chloë Grace Moretz",
-          birthday: "未知",
-          photo: "https://www.themoviedb.org/t/p/w235_and_h235_face/j9d4i2xsLGUhwpuy5y0fkx1qAcz.jpg",
-          masterpiece: '第五波, 海扁王, 魔女嘉莉'
-        }
       ]
     };
   },
   methods: {
-
+    async refresh() {
+      let response = await queryAllCelebrities('');
+      if (response.status === 200) {
+        this.actors = response.data;
+      }
+      console.log(this.actors);
+    }
   },
   computed: {
 

@@ -6,6 +6,7 @@
             color="bg"
             dark
             hide-on-scroll
+            absolute
         >
           <v-container fluid>
             <v-row>
@@ -35,7 +36,7 @@
 
               <v-col cols="1" class="mx-0 pl-0" align-self="center">
                 <v-card style="background-color: transparent" flat>
-                  <a href="/allActor" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                  <a href="/actor" style="width: 80px; text-decoration: none; color: #ff8d1a;">
                     <v-card-text class="text-center text-h6" style="padding-top: 30px; width: 80px">
                       <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23px">人物</p>
                     </v-card-text>
@@ -172,11 +173,6 @@ export default {
   /* font-properties */
   font-family: 'source-sans-pro-bold';
   src:url('assets/fonts/SourceSansPro-Bold.ttf');
-}
-
-.title-text {
-  padding-top: 25px ;
-  font-family: YouSheBiaoTi,sans-serif;
 }
 
 h3 {

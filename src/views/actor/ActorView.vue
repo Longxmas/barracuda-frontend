@@ -13,7 +13,7 @@
                 class="white--text align-end"
                 height="450px"
                 width="350px"
-                src="../../assets/maconar.jpg"
+                :src="actor_information.image"
             >
             </v-img>
 
@@ -69,7 +69,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   性别
                 </v-chip>
-                <v-card-text align="right"> {{ actor_information.sex }}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.gender === 1 ? '男' : '女'}}</v-card-text>
               </v-list-item>
 
               <v-list-item>
@@ -81,7 +81,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   出生日期
                 </v-chip>
-                <v-card-text align="right"> {{ actor_information.birthtime }}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.birthday }}</v-card-text>
               </v-list-item>
 
               <v-list-item>
@@ -93,7 +93,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   出生地
                 </v-chip>
-                <v-card-text align="right"> {{ actor_information.birthplace }}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.place_of_birth }}</v-card-text>
               </v-list-item>
 
               <v-list-item>
@@ -119,9 +119,7 @@
 
           >
             <v-card-text class="actor-name">
-              马修·麦康纳
-              <p></p>
-              Matthew McConaughey
+              {{ actor_information.celebrity_name}}
             </v-card-text>
 
             <p></p>
@@ -129,12 +127,7 @@
 
             <v-card-text>
               <p class="personal-introduction-title">个人简介 </p>
-              <p class="personal-introduction"> 马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，
-                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，
-                在1992年执导了一部短片。在早期马修·麦康纳的表演生涯中，他只是饰演一些追逐女孩子的花花公子角色，
-                在1994年的电影《德州电锯杀人狂 4》饰演一个阴郁疯狂的嗜血杀手，开始转变戏路。在2000年他参与了电影《猎杀U-571》的表演。
-                马修·麦康纳同是还在喜剧片中出演角色，如《缘分没法挡》、《十日拍拖手册》，他觉得最有意思的银幕角色是在《火焰末日》扮演一名美国战士。
-                近两年麦康纳又出演了《撒哈拉骑兵》、《利欲两心》、《赖家王老五》等商业片，知名度和影响力直线上升。</p>
+              <p class="personal-introduction"> {{actor_information.biography}} </p>
             </v-card-text>
 
 
@@ -153,6 +146,7 @@
                         v-for="(item,i) in movies"
                         :key="i">
                       <v-card
+                          :href="'/movie/' + item.id"
                           elevation="0"
                           style="margin-right: 10px">
                         <v-scale-transition>
@@ -160,12 +154,12 @@
                               height="400px"
                               max-height="400px"
                               width="300px"
-                              :src="item.src"
+                              :src="item.image"
 
                           ></v-img>
                         </v-scale-transition>
                         <v-card-text style="text-align: center">
-                          <span style="font-family: 黑体, serif; font-size: 20px; color: #0b1c22">{{ item.name }}</span>
+                          <span style="font-family: 黑体, serif; font-size: 20px; color: #0b1c22">{{ item.movie_name }}</span>
                         </v-card-text>
                       </v-card>
                     </v-slide-item>
@@ -180,28 +174,30 @@
               <p class="personal-introduction-title"> 影人图片 </p>
               <p></p>
 
-              <ul class="photo-ul">
-                <li v-for="(item,i) in photos"
-                    :key="i"
-                    class="parent_center">
-                  <v-card
-                      class="mx-auto"
-                      elevation="0"
-                      max-width="400"
-                      style="text-align: center"
-                  >
-                    <v-img
-                        :src="item.src" class="actor-photo"
+              <v-container fluid class="pl-0 ml-0">
+                <ul class="photo-ul">
+                  <li v-for="(item,i) in photos"
+                      :key="i"
+                      class="parent_center">
+                    <v-card
+                        class="mx-auto"
+                        elevation="0"
+                        style="text-align: center"
                     >
-                    </v-img>
+                      <img
+                          alt="影人图片"
+                          style="border-radius: 0;"
+                          :style="calculateImageFitPattern(300, item.image_path)"
+                          :src="item.image_path"
+                      />
 
-                    <v-card-text class="text--primary" style="padding: 1px !important;">
-                      <div>{{ item.name }}</div>
-                    </v-card-text>
-                  </v-card>
-                </li>
-              </ul>
-
+                      <v-card-text class="text--primary" style="padding: 1px !important;">
+                        <div>{{ item.name }}</div>
+                      </v-card-text>
+                    </v-card>
+                  </li>
+                </ul>
+              </v-container>
 
             </v-card-text>
 
@@ -217,16 +213,18 @@
                   <v-card
                       class="mx-auto"
                       elevation="0"
-                      max-width="400"
                       style="text-align: center"
+                      :href="'/actor/' + item.id"
                   >
-                    <v-img
-                        :src="item.src" class="actor-photo"
-                    >
-                    </v-img>
+                    <img
+                        alt="合作过的影人"
+                        style="border-radius: 0;"
+                        :style="calculateImageFitPattern(400,item.image)"
+                        :src="item.image"
+                    />
 
                     <v-card-text class="text--primary" style="padding: 1px !important;">
-                      <div>{{ item.name }}</div>
+                      <div>{{ item.celebrity_name }}</div>
                     </v-card-text>
                   </v-card>
                 </li>
@@ -250,34 +248,38 @@
 </template>
 
 <script>
+import {
+  queryCelebrityCooperation,
+  queryCelebrityDetail,
+  queryCelebrityImages,
+  queryCelebrityMovies
+} from "@/api/celebrity";
+
 export default {
-  name: "ActorView.vue",
+  name: "actorView",
   data() {
     return {
       actor_information: {
-        id: 1,
-        name:'马修·麦康纳',
-        sex: "男",
-        birthtime: "1969年11月04日",
-        birthplace: "美国,得克萨斯州,尤瓦尔迪",
-        career: "演员/制片人/配音",
-        imdbCode: "nm0000190",
+        "id": 5,
+        "celebrity_name": "阿米尔·汗 Aamir Khan",
+        "biography": "\t阿米尔·汗，印度著名男演员。8岁时出演一部轰动印度全国的电影，是公认的很有前途的童星，但长大后他却坚决不愿从影，而一心去打网球，而且打得还不错，曾经获得过马哈拉施特拉邦的网球冠军。随着年纪的增长，才抛弃网球重回大银幕。阿米尔的罗曼史就是一部电影的好题材。\n\t他21岁的时候爱上了邻居家的女孩，但由于宗教原因（女孩家是印度教徒，他是一个正统的穆斯林），两方家长都坚决反对这桩婚事，两个年轻人决定私奔。现在他们过着幸福美满的生活，甚至常常被印度政府和印度政党拿来当作印度教和穆斯林和睦相处的典范。\n\t2006年元旦，象征新年开始的一个节日，印度“阿汤哥”阿米尔这一天在印度西部山区度假村举行婚礼，迎娶第二任妻子基琳·拉奥。41岁的阿米尔汗将与拉奥完婚。\n\t2001年阿米尔·汗出演的《印度往事》曾获得了奥斯卡最佳外语片提名。2005年，制作了电影《KetanMehta's The Rising》(2005)。2007年，阿米尔·汗开始尝试导演一职，并因导演影片《Taare Zameen par》获得Filmfare电影节最佳导演奖 。\n",
+        "image": "https://img1.doubanio.com/view/celebrity/raw/public/p13628.jpg",
+        "birthday": "1965年03月14日",
+        "place_of_birth": "印度,孟买",
+        "gender": 1,
+        "career": "演员 / 制片人 / 导演 / 编剧 / 配音"
       },
-
       movies: [
         {
-          name: "星际穿越",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "真探",
-          src: require("../../assets/p2.webp"),
-        },
-        {
-          name: "真探",
-          src: require("../../assets/background.jpg"),
-        },
-
+          "id": 54,
+          "movie_name": "地球上的星星 Taare Zameen Par",
+          "overview": "\t对于8岁的男孩伊夏（达席尔·萨法瑞 Darsheel Safary饰）来说，世界是充满了惊奇和快乐的万花筒，他正在用一切他能够想到的方式和这个陌生的世界进行着交流，同时也充分的享受着大地万物慷慨的赠与。可是，这样的伊夏却是成年人眼中的问题儿童，他的成绩不好，在班上的排名靠后，脑子里还充满了各种匪夷所思的鬼点子，在又一次闯下大祸后，忍无可忍的父母将他送往了寄宿学校。\n\t虽然伊夏的新生活并没有什么改变，但在内心里，和父母分离的生活让他感到闷闷不乐，这时，一位名叫尼克（阿米尔·汗 Aamir Khan饰）的美术老师走进了他的生活。和以往所见到的固守成规的老师不同，尼克主张让学生们保留自己的个性和思想，自由的发展。在和尼克相处的日子里，伊夏和尼克都慢慢的成熟了起来。\n", "release_date": "2007-12-21",
+          "duration": "2H45M",
+          "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2197897857.jpg",
+          "region": "印度",
+          "vote_average": 0.0,
+          "vote_count": 0
+        }
       ],
 
       photos: [
@@ -298,67 +300,78 @@ export default {
 
       partners: [
         {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
+          "id": 1,
+          "celebrity_name": "涅提·蒂瓦里 Nitesh Tiwari",
+          "biography": "",
+          "image": "https://img9.doubanio.com/view/celebrity/raw/public/p1484120321.24.jpg",
+          "birthday": "",
+          "place_of_birth": "",
+          "gender": 1,
+          "career": "编剧 / 导演 / 制片人"
         },
         {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          name: "麦克雷",
-          src: require("../../assets/interstellar2.png"),
-        },
+          "id": 2,
+          "celebrity_name": "比于什·古普塔 Piyush Gupta",
+          "biography": "",
+          "image": "https://img1.doubanio.com/view/celebrity/raw/public/p1498636219.48.jpg",
+          "birthday": "",
+          "place_of_birth": "",
+          "gender": 1,
+          "career": "编剧"
+        }
       ]
     }
   },
 
 
   methods: {
+    async refresh() {
+      let response = await queryCelebrityDetail('', this.$route.params.id);
+      if (response.status === 200) {
+        this.actor_information = response.data;
+      }
+      response = await queryCelebrityImages('', this.$route.params.id);
+      if (response.status === 200) {
+        this.photos = response.data.images;
+      }
+      response = await queryCelebrityCooperation('', this.$route.params.id);
+      if (response.status === 200) {
+        this.partners = response.data.celebrities;
+      }
+      response = await queryCelebrityMovies('', this.$route.params.id);
+      if (response.status === 200) {
+        this.movies = response.data.movies;
+      }
+      console.log(this.photos)
+    },
     starActor() {
       alert('关注成功！')
     },
     deleteStarActor() {
       alert('您已取消关注！')
     },
+    calculateImageFitPattern(fixedHeight, src) {
+      let imgObj = new Image();
+      imgObj.src = src;
+      let ratio = imgObj.width / imgObj.height;
+      return "width: " + fixedHeight * ratio + "px; height: " + fixedHeight + "px;";
+    },
+    async calculateImageWidthPattern(fixedHeight, src) {
+      let imgObj = new Image();
+      imgObj.src = src;
+      let ratio = imgObj.width / imgObj.height;
+      return fixedHeight * ratio;
+    },
   },
 
-  mounted() {
+  computed: {
+  },
+
+  async mounted() {
+    await this.refresh();
   }
 }
 </script>
-
-<style scoped>
-
-</style>
 
 <style>
 .actor-view{
@@ -408,18 +421,6 @@ export default {
 .parent_center {
   display: flex;
   justify-content: center;
-}
-
-.movie_photo {
-  align-self: center;
-  height: 400px !important;
-  width: 300px !important;
-  align-content: center;
-}
-
-.actor-photo {
-  height: 200px;
-  width: 130px;
 }
 
 .photo-ul {

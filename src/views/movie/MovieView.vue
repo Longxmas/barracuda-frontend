@@ -80,7 +80,7 @@
 
                       <v-card>
                         <v-card-text>
-                          <p2 class="pl-3" style="color: black; font-size: medium">评个分吧</p2>
+                          <h2 class="pl-3" style="color: black; font-size: medium">评个分吧</h2>
                           <br>
                           <v-rating
                               v-model="rating"
@@ -144,30 +144,28 @@
               <v-card style="margin:10px" elevation="0">
                 <v-card-title><h3>主演</h3></v-card-title>
                 <v-card-text>
-                  <ul class="photo-ul ml-0 pl-0 " style="width: 100%">
+
+                  <ul class="poster-ul">
                     <li v-for="(item,i) in actors"
                         :key="i"
-                        class="parent_center">
+                        style="display: inline-block; height: 340px">
                       <v-card
-                          class="mx-auto"
-                          elevation="1"
-                          max-width="400"
-                          style="text-align: center; align-self: center"
+                          elevation="0"
+                          style="border-radius: 0"
+                          :href="'/actor/'+item.id"
                       >
-                        <v-card-title>
-                          <v-img
-                              height="250"
-                              aspect-ratio="1"
-                              :src="item.image" class="actor-photo"
-                          >
-                          </v-img>
-                        </v-card-title>
-                        <v-card-text class="text--primary" style="padding: 8px ;">
-                          <span>{{ item.celebrity_name }}</span>
+                        <img
+                            alt="主演"
+                            :src="item.image"
+                            style="border-radius: 0;"
+                            :style="calculateImageFitPattern(300,item.image)"/>
+                        <v-card-text class="text--primary" style="padding: 8px; text-align: center">
+                          <span>{{ item.celebrity_name}}</span>
                         </v-card-text>
                       </v-card>
                     </li>
                   </ul>
+
                   <a><h3 style="color: black" class="mt-5">完整演职人员表</h3></a>
                 </v-card-text>
               </v-card>
@@ -268,11 +266,11 @@
                             elevation="10"
                             style="border-radius: 0"
                         >
-                          <v-img
+                          <img
+                              alt="媒体"
                               :src="item.src"
                               style="border-radius: 0;"
-                              :style="caculateImageFitPattern(400,item.src)">
-                          </v-img>
+                              :style="calculateImageFitPattern(400,item.src)">
                         </v-card>
                       </li>
                     </ul>
@@ -517,7 +515,7 @@ export default {
       alert("点赞成功");
       review.like_count += 1;
     },
-    caculateImageFitPattern(fixedHeight, src) {
+    calculateImageFitPattern(fixedHeight, src) {
       let imgObj = new Image();
       imgObj.src = src;
       let ratio = imgObj.width / imgObj.height;
@@ -530,16 +528,6 @@ export default {
 </script>
 
 <style scoped>
-
-
-.circle {
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 5px;
-}
 
 .poster-ul {
   overflow-x: scroll;
