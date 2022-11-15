@@ -14,7 +14,7 @@
             <v-col cols="3">
               <v-img
                   min-height="400px"
-                  max-height="800px"
+                  max-height="1000px"
                   aspect-ratio="0.75"
                   contain
                   :src=movie.image
@@ -26,7 +26,7 @@
               <v-card-text>
                 <v-row style="height:50px" class="mt-3 pb-0">
                   <h1 style="font-size: 40px">{{ movie.movie_name }}</h1>
-                  <h1 style="font-size: 40px; color: dimgray">({{ movie.release_date.substring(0,4) }})</h1>
+                  <h1 style="font-size: 40px; color: dimgray">({{ movie.release_date.substring(0, 4) }})</h1>
                 </v-row>
                 <v-row>
                   <h3 class="mt-2">{{ movie.release_date }} ({{ movie.region }})</h3>
@@ -34,7 +34,8 @@
                   <h3 v-for="(tag,k) in movie.genres" :key="k">
                     <v-chip class="mt-0">
                       {{ tag.name }}
-                    </v-chip>&ensp;</h3>
+                    </v-chip>&ensp;
+                  </h3>
                   <h1 class="mt-2">·</h1>
                   <h3 class="mt-2">2h 49m</h3>
                 </v-row>
@@ -282,20 +283,69 @@
 
               <v-divider></v-divider>
 
-              <v-card style="margin:10px" elevation="0">
+              <v-card style="margin-top: 10px; overflow: scroll; min-width: 1000px" elevation="0">
                 <v-card-title><h3>精选短评</h3></v-card-title>
-                <v-card-text>
+                <v-card-text class="pl-0 ml-0 pb-0 mb-0">
 
-                  <v-container fluid class="pl-0 ml-0">
-                      <v-list>
-                        <v-list-item
+                  <v-container fluid class="pl-0 ml-0 pt-0 mt-0">
+                    <v-list class="py-0">
+                      <v-list-item
                           v-for="(comment, i) in ratings"
-                          :key = i>
-                            <v-card>
-                              {{comment.introduction}}
-                            </v-card>
-                        </v-list-item>
-                      </v-list>
+                          :key=i
+                          :class=judgePosition(i)>
+                        <v-container>
+                          <v-row :class="judgePosition(i)">
+                            <v-col cols="1" class="px-0">
+                              <v-avatar tile class="ml-5 pt-2">
+                                <v-img :src="comment.avatar"></v-img>
+                              </v-avatar>
+                            </v-col>
+                            <v-col :class="judgePosition(i)" class="mx-1">
+                              <v-card elevation="2" class="mb-0 mx-0" width="60%">
+                                <v-card-text class="pa-0">
+                                  <v-container fluid>
+                                    <v-row>
+                                      <v-col class="pl-0 ">
+                                        <v-container fluid>
+
+                                          <v-row class="pl-0 " :class=judgePosition(i)>
+                                            <a style="font-size: 16px" class="my-auto pl-3">{{ comment.user }}</a>
+                                            <v-rating class="my-auto pl-3"
+                                                      :value="comment.rating" color="amber" dense
+                                                      half-increments readonly
+                                                      size="18">
+                                            </v-rating>
+                                            <span class="my-auto pl-3">{{ comment.time }}</span>
+                                          </v-row>
+
+                                          <v-row class="pt-2 pl-3 pr-2" :class=judgePosition(i)>
+                                            <p style="text-overflow: ellipsis;
+                                        overflow: hidden;
+                                        display: -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 3;
+                                        line-height: 15px;
+                                        max-height: 45px;
+                                        font-family: 微软雅黑,serif;
+                                        font-size: 14px;
+                                        color: dimgray;
+                                        margin-bottom: 0">
+                                              {{ comment.introduction }} </p>
+                                          </v-row>
+
+                                        </v-container>
+                                      </v-col>
+                                    </v-row>
+                                  </v-container>
+                                </v-card-text>
+                              </v-card>
+                            </v-col>
+
+                          </v-row>
+                        </v-container>
+
+                      </v-list-item>
+                    </v-list>
                   </v-container>
 
 
@@ -375,16 +425,23 @@ export default {
         "region": "印度",
         "vote_average": 0.0,
         "vote_count": 0,
-        "genres": [{"id": 1, "name": "剧情"}, {"id": 2, "name": "家庭"}, {"id": 3, "name": "传记"}, {"id": 4, "name": "运动"}]
+        "genres": [{"id": 1, "name": "剧情"}, {"id": 2, "name": "家庭"}, {"id": 3, "name": "传记"}, {
+          "id": 4,
+          "name": "运动"
+        }]
       },
       actors: [
-        {"id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
+        {
+          "id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
           "image": "https://img2.doubanio.com/view/celebrity/raw/public/p39941.jpg",
           "birthday": "1956年12月15日", "place_of_birth":
-              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"},
-        {"id": 86, "celebrity_name": "迈克尔·刘易斯 Michael Lewis", "biography": "",
+              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"
+        },
+        {
+          "id": 86, "celebrity_name": "迈克尔·刘易斯 Michael Lewis", "biography": "",
           "image": "https://img2.doubanio.com/view/celebrity/raw/public/p1453114346.61.jpg", "birthday":
-              "+1960年10月15日", "place_of_birth": "美国,路易斯安那州,新奥尔良", "gender": 1, "career": "编剧"}
+              "+1960年10月15日", "place_of_birth": "美国,路易斯安那州,新奥尔良", "gender": 1, "career": "编剧"
+        }
       ],
       reviewHeaders: [
         {text: "头像", value: "avatar"},
@@ -442,7 +499,7 @@ export default {
           src: require('../../assets/pics/spiderman.jpg'),
         }
       ],
-      ratings : [
+      ratings: [
         {
           id: 1,
           avatar: require("../../assets/pics/anne.jpg"),
@@ -454,7 +511,14 @@ export default {
         {
           id: 1,
           avatar: require("../../assets/pics/anne.jpg"),
-          introduction: "最强科幻片不过如此",
+          introduction: "最强科幻片不过如此 最强科幻片不过如此 最强科幻片不过如此" +
+              "最强科幻片不过如此" +
+              "最强科幻片不过如此" +
+              "最强科幻片不过如此" +
+              "最强科幻片不过如此" +
+              "最强科幻片不过如此" +
+              "最强科幻片不过如此最强科幻片不过如此最强科幻片不过如此最强科幻片不过如此最强科幻片不过如此" +
+              "最强科幻片不过如此",
           rating: 4.0,
           time: "2022-10-12",
           user: "user2",
@@ -521,6 +585,13 @@ export default {
       let ratio = imgObj.width / imgObj.height;
       return "width: " + fixedHeight * ratio + "px; height: " + fixedHeight + "px;";
     },
+    judgePosition(i) {
+      if (i % 2 === 0) {
+        return "d-flex flex-row-reverse";
+      } else {
+        return "d-flex flex-row"
+      }
+    }
   },
   computed: {},
 }
