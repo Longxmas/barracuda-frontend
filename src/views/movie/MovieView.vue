@@ -255,11 +255,11 @@
 
               <v-divider></v-divider>
 
-              <v-card style="margin:10px">
+              <v-card style="margin:10px" elevation="0">
                 <v-card-title><h3>媒体</h3></v-card-title>
                 <v-card-text>
 
-                  <v-container fluid>
+                  <v-container fluid class="pl-0 ml-0">
                     <ul class="poster-ul">
                       <li v-for="(item,i) in pictures"
                           :key="i"
@@ -277,13 +277,34 @@
                       </li>
                     </ul>
                   </v-container>
+                  <a><h3 style="color: black" class="mt-5">查看全部媒体</h3></a>
+
+                </v-card-text>
+              </v-card>
+
+              <v-divider></v-divider>
+
+              <v-card style="margin:10px" elevation="0">
+                <v-card-title><h3>精选短评</h3></v-card-title>
+                <v-card-text>
+
+                  <v-container fluid class="pl-0 ml-0">
+                      <v-list>
+                        <v-list-item
+                          v-for="(comment, i) in ratings"
+                          :key = i>
+                            <v-card>
+                              {{comment.introduction}}
+                            </v-card>
+                        </v-list-item>
+                      </v-list>
+                  </v-container>
 
 
                 </v-card-text>
-                <v-card-actions>
-                  <v-btn>查看全部媒体</v-btn>
-                </v-card-actions>
               </v-card>
+
+
             </v-col>
             <v-col cols="3">
               <v-card style="margin:20px; overflow: hidden" class="pt-11" elevation="0">
@@ -421,6 +442,40 @@ export default {
         },
         {
           src: require('../../assets/pics/spiderman.jpg'),
+        }
+      ],
+      ratings : [
+        {
+          id: 1,
+          avatar: require("../../assets/pics/anne.jpg"),
+          introduction: "最强科幻片不过如此",
+          rating: 4.0,
+          time: "2022-10-12",
+          user: "user2",
+        },
+        {
+          id: 1,
+          avatar: require("../../assets/pics/anne.jpg"),
+          introduction: "最强科幻片不过如此",
+          rating: 4.0,
+          time: "2022-10-12",
+          user: "user2",
+        },
+        {
+          id: 1,
+          avatar: require("../../assets/pics/anne.jpg"),
+          introduction: "最强科幻片不过如此",
+          rating: 4.0,
+          time: "2022-10-12",
+          user: "user2",
+        },
+        {
+          id: 1,
+          avatar: require("../../assets/pics/anne.jpg"),
+          introduction: "最强科幻片不过如此",
+          rating: 4.0,
+          time: "2022-10-12",
+          user: "user2",
         }
       ]
     };
