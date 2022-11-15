@@ -82,13 +82,13 @@ const routes = [
     component: reviewHomeView
   },
   {
-    path: '/moviereview',
-    name: 'moviereview',
+    path: '/movie/:id/review',
+    name: 'movieReview',
     component: reviewMovieView
   },
   {
-    path: '/reviewdetail',
-    name: 'reviewdetail',
+    path: '/review/:id',
+    name: 'reviewDetail',
     component: reviewDetail
   },
   {

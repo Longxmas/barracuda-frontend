@@ -25,7 +25,7 @@
               </v-col>
 
               <v-col cols="1" class="mx-0 pl-0" align-self="center">
-                <v-card style="background-color: transparent" flat>
+                <v-card style="background-color: transparent" flat class="mt-0">
                   <a href="/movie" style="width: 80px; text-decoration: none; color: #ff8d1a;">
                     <v-card-text class="text-center text-h6" style="padding-top: 30px; width: 80px">
                       <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23px">电影</p>

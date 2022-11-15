@@ -219,7 +219,7 @@
                     <img
                         alt="合作过的影人"
                         style="border-radius: 0;"
-                        :style="calculateImageFitPattern(400,item.image)"
+                        :style="calculateImageFitPattern(300,item.image)"
                         :src="item.image"
                     />
 

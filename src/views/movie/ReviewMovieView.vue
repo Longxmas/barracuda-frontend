@@ -3,7 +3,8 @@
     <v-tabs centered v-model="activeIndex">
       <v-tab @click="jumpToOverView" :href="`#tab-1`">概览</v-tab>
       <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
-      <v-tab :href="`#tab-3`">讨论区</v-tab>
+      <v-tab @click="jumpToComment" :href="`#tab-3`">短评区</v-tab>
+      <v-tab :href="`#tab-4`">影评区</v-tab>
     </v-tabs>
     <v-tabs-items v-model="activeIndex">
       <v-tab-item :value="`tab-1`"></v-tab-item>
@@ -62,7 +63,7 @@ export default {
   name: 'reviewMovieView',
   data() {
     return {
-      activeIndex: 'tab-3',
+      activeIndex: 'tab-4',
       breadcrumbs_items: [
         {
           text: '电影',
@@ -105,6 +106,9 @@ export default {
     },
     jumpToMedia() {
       this.$router.push('/moviemedia');
+    },
+    jumpToComment() {
+      this.$router.push('/moviecomment');
     }
   },
   computed: {

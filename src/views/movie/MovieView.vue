@@ -3,8 +3,8 @@
     <v-tabs centered v-model="activeIndex">
       <v-tab :href="`#tab-1`">概览</v-tab>
       <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
-      <v-tab @click="jumpToDiscussion" :href="`#tab-3`">短评区</v-tab>
-      <v-tab @click="jumpToDiscussion" :href="`#tab-3`">影评区</v-tab>
+      <v-tab @click="jumpToComment" :href="`#tab-3`">短评区</v-tab>
+      <v-tab @click="jumpToReview" :href="`#tab-4`">影评区</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="activeIndex">
@@ -59,7 +59,7 @@
                       dark
                       color="primary"
                       text-color="white"
-                      @click="starmovie"
+                      @click="starMovie"
                   >
                     收藏
                     <v-icon right :color="heart_color">mdi-heart</v-icon>
@@ -554,17 +554,16 @@ export default {
       }
       console.log(this.actors)
     },
-    jumpToDiscussion() {
-      this.$router.push('/moviereview');
-    },
-    jumpToReview(review) {
-      alert("正在跳转到影评")
-      this.$router.push('/review/' + review.id);
+    jumpToReview() {
+      this.$router.push('/movie/'+this.$route.params.id+'/review');
     },
     jumpToMedia() {
-      this.$router.push('/moviemedia');
+      this.$router.push('/movie/'+this.$route.params.id+'/media');
     },
-    starmovie() {
+    jumpToComment() {
+      this.$router.push('/movie/'+this.$route.params.id+'/comment');
+    },
+    starMovie() {
       this.started = !this.started;
       if (this.heart_color === "red") {
         this.heart_color = "white";
@@ -586,7 +585,7 @@ export default {
       return "width: " + fixedHeight * ratio + "px; height: " + fixedHeight + "px;";
     },
     judgePosition(i) {
-      if (i % 2 === 0) {
+      if (i % 2 === 1) {
         return "d-flex flex-row-reverse";
       } else {
         return "d-flex flex-row"
