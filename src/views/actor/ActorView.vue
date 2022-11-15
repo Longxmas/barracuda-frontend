@@ -48,7 +48,7 @@
               max-width="350"
           >
             <v-toolbar
-                color="indigo"
+                color="primary"
                 dark
                 dense
             >
@@ -105,7 +105,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   职业
                 </v-chip>
-                <v-card-text align="right" style=""> {{ actor_information.career }}</v-card-text>
+                <v-card-text align="right"  style=""> {{ actor_information.career }}</v-card-text>
               </v-list-item>
 
             </v-list>
@@ -131,17 +131,19 @@
             </v-card-text>
 
 
-            <v-card style="margin:10px" elevation="0">
+            <v-card style="margin:10px; width: min-content" elevation="0">
               <v-card-title> <span class="personal-introduction-title">代表作</span></v-card-title>
               <v-card-text>
+
                 <v-sheet
                     class="mx-auto"
                     elevation="5"
-                    style="padding-top: 2%">
+                    style="padding-top: 2%;max-width: 800px; width: min-content; ">
                   <v-slide-group
                       class="pa-4"
                       center-active
-                      show-arrows>
+                      show-arrows
+                      style="width: min-content">
                     <v-slide-item
                         v-for="(item,i) in movies"
                         :key="i">
@@ -165,41 +167,34 @@
                     </v-slide-item>
                   </v-slide-group>
                 </v-sheet>
+
               </v-card-text>
             </v-card>
 
+              <v-card-text>
+                <p></p>
+                <p class="personal-introduction-title"> 影人图片 </p>
+                <p></p>
 
-            <v-card-text>
-              <p></p>
-              <p class="personal-introduction-title"> 影人图片 </p>
-              <p></p>
-
-              <v-container fluid class="pl-0 ml-0">
                 <ul class="photo-ul">
                   <li v-for="(item,i) in photos"
                       :key="i"
-                      class="parent_center">
+                      style="display: inline-block">
                     <v-card
-                        class="mx-auto"
                         elevation="0"
-                        style="text-align: center"
+                        style="border-radius: 0"
                     >
                       <img
                           alt="影人图片"
-                          style="border-radius: 0;"
-                          :style="calculateImageFitPattern(300, item.image_path)"
                           :src="item.image_path"
+                          style="border-radius: 0;"
+                          :style="calculateImageFitPattern(200, item.image_path)"
                       />
-
-                      <v-card-text class="text--primary" style="padding: 1px !important;">
-                        <div>{{ item.name }}</div>
-                      </v-card-text>
                     </v-card>
                   </li>
                 </ul>
-              </v-container>
+              </v-card-text>
 
-            </v-card-text>
 
             <v-card-text>
               <p></p>
@@ -219,7 +214,7 @@
                     <img
                         alt="合作过的影人"
                         style="border-radius: 0;"
-                        :style="calculateImageFitPattern(400,item.image)"
+                        :style="calculateImageFitPattern(200,item.image)"
                         :src="item.image"
                     />
 
@@ -430,6 +425,7 @@ export default {
 }
 
 .photo-ul li {
+  width: auto;
   display: inline-block;
   margin-right: 20px;
   margin-bottom: 15px;

@@ -152,7 +152,7 @@
                         style="display: inline-block;">
                       <v-card
                           elevation="0"
-                          style="border-radius: 0"
+                          style="border-radius: 0; text-align: center"
                           :href="'/actor/'+item.id"
                       >
                         <img
@@ -586,7 +586,7 @@ export default {
       return "width: " + fixedHeight * ratio + "px; height: " + fixedHeight + "px;";
     },
     judgePosition(i) {
-      if (i % 2 === 0) {
+      if (i % 2 === 1) {
         return "d-flex flex-row-reverse";
       } else {
         return "d-flex flex-row"
