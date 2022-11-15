@@ -149,7 +149,7 @@
                   <ul class="poster-ul">
                     <li v-for="(item,i) in actors"
                         :key="i"
-                        style="display: inline-block; height: 340px">
+                        style="display: inline-block;">
                       <v-card
                           elevation="0"
                           style="border-radius: 0"
