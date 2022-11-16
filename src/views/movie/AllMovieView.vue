@@ -32,25 +32,6 @@
                   <h3>筛选</h3>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <p>显示</p>
-                  <v-radio-group
-                      v-model="displayType"
-                      mandatory
-                  >
-                    <v-radio
-                        label="全部"
-                        value="全部"
-                    ></v-radio>
-                    <v-radio
-                        label="未观看的电影"
-                        value="未观看的电影"
-                    ></v-radio>
-                    <v-radio
-                        label="已观看的电影"
-                        value="已观看的电影"
-                    ></v-radio>
-                  </v-radio-group>
-                  <v-divider></v-divider>
                   <p style="margin-top: 20px">发行日期</p>
                   <v-text-field
                       v-model="dateRangeText"
@@ -193,7 +174,6 @@ export default {
       sortType: [
         '按评分排序',
         '按时间排序',
-        '按热度排序',
       ],
       selectSortType: '按热度排序',
       ratingSelector: 5,
