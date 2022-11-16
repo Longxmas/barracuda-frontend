@@ -10,8 +10,8 @@
       <v-tab-item :value="`tab-2`">
         <v-container fluid style="width: 90%">
           <v-row>
-            <v-col lg="4"
-                   md="4"
+            <v-col lg="3"
+                   md="3"
                    sm="6"
                    xs="8" style="margin-top: 0;">
               <v-card
@@ -62,8 +62,8 @@
               </v-card>
             </v-col>
 
-            <v-col lg="8"
-                   md="8"
+            <v-col lg="9"
+                   md="9"
                    sm="6"
                    xs="4" style="margin-top: 0;">
               <video-player  class="video-player vjs-custom-skin"

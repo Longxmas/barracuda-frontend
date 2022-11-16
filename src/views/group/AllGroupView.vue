@@ -1,34 +1,37 @@
 <template>
   <div id="allGroupView">
-    <v-container fluid>
+    <v-container fluid style="width: 90%" class="mt-5">
       <v-row>
         <v-col lg="8" md="8" xs="12" style="margin-top: 0;">
-          <h1>所有小组</h1>
+          <h1>所有兴趣小组</h1>
           <v-divider></v-divider>
           <v-item-group
-              multiple class="mt-5">
-            <v-container fluid>
+              multiple class="mt-5 pl-0" >
+            <v-container fluid class="pl-0">
               <v-row>
                 <v-col v-for="group in groups"
                        :key="group.id"
-                       lg="3"
-                       md="4"
-                       sm="6"
+                       lg="6"
+                       md="6"
+                       sm="12"
                        xs="12"
                        align-self="start"
                        class="pt-0"
                 >
-                  <v-card width="180px" style="margin-bottom: 20px">
+                  <v-card style="margin-bottom: 20px">
                     <v-card-title>
-                      <v-avatar rounded size="80">
+                      <v-avatar rounded size="150">
                         <v-img :src="group.photo"
                         ></v-img>
                       </v-avatar>
-                      <span class="mx-4">{{ group.name }}</span>
+                      <span class="mx-auto">{{ group.name }}</span>
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-subtitle>
-                      {{ group.members.length }} 位成员
+                      共有{{ group.members.length }}位成员
+                      &ensp;
+                      &ensp;
+                      <span class="mx-auto"> 创建于{{group.create_at}}</span>
                     </v-card-subtitle>
                     <v-card-text>
                       {{ group.introduction }}
@@ -39,8 +42,10 @@
             </v-container>
           </v-item-group>
         </v-col>
+
+
         <v-col lg="4" md="4" xs="12">
-          <v-card>
+          <v-card class="mt-16">
             <v-card-title>
               所有小组中的热门讨论
             </v-card-title>
@@ -85,9 +90,13 @@ export default {
       groups: [
         {
           id: 1,
-          name: "小组1",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
+          name: "科幻片yyds",
+          introduction: "我们平等地热爱每一部优秀的科幻片" +
+              "我们平等地热爱每一部优秀的科幻片" +
+              "我们平等地热爱每一部优秀的科幻片" +
+              "我们平等地热爱每一部优秀的科幻片",
+          photo: require("../../assets/pics/syberpunk.jpg"),
+          create_at: '2022-11-16',
           members: [
             {
               id: 1,

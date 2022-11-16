@@ -7,7 +7,7 @@
     </v-tabs>
     <v-tabs-items v-model="topTabName">
       <v-tab-item>
-        <v-container fluid>
+        <v-container fluid style="width: 95%">
           <v-row>
             <v-col lg="9" md="6" sm="12" xs="12" style="margin-top: 0;">
               <v-card>
@@ -16,7 +16,7 @@
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
-                  <v-container fluid>
+                  <v-container fluid class="pl-0">
                     <v-row>
                       <v-col lg="3" md="6" sm="12" xs="12">
                         <v-avatar rounded size="200">
@@ -34,12 +34,15 @@
                   <v-divider></v-divider>
                   <v-card-actions class="d-flex justify-space-between">
                     创建于 XXXX-XX-XX
-                    <v-btn rounded>加入这个小组</v-btn>
+                    <v-btn color="green lighten-4">加入这个小组</v-btn>
                   </v-card-actions>
                 </v-card-text>
               </v-card>
               <v-card>
-                <v-card-title>最新讨论</v-card-title>
+                <v-card-title><h3>最新讨论</h3>
+                <v-spacer></v-spacer>
+                  <v-btn color="blue lighten-4">查看全部讨论</v-btn>
+                </v-card-title>
                 <v-card-text>
                   <v-data-table
                       :headers="discussionHeaders"
@@ -48,15 +51,14 @@
                       class="elevation-1">
                   </v-data-table>
                 </v-card-text>
-                <v-card-actions>
-                  <v-btn>查看全部讨论</v-btn>
-                </v-card-actions>
+
+
               </v-card>
             </v-col>
             <v-col lg="3" md="6" sm="12" xs="12">
               <v-card>
                 <v-card-title>
-                  最近加入的成员
+                  <h3>最近加入的成员</h3>
                 </v-card-title>
                 <v-card-text>
                   <v-container fluid>
@@ -68,16 +70,16 @@
                                md="4"
                                sm="6"
                                xs="12">
-                              <v-container fluid>
-                                <v-row justify="center">
-                                  <v-avatar rounded size="50" style="align-self: center">
-                                    <v-img :src="member.photo"></v-img>
-                                  </v-avatar>
-                                </v-row>
-                                <v-row justify="center">
-                                  <h3>{{ member.name }}</h3>
-                                </v-row>
-                              </v-container>
+                          <v-container fluid>
+                            <v-row justify="center">
+                              <v-avatar rounded size="50" style="align-self: center">
+                                <v-img :src="member.photo"></v-img>
+                              </v-avatar>
+                            </v-row>
+                            <v-row justify="center">
+                              <h3>{{ member.name }}</h3>
+                            </v-row>
+                          </v-container>
                         </v-col>
                       </v-row>
                     </v-item-group>
@@ -90,14 +92,14 @@
       </v-tab-item>
 
       <v-tab-item>
-        <v-card>
+        <v-card class="mx-auto" width="95%" flat>
           <v-card-title>
-            <v-container fluid>
+            <v-container fluid >
               <v-row>
                 <v-col>
-                  小组讨论
+                  <h3>小组讨论</h3>
                 </v-col>
-                <v-col class="d-flex flex-row-reverse" style="padding: 15px 50px 0 0">
+                <v-col class="d-flex flex-row-reverse">
                   <v-btn>创建新讨论</v-btn>
                 </v-col>
               </v-row>
@@ -119,9 +121,9 @@
                           overflow: hidden;
                           text-overflow: ellipsis;
                           text-align: right;">
-                  于{{item.time}}
+                  于{{ item.time }}
                 </p>
-                <p>由{{item.user}}最后回复</p>
+                <p>由{{ item.user }}最后回复</p>
               </template>
             </v-data-table>
           </v-card-text>
@@ -129,13 +131,13 @@
       </v-tab-item>
 
       <v-tab-item>
-        <v-card>
+        <v-card class="mx-auto" width="95%" flat>
           <v-card-title>
-            小组成员
+            <h3>小组成员</h3>
           </v-card-title>
-          <v-card-text>
-              <v-item-group multiple>
-                <v-container fluid>
+          <v-card-text class="pl-0">
+            <v-item-group multiple>
+              <v-container fluid>
                 <v-row>
                   <v-col v-for="member in all_members"
                          :key="member.id"
@@ -159,15 +161,15 @@
                             </v-col>
                           </v-row>
                           <v-row>
-                            <p>{{member.introduction}}</p>
+                            <p>{{ member.introduction }}</p>
                           </v-row>
                         </v-container>
                       </v-card-text>
                     </v-card>
                   </v-col>
                 </v-row>
-                </v-container>
-              </v-item-group>
+              </v-container>
+            </v-item-group>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -267,11 +269,7 @@ export default {
       ]
     }
   },
-  methods: {
-
-  },
-  computed: {
-
-  }
+  methods: {},
+  computed: {}
 }
 </script>
