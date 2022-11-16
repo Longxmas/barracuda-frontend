@@ -1,72 +1,198 @@
 <template>
   <div id="reviewDetail">
-    <v-tabs centered v-model="activeIndex">
-      <v-tab @click="jumpToOverView" :href="`#tab-1`">概览</v-tab>
-      <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
-      <v-tab :href="`#tab-3`">讨论区</v-tab>
-    </v-tabs>
-    <v-breadcrumbs
-        :items="breadcrumbs_items"
-        large>
-      <template v-slot:divider>
-        <v-icon>mdi-forward</v-icon>
-      </template>
-    </v-breadcrumbs>
-    <v-card>
-      <v-card-title>
-        <v-container fluid>
-          <v-row>
-            <v-avatar>
-              <v-img :src="review.user_avatar"></v-img>
-            </v-avatar>
-            <h1>{{review.review_title}}</h1>
-          </v-row>
-          <v-row>
-            <v-col class="d-flex flex-row-reverse">
-              <p>由{{review.user_name}}发表于{{review.review_date}}</p>
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-divider></v-divider>
-        <v-card-text>
-          <mavon-editor
-              v-model="review.review_content"
-              :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
-          />
+    <v-container fluid style="width: 90%; margin-top: 10px;margin-left: 50px;
+                            min-width:900px; overflow: scroll">
+      <v-row>
+        <v-col cols="9">
+          <v-card elevation="0">
+            <v-card-title>
+              <v-container fluid class="pl-5">
+                <v-row>
+                  <h2>{{ review.review_title }}</h2>
+                </v-row>
+                <v-row class="pt-5">
+                  <v-avatar>
+                    <v-img :src="review.user_avatar" alt="Avatar"></v-img>
+                  </v-avatar>
+                  &ensp;
+                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.user_name }}</a>
+                  &ensp;
+                  <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
+                  &ensp;
+                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.movie_name }}</a>
+                  &ensp;
+                  <p class="my-auto" style="font-size: 16px"> {{ review.review_date }} </p>
+                  <v-spacer></v-spacer>
+                  <v-rating style="margin-top: 15px; margin-bottom: 15px"
+                            :value="review.user_rate" color="amber" dense half-increments readonly
+                            size="14">
+                  </v-rating>
+                </v-row>
+              </v-container>
+              <v-row class="py-3">
+                <mavon-editor
+                    v-model="review.review_content"
+                    :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
+                    box-shadow-style="0 0 0 0 rgba(0,0,0,0)"
+                    preview-background="#fff"
+                />
+              </v-row>
+
+              <v-row class="pl-5 pb-5" style="text-align: center">
+                <v-col class="mx-auto">
+                  <v-btn large class="mr-5" style="color: white;background-color: skyblue"
+                         @click="like_review(review)">
+                    <v-icon class="my-auto"> mdi-heart</v-icon>
+                    &ensp;
+                    已有点赞
+                    &ensp;
+                    {{ review.review_thumb }}
+                  </v-btn>
+
+                  <v-btn large class="mr-5" style="color: white;background-color: darkorange">
+                    <v-icon class="my-auto"> mdi-message</v-icon>
+                    &ensp;
+                    已有回复
+                    &ensp;
+                    {{ review.reply_count }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+
+            </v-card-title>
+          </v-card>
+
           <v-divider></v-divider>
-          <v-btn>已有 {{review.review_thumb}} 点赞</v-btn>
-        </v-card-text>
-      </v-card-title>
-    </v-card>
-    <p>共计有 {{review.reply_count}} 条回复</p>
-    <v-card
-      v-for="reply in review.reply"
-      :key="reply.id">
-      <v-card-title>
-        <v-container fluid>
-          <v-row>
-            <v-avatar>
-              <v-img :src="reply.user_avatar"></v-img>
-            </v-avatar>
-            <h1>{{reply.reply_title}}</h1>
-          </v-row>
-          <v-row>
-            <v-col class="d-flex flex-row-reverse">
-              <p>由{{reply.user_name}}发表于{{reply.reply_date}}</p>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-card-text>
-        <mavon-editor
-            v-model="reply.reply_content"
-            :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
-        />
-        <v-divider></v-divider>
-        <v-btn>已有 {{reply.reply_thumb}} 点赞</v-btn>
-      </v-card-text>
-    </v-card>
+
+          <v-card class="mt-10" elevation="0" min-width="1000px" style="overflow: scroll;">
+            <v-card-title><h3>回复</h3></v-card-title>
+
+            <v-list class="py-0 pl-0" width="95%">
+              <v-list-item
+                  v-for="(comment, i) in review.reply"
+                  :key=i
+                  class="pl-0">
+                <v-container>
+                  <v-row class="pl-0">
+                    <v-col cols="1" class="px-0">
+                      <v-avatar tile class="ml-5 pt-2" size="55">
+                        <v-img :src="comment.user_avatar"></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col class="mx-1 pt-1">
+                      <v-card elevation="0" class="mb-0 mx-0" width="90%">
+                        <v-card-text class="pa-0">
+                          <v-container fluid>
+                            <v-row>
+                              <v-col class="pl-0 ">
+                                <v-container fluid>
+
+                                  <v-row class="pl-0" style="background-color: #dff2fa">
+                                    <a style="font-size: 16px; line-height: 25px"
+                                       class="my-auto pl-3">{{ comment.user_name }}</a>
+                                    <span class="my-auto pl-3">{{ comment.reply_date }}</span>
+                                  </v-row>
+
+                                  <v-row class="pt-2 pl-1 pr-2">
+                                    <p style="text-overflow: ellipsis;
+                                        overflow: hidden;
+                                        display: -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 3;
+                                        line-height: 20px;
+                                        max-height: 60px;
+                                        font-family: 微软雅黑,serif;
+                                        font-size: 15px;
+                                        color: black;
+                                        margin-bottom: 0">
+                                      {{ comment.reply_content }} </p>
+                                  </v-row>
+
+                                </v-container>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-list-item>
+
+              <v-list-item class="pl-0">
+                <v-container>
+                  <v-row class="pl-0 py-0 my-0">
+                    <v-col cols="1" class="px-0">
+                      <v-avatar tile class="ml-5 pt-2" size="55">
+                        <v-img :src="review.user_avatar"></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col class="pt-0 py-0 my-0" cols="10">
+                      <v-card-text class="pl-1 pb-0">
+                        <v-textarea
+                            class="ml-0 pl-0 py-0 my-0"
+                            filled
+                            auto-grow
+                            row-height="20px"
+                            value="先生所言极是！"
+                            placeholder="添加回复"
+                            background-color="green lighten-5"
+                        >
+                        </v-textarea>
+                      </v-card-text>
+                    </v-col>
+                  </v-row>
+
+                  <v-row class="py-0 my-0">
+                    <v-col cols="9">
+                      <span></span>
+                    </v-col>
+                    <v-col class="my-0 py-0">
+                      <v-btn color="green lighten-3" style="color: white" class="ml-5 mt-0">添加回复</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+
+        <v-col cols="3">
+          <v-card class="mt-10" flat>
+            <v-card-title>
+              <a>{{ review.movie_name }}</a>
+            </v-card-title>
+            <v-card-text>
+              <v-img :src="review.movie_poster"
+                     height="300px"
+                     width="225px"></v-img>
+              <v-container class="pt-8">
+                <v-row>
+                  <span>导演： {{review.movie_director}}</span>
+                </v-row>
+                <v-row>
+                  <span>主演：</span>
+                  <span v-for="(actor, i) in review.movie_actor" :key=i>{{actor}}</span>
+                </v-row>
+                <v-row>
+                  <span>类型：</span>
+                  <span v-for="(type, i) in review.movie_genre" :key=i>{{type}}</span>
+                </v-row>
+                <v-row>
+                  <span>地区：{{review.movie_country}}</span>
+                </v-row>
+                <v-row>
+                  <span>上映时间：{{review.movie_date}}</span>
+                </v-row>
+              </v-container>
+
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+
   </div>
 </template>
 
@@ -74,7 +200,7 @@
 export default {
   name: 'reviewDetail',
   created() {
-    this.breadcrumbs_items[1].text=this.review.movie_name;
+    this.breadcrumbs_items[1].text = this.review.movie_name;
     //console.log(this.breadcrumbs_items[1])
   },
   data() {
@@ -100,15 +226,25 @@ export default {
         id: 1,
         movie_id: 1,
         movie_poster: require('../../assets/interstellar2.png'),
-        movie_name: "计算机组成原理",
+        movie_name: "星际穿越",
+        movie_director: "克里斯托弗·诺兰",
+        movie_actor:[
+            "马修·麦康纳",
+        ],
+        movie_genre:[
+          "科幻",
+          "剧情",
+          "冒险",
+        ],
+        movie_date: "2014-11-07",
+        movie_duration: "169分钟",
+        movie_country: "美国",
         user_name: "flyinglandlord",
         user_avatar: "https://api.yimian.xyz/img?type=head",
         user_rate: 5,
         review_date: "2020-01-01",
         review_title: "这是计组P8的教程",
         review_content:
-            "# P8：FPGA实验\n" +
-            "\n" +
             "通过阅读本文，您肯定做不出P8，本文也仅限于介绍很少一部分P8的思路以及实现\n" +
             "P8作为FPGA实验，需要详细参考教程，本文仅供参考\n" +
             "P8的主要内容是对Verilog搭建的MIPS微系统进行综合，并使其能够运行在FPGA上\n" +
@@ -154,306 +290,7 @@ export default {
             "在不改变外部设备代码设计的情况下，编写`mips`汇编程序，实现以下功能。\n" +
             "\n" +
             "**从拨码开关(`switch`)读入数据**：从拨码开关组B中读入一个无符号32bit数字，设该无符号32bit数字为$n$。\n" +
-            "**用户定义开关(`user key`)触发操作**：将$n$显示在数码管上（8个十六进制数字），并通过UART将数码管上显示的数字以ASCII字符形式输出。\n" +
-            "\n" +
-            "**举例**：拨码开关B设置为`10101010101010101010101010101010`，触发用户按钮1后，数码管显示`AAAAAAAA`，UART在勾选\"ascii mode\"的情况下输出`AAAAAAAA`\n" +
-            "\n" +
-            "### 可交互存储器\n" +
-            "在不改变外部设备代码设计的情况下，编写mips汇编程序，实现以下功能。\n" +
-            "\n" +
-            "**从拨码开关(`switch`)读入数据**：从拨码开关组A和B中读入两个无符号32bit数字，设A读入数字为$add$，设B读入数字为$value$。\n" +
-            "\n" +
-            "**用户定义开关(`user key`)触发操作**：触发某一个开关，将$value$显示在数码管上（8个十六进制数字），并将$value$写入$add$所对应的地址中；触发另一个开关，将$add$地址中储存的值显示在数码管上（8个十六进制数字）\n" +
-            "\n" +
-            "**注意**：只需支持$add$在`DM`范围的访问操作，超出`DM`范围则不需进行访存操作（即不用改变数码管的显示，或者使数码管显示自定义内容）；按字存储，地址不对齐则不需进行访存操作。\n" +
-            "\n" +
-            "**举例**：\n" +
-            "\n" +
-            "- 拨码开关A设置为`00000000_00000000_00000000_00000000`，拨码开关B设置为`00000000_00000000_00000000_00000001`，触发用户按钮1后，数码管显示`00000001`;\n" +
-            "- 再将拨码开关A设置为`00000000_00000000_00000000_00000004`，触发用户按钮2后，数码管显示`00000000`;\n" +
-            "- 再将拨码开关A设置为`00000000_00000000_00000000_00000000`，触发用户按钮1后，数码管显示`00000001`。\n" +
-            "\n" +
-            "## 设计文档\n" +
-            "\n" +
-            "## 总体设计概述\n" +
-            "\n" +
-            "要求实现的指令集为`MIPS-C5`，即**LB、LBU、LH、LHU、LW、SB、SH、SW、ADD、ADDU、 SUB、SUBU、SLL、SRL、SRA、SLLV、 SRLV、SRAV、AND、OR、XOR、NOR、ADDI、ADDIU、ANDI、ORI、 XORI、LUI、SLT、SLTI、SLTIU、SLTU、BEQ、BNE、BLEZ、BGTZ、 BLTZ、BGEZ、J、JAL、JALR、JR、MFHI、MFLO、MTHI、MTLO、MFC0、MTC0、ERET**，在P7的基础上减少了乘除槽指令\n" +
-            "\n" +
-            "总体文件目录树如下：\n" +
-            "\n" +
-            "![image-20211220094927690](https://s2.loli.net/2021/12/29/AVRNiK2B3t4gFSr.png)\n" +
-            "\n" +
-            "CPU部分的目录树如下：\n" +
-            "\n" +
-            "![image-20211220094958752](https://s2.loli.net/2021/12/29/jxZlCHzwbpqfUt8.png)\n" +
-            "\n" +
-            "## CPU设计\n" +
-            "\n" +
-            "### CPU数据通路设计\n" +
-            "\n" +
-            "（P5的图，也没有乘除槽，大致相同吧~）\n" +
-            "\n" +
-            "![image-20211220102927382](https://s2.loli.net/2021/12/29/CBIUOuRQzKfy1Td.png)\n" +
-            "\n" +
-            "### 控制逻辑设计\n" +
-            "\n" +
-            "- 控制逻辑为分布式译码控制逻辑\n" +
-            "- 第一部分为译码部分，根据输入的Instr信号译码，得到rs，rt等信息\n" +
-            "\n" +
-            "![image-20211220103309993](https://s2.loli.net/2021/12/29/rECm3G9Jw8IlKDQ.png)\n" +
-            "\n" +
-            "- 第二部分为分类部分，根据输入的opcode和funct决定这条指令是什么，属于哪一类（P6的分类方法)\n" +
-            "\n" +
-            "- 第三部分为控制信号生成部分，根据第二部分决定的哪一类指令决定生成什么样的控制信号\n" +
-            "- 控制模块位于每一个流水线层级的顶层，如上面图片所示\n" +
-            "- 在阻塞控制中由于需要对指令分类，顺便复用了控制模块\n" +
-            "\n" +
-            "### Others\n" +
-            "\n" +
-            "可以看出与P7相比，P8增加了较多的外设，解决的主要问题是系统I/O设计，但是同时也需要对CPU进行修改以符合可综合的要求\n" +
-            "\n" +
-            "首先是去除乘除槽，这一部分直接把相关内容注释掉即可\n" +
-            "\n" +
-            "然后是IM和DM的改造，按照教程添加IP核即可，对于读写时序问题，我的方法是采用新建一个时钟IP核，分出CPU时钟频率的二倍频去驱动IM和DM，按照教程的说法，这样存储器的行为即与原来一致\n" +
-            "\n" +
-            "然后改变顶层模块端口以符合约束文件的要求，这样即可满足通过综合的要求，即完成了大部分改造工作，对于原有的流水线数据通路，并不需要做任何改造工作\n" +
-            "\n" +
-            "## 整体系统设计\n" +
-            "\n" +
-            "我的整体系统设计与教程保持一致，即CPU只与Bridge交互，由Bridge负责向哪个外设写出数据，从哪个外设读取数据，把DM也视作一个外设\n" +
-            "\n" +
-            "对于LED、数码管、按键等外设，我在mips.v中实例化外设，将他们跟桥连接在一起\n" +
-            "\n" +
-            "关于Bridge模块的输入输出端口定义如下：\n" +
-            "\n" +
-            "![image-20211220100332328](https://s2.loli.net/2021/12/29/MsiTtRuCkXYUJhH.png)\n" +
-            "\n" +
-            "其中`tmp_m_***`为CPU发出的读写存储器的请求，`m_***`为实际访问的地址和读取的数据，Bridge会根据CPU发出的请求返回合适的数据，通过`tmp_m_data_rdata`返回读取的数据，或者往合适的外设里根据`tmp_m_data_byteen`写入`tmp_m_data_wdata`的值\n" +
-            "\n" +
-            "具体做法是根据请求的地址，选择合适的外设\n" +
-            "\n" +
-            "![image-20211220100714833](https://s2.loli.net/2021/12/29/oBHtiPhKEvfTyZ3.png)\n" +
-            "\n" +
-            "然后选择合适的读出的值或者给出恰当的写使能\n" +
-            "\n" +
-            "![image-20211220100735242](https://s2.loli.net/2021/12/29/IkKWgaNfjzbAdey.png)\n" +
-            "\n" +
-            "像DipSwitch，Key和LED这一类较为简单的外设，只有简单的读或写的功能，需要编写的是与FPGA外部端口交互的控制逻辑，我直接用简单的赋值完成读写操作\n" +
-            "\n" +
-            "下面以较为复杂的DigitalTube为例，说明外设如何连接\n" +
-            "\n" +
-            "首先是译码的函数，每四位表示一个十六进制数字\n" +
-            "\n" +
-            "![image-20211220100946253](https://s2.loli.net/2021/12/29/Oq4IMDh6B2uKLRa.png)\n" +
-            "\n" +
-            "根据教程，数码管四个为一组，每一次只刷新一个数码管，利用视觉暂留原理，看到的就是变化的数码管数字\n" +
-            "\n" +
-            "在控制逻辑中，我们内置一个状态机，每次经过`32'd500000`个时钟周期后，更新一次状态，选择下一个数字位刷新\n" +
-            "\n" +
-            "刷新时就根据内置的两个寄存器reg0和reg1的值控制屏幕显示的十六进制数字\n" +
-            "\n" +
-            "还有UART模块，课程组已经给出了大部分代码，根据教程提示，我们需要添加中断请求信号，接受状态中的receive status信号就是表示是否接收完毕的信号，如果接收完毕会发出中断请求，因此直接把receive status当做IntReq即可\n" +
-            "\n" +
-            "另外需要在head_uart.v中改一下时钟周期，使其与我的设计55MHz一致\n" +
-            "\n" +
-            "复位后默认波特率位9600，**不需要特地设置**\n" +
-            "\n" +
-            "关于发送，**写使能判断发送**\n" +
-            "\n" +
-            "### 习题代码设计\n" +
-            "\n" +
-            "### 简易计算器\n" +
-            "\n" +
-            "检测两组拨动开关的值，读出作为运算数\n" +
-            "\n" +
-            "检测按键开关哪一个是开启状态，在我的设计中分别表示加、减、与、或、异或、逻辑左移、逻辑右移和算术右移\n" +
-            "\n" +
-            "然后计算出结果，直接写入数码管外设中即可\n" +
-            "\n" +
-            "代码如下\n" +
-            "\n" +
-            "```assembly\n" +
-            "# *** I/O Address Table ***\n" +
-            "# Data Memory       0x0000_0000 - 0x0000_2fff\n" +
-            "# Timer0       \t\t0x0000_7f00 - 0x0000_7f0b\n" +
-            "# UART         \t\t0x0000_7f20 - 0x0000_7f3b\n" +
-            "# Digital Tube    \t0x0000_7f40 - 0x0000_7f47\n" +
-            "# Dip Switch     \t0x0000_7f50 - 0x0000_7f57\n" +
-            "# Button Key        0x0000_7f58 - 0x0000_7f5b\n" +
-            "# LED        \t\t0x0000_7f60 - 0x0000_7f63 \n" +
-            "\n" +
-            "dead_loop:\n" +
-            "\n" +
-            "lw $s0, 0x7f50($0)\n" +
-            "lw $s1, 0x7f54($0)\n" +
-            "\n" +
-            "lb $t0, 0x7f58($0)\n" +
-            "\n" +
-            "beq $t0, 1, ADD\n" +
-            "nop\n" +
-            "beq $t0, 2, SUB\n" +
-            "nop\n" +
-            "beq $t0, 4, AND\n" +
-            "nop\n" +
-            "beq $t0, 8, OR\n" +
-            "nop\n" +
-            "beq $t0, 16, XOR\n" +
-            "nop\n" +
-            "beq $t0, 32, SHIFT_LEFT_LOGIC\n" +
-            "nop\n" +
-            "beq $t0, 64, SHIFT_RIGHT_LOGIC\n" +
-            "nop\n" +
-            "beq $t0, 128, SHIFT_RIGHT_ALGORITHM\n" +
-            "nop\n" +
-            "\n" +
-            "ADD:\n" +
-            "addu $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "SUB:\n" +
-            "subu $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "AND:\n" +
-            "and $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "OR:\n" +
-            "or $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "XOR:\n" +
-            "xor $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "SHIFT_LEFT_LOGIC:\n" +
-            "sllv $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "SHIFT_RIGHT_LOGIC:\n" +
-            "srlv $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "SHIFT_RIGHT_ALGORITHM:\n" +
-            "srav $s2, $s0, $s1\n" +
-            "sw $s2, 0x7f40($0)\n" +
-            "j End\n" +
-            "\n" +
-            "End:\n" +
-            "j dead_loop\n" +
-            "```\n" +
-            "\n" +
-            "### 计时器\n" +
-            "\n" +
-            "读取拨码开关的值，存入`$t1`寄存器\n" +
-            "\n" +
-            "外设计时器采用1模式，循环计数，设成循环55M个周期，因为我的频率是55MHz，每次停止都触发中断，在中断中停止计数、更新新的计数值、更新数码管显示，然后循环重新设置计时器开始计数\n" +
-            "\n" +
-            "代码如下\n" +
-            "\n" +
-            "```assembly\n" +
-            "# *** I/O Address Table ***\n" +
-            "# Data Memory       0x0000_0000 - 0x0000_2fff\n" +
-            "# Timer0       \t\t0x0000_7f00 - 0x0000_7f0b\n" +
-            "# UART         \t\t0x0000_7f20 - 0x0000_7f3b\n" +
-            "# Digital Tube    \t0x0000_7f40 - 0x0000_7f47\n" +
-            "# Dip Switch     \t0x0000_7f50 - 0x0000_7f57\n" +
-            "# Button Key        0x0000_7f58 - 0x0000_7f5b\n" +
-            "# LED        \t\t0x0000_7f60 - 0x0000_7f63 \n" +
-            "\n" +
-            ".text\n" +
-            "ori $2, $0, 0xfc01\n" +
-            "mtc0 $2, $12\n" +
-            "\n" +
-            "lw $t1, 0x7f50($0)\t# Read Time Length From Dip Switch Group 0-3\n" +
-            "sw $t1, 0x7f40($0)\n" +
-            "\n" +
-            "li $t2, 55000000\n" +
-            "sw $t2, 0x7f04($0)\t# Set Timer\n" +
-            "\n" +
-            "Start:\n" +
-            "\n" +
-            "li $t2, 0xb\n" +
-            "sw $t2, 0x7f00($0)\t# Start Count\n" +
-            "\n" +
-            "Wait:\n" +
-            "bgtz $t1, Wait\n" +
-            "nop\n" +
-            "\n" +
-            "li $t2, 0x0\n" +
-            "sw $t2, 0x7f00($0)\t# End Count\n" +
-            "\n" +
-            "dead_loop:\n" +
-            "j dead_loop\n" +
-            "nop\n" +
-            "\n" +
-            "\n" +
-            ".ktext 0x4180\n" +
-            "\n" +
-            "subi $t1, $t1, 1\t\t# Count - 1\n" +
-            "sw $t1, 0x7f40($0)\n" +
-            "\n" +
-            "eret\n" +
-            "```\n" +
-            "\n" +
-            "### UART回显\n" +
-            "\n" +
-            "主要是处理UART串口通讯\n" +
-            "\n" +
-            "首先是打开中断，然后死循环等待接收信息响应中断\n" +
-            "\n" +
-            "在中断处理程序中，读取接收的数据写入内存，然后EPC设为EPC+4跳出循环\n" +
-            "\n" +
-            "然后再把数据写入0x7f20，重新发送会外部，再次回到等待接收信息死循环状态\n" +
-            "\n" +
-            "代码如下\n" +
-            "\n" +
-            "```assembly\n" +
-            "# *** I/O Address Table ***\n" +
-            "# Data Memory       0x0000_0000 - 0x0000_2fff\n" +
-            "# Timer0       \t\t0x0000_7f00 - 0x0000_7f0b\n" +
-            "# UART         \t\t0x0000_7f20 - 0x0000_7f3b\n" +
-            "# Digital Tube    \t0x0000_7f40 - 0x0000_7f47\n" +
-            "# Dip Switch     \t0x0000_7f50 - 0x0000_7f57\n" +
-            "# Button Key        0x0000_7f58 - 0x0000_7f5b\n" +
-            "# LED        \t\t0x0000_7f60 - 0x0000_7f63 \n" +
-            "\n" +
-            ".text\n" +
-            "# Turn On the Interrupt\n" +
-            "ori $2, $0, 0x1001\n" +
-            "mtc0 $2, $12\n" +
-            "\n" +
-            "# Wait receiving data\n" +
-            "Wait:\n" +
-            "j Wait\n" +
-            "\n" +
-            "sw $t2, 0x7f40($0)\t# Display the character in the Digital Tube\n" +
-            "sw $t2, 0x7f20($0)\t# Re-Write to UART, Send out\n" +
-            "j Wait\t\t\t# Back to send data and waiting\n" +
-            "\n" +
-            "\n" +
-            ".ktext 0x4180\t\t\n" +
-            "# When receive completely, IntReq process in 0x4180\n" +
-            "lw $t2, 0x7f20($0)\t# Read Data From UART\n" +
-            "sw $t2, 0($0)\t\t# Save to the Memory\n" +
-            "\n" +
-            "mfc0 $k0, $14\t\t# EPC + 4, Jump out of the loop\n" +
-            "addiu $k0, $k0, 4\n" +
-            "mtc0 $k0, $14\n" +
-            "\n" +
-            "eret\n" +
-            "```\n" +
-            "\n" +
-            "### 彩蛋\n" +
-            "\n" +
-            "![image-20211229221800188](https://s2.loli.net/2021/12/29/3rR4ews7oKdkxD9.png)\n",
+            "**用户定义开关(`user key`)触发操作**：将$n$显示在数码管上（8个十六进制数字），并通过UART将数码管上显示的数字以ASCII字符形式输出。\n",
         review_thumb: 100,
         reply_count: 100,
         reply: [
@@ -462,7 +299,7 @@ export default {
             user_name: "Longxmas",
             user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
             reply_date: "2020-01-01",
-            reply_content: "# 太菜了，我的评价是不如hys一根毛",
+            reply_content: "太菜了，我的评价是不如hys一根毛",
             reply_title: "啊对对对",
             reply_thumb: 100,
           },
@@ -471,7 +308,7 @@ export default {
             user_name: "Harahan",
             user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
             reply_date: "2020-01-01",
-            reply_content: "# 太菜了，确实不如我",
+            reply_content: "太菜了，确实不如我",
             reply_title: "啊对对对",
             reply_thumb: 100,
           },
@@ -485,10 +322,12 @@ export default {
     },
     jumpToMedia() {
       this.$router.push('/moviemedia');
+    },
+    like_review(review) {
+      review.review_thumb += 1;
+      alert("点赞成功");
     }
   },
-  computed: {
-
-  }
+  computed: {}
 }
 </script>

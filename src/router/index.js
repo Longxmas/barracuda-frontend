@@ -14,6 +14,11 @@ import reviewDetail from "@/views/review/ReviewDetail";
 import allGroupView from "@/views/group/AllGroupView";
 import groupDetailView from "@/views/group/GroupDetailView";
 import groupDiscussionDetail from "@/views/group/GroupDiscussionDetail";
+import commentMovieView from "@/views/movie/CommentMovieView";
+import imagesMovieView from "@/views/movie/ImagesMovieView";
+import videosMovieView from "@/views/movie/VideosMovieView";
+import searchMovieView from "@/views/SearchMovieView";
+import searchActorView from "@/views/SearchActorView";
 
 
 Vue.use(VueRouter)
@@ -21,39 +26,27 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'mainView',
     component: MainView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
     path: '/register',
     name: 'register',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: registerView
   },
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: loginView
+  },
+  {
+    path: '/actor',
+    name: 'allActor',
+    component: allActorView
   },
   {
     path: '/actor/:id',
     name: 'actor',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: actorView
   },
   {
@@ -62,14 +55,29 @@ const routes = [
     component: movieView
   },
   {
+    path: '/movie/:id/review',
+    name: 'movieReview',
+    component: reviewMovieView
+  },
+  {
+    path: '/movie/:id/media/images',
+    name: 'movieMedia',
+    component: imagesMovieView
+  },
+  {
+    path: '/movie/:id/media/videos',
+    name: 'movieMedia',
+    component: videosMovieView
+  },
+  {
+    path: '/movie/:id/comment',
+    name: 'movieComment',
+    component: commentMovieView
+  },
+  {
     path: '/movie',
     name: 'allMovie',
     component: allMovieView
-  },
-  {
-    path: '/actor',
-    name: 'allActor',
-    component: allActorView
   },
   {
     path: '/user',
@@ -78,17 +86,13 @@ const routes = [
   },
   {
     path: '/review',
-    name: 'reviewhome',
+    name: 'reviewHome',
     component: reviewHomeView
   },
+
   {
-    path: '/moviereview',
-    name: 'moviereview',
-    component: reviewMovieView
-  },
-  {
-    path: '/reviewdetail',
-    name: 'reviewdetail',
+    path: '/review/:id',
+    name: 'reviewDetail',
     component: reviewDetail
   },
   {
@@ -105,6 +109,16 @@ const routes = [
     path: '/groupdiscusssion',
     name: 'groupdiscusssion',
     component: groupDiscussionDetail
+  },
+  {
+    path: '/search/movie',
+    name: 'searchMovieView',
+    component: searchMovieView
+  },
+  {
+    path: '/search/actor',
+    name: 'searchMovieView',
+    component: searchActorView
   }
 ]
 

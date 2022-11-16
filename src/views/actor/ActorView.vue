@@ -150,18 +150,16 @@
                       <v-card
                           :href="'/movie/' + item.id"
                           elevation="0"
-                          style="margin-right: 10px">
-                        <v-scale-transition>
+                          style="margin-right: 10px; text-align: center">
                           <v-img
                               height="400px"
-                              max-height="400px"
                               width="300px"
                               :src="item.image"
-
+                              class="mx-auto"
                           ></v-img>
-                        </v-scale-transition>
+
                         <v-card-text style="text-align: center">
-                          <span style="font-family: 黑体, serif; font-size: 20px; color: #0b1c22">{{ item.movie_name }}</span>
+                          <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #0b1c22">{{ item.movie_name }}</span>
                         </v-card-text>
                       </v-card>
                     </v-slide-item>

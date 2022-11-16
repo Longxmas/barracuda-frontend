@@ -3,8 +3,8 @@
     <v-tabs centered v-model="activeIndex">
       <v-tab :href="`#tab-1`">概览</v-tab>
       <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
-      <v-tab @click="jumpToDiscussion" :href="`#tab-3`">短评区</v-tab>
-      <v-tab @click="jumpToDiscussion" :href="`#tab-3`">影评区</v-tab>
+      <v-tab @click="jumpToComment" :href="`#tab-3`">短评区</v-tab>
+      <v-tab @click="jumpToReview" :href="`#tab-4`">影评区</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="activeIndex">
@@ -59,7 +59,7 @@
                       dark
                       color="primary"
                       text-color="white"
-                      @click="starmovie"
+                      @click="starMovie"
                   >
                     收藏
                     <v-icon right :color="heart_color">mdi-heart</v-icon>
@@ -75,14 +75,19 @@
                     <v-icon right>mdi-star</v-icon>
                   </v-chip>
 
-                  <v-dialog v-model="is_rating" max-width="800px" scrollable>
+                  <v-dialog v-model="is_rating" max-width="800px" scrollable >
                     <v-card>
-                      <v-toolbar color="green lighten-3" class="text-h6" style="color: white">写短评</v-toolbar>
+                      <v-toolbar color="green lighten-3" class="text-h6" style="color: white">
+                        <span class="pl-3">写短评</span>
+                        <v-spacer></v-spacer>
+                        <v-icon @click="is_rating = false;">
+                          mdi-close
+                        </v-icon>
+                      </v-toolbar>
 
                       <v-card>
                         <v-card-text>
-                          <h2 class="pl-3" style="color: black; font-size: medium">评个分吧</h2>
-                          <br>
+                          <h2 class="pl-3" style="color: black; font-size: 20px">评个分吧</h2>
                           <v-rating
                               v-model="rating"
                               color="yellow darken-3"
@@ -103,8 +108,7 @@
                               style="align-self: center; width: 100%; min-height: 150px;
                                         outline: none; resize: none">
                           </textarea>
-                          <v-btn class="ml-3 mr-10"> 取消提交</v-btn>
-                          <v-btn class="ml-3"> 提交</v-btn>
+                          <v-btn class="ml-2" color="green lighten-3" style="color: white"> 提交</v-btn>
                         </v-card-text>
                       </v-card>
 
@@ -174,7 +178,14 @@
               <v-divider></v-divider>
 
               <v-card style="margin-top: 10px" elevation="0">
-                <v-card-title class="pb-1"><h3>精选影评</h3></v-card-title>
+                <v-card-title class="pb-1"><h3>精选影评</h3>
+                  <v-spacer></v-spacer>
+                  <v-btn class="mr-4">
+                    <v-icon>mdi-pen</v-icon>
+                    &ensp;
+                    我要写影评
+                  </v-btn>
+                </v-card-title>
                 <v-card-text>
                   <v-list class="ml-0 pl-0 my-0">
                     <v-list-item
@@ -284,7 +295,14 @@
               <v-divider></v-divider>
 
               <v-card style="margin-top: 10px; overflow: scroll; min-width: 1000px" elevation="0">
-                <v-card-title><h3>精选短评</h3></v-card-title>
+                <v-card-title class="pb-1"><h3>精选短评</h3>
+                  <v-spacer></v-spacer>
+                  <v-btn class="mr-4">
+                    <v-icon>mdi-pen</v-icon>
+                    &ensp;
+                    我要写短评
+                  </v-btn>
+                </v-card-title>
                 <v-card-text class="pl-0 ml-0 pb-0 mb-0">
 
                   <v-container fluid class="pl-0 ml-0 pt-0 mt-0">
@@ -392,12 +410,6 @@
             </v-col>
           </v-row>
         </v-container>
-      </v-tab-item>
-      <v-tab-item :value="`tab-2`"> <!--媒体部分-->
-        <h1> 媒体 </h1>
-      </v-tab-item>
-      <v-tab-item :value="`tab-3`"> <!--影评部分-->
-        <h1> 影评 </h1>
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -554,17 +566,16 @@ export default {
       }
       console.log(this.actors)
     },
-    jumpToDiscussion() {
-      this.$router.push('/moviereview');
-    },
-    jumpToReview(review) {
-      alert("正在跳转到影评")
-      this.$router.push('/review/' + review.id);
+    jumpToReview() {
+      this.$router.push('/movie/'+this.$route.params.id+'/review');
     },
     jumpToMedia() {
-      this.$router.push('/moviemedia');
+      this.$router.push('/movie/'+this.$route.params.id+'/media/images');
     },
-    starmovie() {
+    jumpToComment() {
+      this.$router.push('/movie/'+this.$route.params.id+'/comment');
+    },
+    starMovie() {
       this.started = !this.started;
       if (this.heart_color === "red") {
         this.heart_color = "white";

@@ -25,7 +25,7 @@
               </v-col>
 
               <v-col cols="1" class="mx-0 pl-0" align-self="center">
-                <v-card style="background-color: transparent" flat>
+                <v-card style="background-color: transparent" flat class="mt-0">
                   <a href="/movie" style="width: 80px; text-decoration: none; color: #ff8d1a;">
                     <v-card-text class="text-center text-h6" style="padding-top: 30px; width: 80px">
                       <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23px">电影</p>
@@ -102,17 +102,18 @@
             </v-row>
           </v-container>
 
-          <template v-slot:extension v-if="searchBox">
-            <v-text-field></v-text-field>
-            <v-btn icon>
+          <template v-slot:extension v-if="searchBox" >
+            <v-text-field v-model="query"></v-text-field>
+            <v-btn icon @click="searchNow">
               <v-icon>
                 mdi-movie-search
               </v-icon>
             </v-btn>
           </template>
+
         </v-app-bar>
         <v-main>
-          <router-view/>
+          <router-view @showSearchBar="showSearchBar"/>
         </v-main>
     </v-app>
   </div>
@@ -125,6 +126,7 @@ export default {
 
   data () {
     return {
+      query: '',
       searchBox: false,
     }
   },
@@ -135,6 +137,13 @@ export default {
     };
   },
   methods: {
+    searchNow() {
+      this.$router.push('/search/movie?query=' + this.query);
+    },
+    showSearchBar(query_word) {
+      this.searchBox = true;
+      this.query = query_word;
+    },
     changeColor() {
       if (
           document.body.scrollTop > 100 ||

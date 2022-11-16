@@ -33,3 +33,7 @@ export async function queryMovieStaff(data, id) {
 export async function queryMovieComments(data, id) {
     return getRequest(apiRoute.queryAllMovies + "/" + id + apiRoute.movieComments + '/', data);
 }
+
+export async function queryMovieVideos(data, id) {
+    return getRequest(apiRoute.queryAllMovies + "/" + id + apiRoute.movieVideo + '/', data);
+}
