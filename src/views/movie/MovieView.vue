@@ -615,5 +615,4 @@ export default {
   overflow-x: scroll;
   white-space: nowrap; /* ul中的内容不换行 */
 }
-
 </style>

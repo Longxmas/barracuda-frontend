@@ -469,7 +469,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main-h1 {
   font-family: 微软雅黑, serif;
   font-size: 45px;
@@ -491,5 +491,4 @@ export default {
   font-size: 1px !important;
   vertical-align: text-top !important;
 }
-
 </style>
