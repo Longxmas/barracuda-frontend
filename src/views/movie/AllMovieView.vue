@@ -238,9 +238,16 @@ export default {
       this.dates = []
     },
     async refresh() {
-      let response = await queryAllMovies('');
+      let response = await queryAllMovies({
+        limit: 20,
+        offset: 1,
+        range_at: 0,
+        filter: {
+
+        }
+      });
       if (response.status === 200) {
-        this.movies = response.data;
+        this.movies = response.data.movies;
       }
       console.log(this.movies);
     },

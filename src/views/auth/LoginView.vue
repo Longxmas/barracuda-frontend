@@ -68,10 +68,17 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    submitLoginForm(loginForm) {
+    async submitLoginForm(loginForm) {
       console.log(loginForm)
-      let it = api.postRequest('/login/', loginForm);
+      let it = await api.postRequest('/login/', loginForm);
       console.log(it);
+      alert(it.status);
+      if (it.status === 200) {
+        localStorage.setItem("username", loginForm.username);
+        localStorage.setItem("is_login", "true");
+        localStorage.setItem("role", "user");
+        await this.$router.push('/')
+      }
       //this.$router.push('/home')
       // Api.Login()
     },

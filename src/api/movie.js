@@ -10,7 +10,7 @@ const apiRoute = {
 };
 
 export async function queryAllMovies(data) {
-    return getRequest(apiRoute.queryAllMovies + '/', data);
+    return postRequest(apiRoute.queryAllMovies + '/', data);
 }
 
 export async function queryMovieDetail(data, id) {
@@ -39,5 +39,5 @@ export async function queryMovieVideos(data, id) {
 }
 
 export async function addReview(data, id) {
-    return postRequest(apiRoute.queryAllMovies + "/" + id + "/review" , data);
+    return postRequest(apiRoute.queryAllMovies + "/" + id + "/review/" , data);
 }
