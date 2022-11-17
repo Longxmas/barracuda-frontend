@@ -199,7 +199,7 @@ body {
 }
 
 #app {
-  min-width: 1024px; /* 设置的最小宽度，小于1024时，会出现滚动条*/
+  min-width: 800px; /* 设置的最小宽度，小于1024时，会出现滚动条*/
   overflow-x: scroll;
 }
 

@@ -62,7 +62,7 @@ const routes = [
   },
   {
     path: '/movie/:id/media/images',
-    name: 'movieMedia',
+    name: 'movieImages',
     component: imagesMovieView
   },
   {
@@ -118,7 +118,7 @@ const routes = [
   },
   {
     path: '/search/actor',
-    name: 'searchMovieView',
+    name: 'searchActorView',
     component: searchActorView
   },
   {
@@ -128,10 +128,39 @@ const routes = [
   }
 ]
 
+import store from '@/store/index.js';
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  let is_login = store.getters['user/islogin'];
+  console.log(is_login);
+  if (to.path === '/register') {
+    next();
+  } else if (to.path === '/login') {
+    if (is_login === null || is_login === '') {
+      next();
+    } else {
+      next('/');
+    }
+  } else {
+    if (is_login === null || is_login === '') {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    } else {
+      next();
+    }
+  }
+});
+
+
 
 export default router

@@ -74,13 +74,15 @@ export default {
       console.log(it);
       alert(it.status);
       if (it.status === 200) {
-        localStorage.setItem("username", loginForm.username);
-        localStorage.setItem("is_login", "true");
-        localStorage.setItem("role", "user");
+        // TODO: this.$store.commit('user/setId');
+        this.$store.commit('user/setUsername', loginForm.username);
+        // TODO: this.$store.commit('user/setNickname', nickname);
+        // TODO: this.$store.commit('user/setEmail', response.data.info['email']);
+        this.$store.commit('user/setRole', 'NormalUser');
+        // this.$store.commit('user/setAvatar', response.data.info['avatar_url']);
+        this.$store.commit('user/setIslogin', 'true');
         await this.$router.push('/')
       }
-      //this.$router.push('/home')
-      // Api.Login()
     },
     addUser() {
       this.$router.push('/register')

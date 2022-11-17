@@ -10,6 +10,7 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import videoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
+import store from './store'
 
 Vue.use(videoPlayer)
 Vue.use(mavonEditor)
@@ -24,5 +25,6 @@ Vue.use(ElementUI);
 new Vue({
   router,
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')
