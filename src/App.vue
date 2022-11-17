@@ -192,6 +192,15 @@ h2 {
   color: black;
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
 
+#app {
+  min-width: 1024px; /* 设置的最小宽度，小于1024时，会出现滚动条*/
+  overflow-x: scroll;
+}
 
 </style>
