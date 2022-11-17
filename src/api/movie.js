@@ -39,5 +39,6 @@ export async function queryMovieVideos(data, id) {
 }
 
 export async function addReview(data, id) {
-    return postRequest(apiRoute.queryAllMovies + "/" + id + "/review/" , data);
+    /* localhost:8000/movie/1/review/ */
+    return postRequest(apiRoute.queryAllMovies + "/" + id + "/review/", data);
 }

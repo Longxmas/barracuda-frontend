@@ -1,6 +1,6 @@
 <template>
   <div id="allActorView" class="align-content-center" >
-    <v-container fluid style="width: 90%;  margin-top: 10px" >
+    <v-container fluid style="width: 90%;  margin-top: 10px; min-width: 800px; overflow: scroll" >
       <h1>热门人物</h1>
       <v-item-group
           multiple
@@ -9,12 +9,11 @@
           <v-row>
             <v-col v-for="actor in actors"
                    :key="actor.id"
+                   cols="2"
                    >
-              <v-card max-width="220px" :href="'/actor/' + actor.id">
+              <v-card :href="'/actor/' + actor.id">
                 <v-img :src="actor.image"
-                        contain
-                >
-                </v-img>
+                ></v-img>
                 <v-card-title>
                   {{ actor.celebrity_name }}
                 </v-card-title>
@@ -36,9 +35,9 @@
             <v-col cols="8">
               <v-container class="max-width">
                 <v-pagination
-                    v-model="page"
+                    v-model="page_offset"
                     class="my-4"
-                    :length="15"
+                    :length="page_count"
                     :total-visible="10"
                 ></v-pagination>
               </v-container>
@@ -63,6 +62,8 @@ export default {
   data() {
     return {
       name: "allActorView",
+      page_offset: 1,
+      page_count: 20,
       actors: [
         {
           "id": 1,
@@ -89,13 +90,26 @@ export default {
   },
   methods: {
     async refresh() {
-      let response = await queryAllCelebrities('');
+      let response = await queryAllCelebrities({
+        limit: 24,
+        offset: this.page_offset,
+      });
       if (response.status === 200) {
-        this.actors = response.data;
+        this.page_count = response.data.meta.total_page;
+        this.actors = response.data.celebrities;
       }
       console.log(this.actors);
     }
   },
+  watch:{
+    page_offset: function () {
+      this.refresh();
+    },
+    page_count: function () {
+      this.refresh();
+    }
+  },
+
   computed: {
 
   }

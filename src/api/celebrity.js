@@ -8,7 +8,7 @@ const apiRoute = {
 };
 
 export async function queryAllCelebrities(data) {
-    return getRequest(apiRoute.queryAllCelebrities + '/', data);
+    return getRequest(apiRoute.queryAllCelebrities + '/?' + 'limit=' + data.limit + '&offset=' + data.offset, data);
 }
 
 export async function queryCelebrityDetail(data, id) {

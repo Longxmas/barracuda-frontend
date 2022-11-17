@@ -157,6 +157,23 @@
       </v-container>
     </v-container>
 
+    <div class="text-center" style="margin-top: 5px">
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                  v-model="page_offset"
+                  class="my-4"
+                  :length="page_count"
+                  :total-visible="10"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+
   </div>
 </template>
 
@@ -182,6 +199,8 @@ export default {
       movieType: [],
       durationSelector: [0, 300],
       selectedLanguage: [],
+      page_offset:1,
+      page_count: 20,
       languageTags: [
         '英语',
         '中文',
@@ -240,13 +259,14 @@ export default {
     async refresh() {
       let response = await queryAllMovies({
         limit: 20,
-        offset: 1,
+        offset: this.page_offset,
         range_at: 0,
         filter: {
 
         }
       });
       if (response.status === 200) {
+        this.page_count = response.data.meta.total_page;
         this.movies = response.data.movies;
       }
       console.log(this.movies);
@@ -257,5 +277,14 @@ export default {
       return this.dates.join('~')
     },
   },
+
+  watch: {
+    page_offset: function () {
+      this.refresh();
+    },
+    page_count: function () {
+      this.refresh();
+    },
+  }
 }
 </script>

@@ -121,7 +121,7 @@
               single-line
               style="color: black; font-size: 25px; font-weight: bold"
               placeholder="请输入影评标题"
-              :value="review_title"
+              v-model="review_title"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -244,16 +244,18 @@ export default {
     jumpToMovie() {
       this.$router.push('/movie/' + this.$route.params.id);
     },
-    addReview() {
-      let response = addReview(
+    async addReview() {
+      let response = await addReview(
           {
             title: this.review_title,
             content: this.content
           },
           this.$route.params.id
       );
+      alert(this.$route.params.id);
+      alert(response.status);
       console.log(response);
-      this.refresh();
+      this.$router.back();
     }
   }
 };
