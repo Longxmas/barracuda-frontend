@@ -19,6 +19,7 @@ import imagesMovieView from "@/views/movie/ImagesMovieView";
 import videosMovieView from "@/views/movie/VideosMovieView";
 import searchMovieView from "@/views/SearchMovieView";
 import searchActorView from "@/views/SearchActorView";
+import addReview from "@/views/review/AddReview";
 
 
 Vue.use(VueRouter)
@@ -119,6 +120,11 @@ const routes = [
     path: '/search/actor',
     name: 'searchMovieView',
     component: searchActorView
+  },
+  {
+    path: '/movie/:id/addreview',
+    name: 'addReview',
+    component: addReview
   }
 ]
 

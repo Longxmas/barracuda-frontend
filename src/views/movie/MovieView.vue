@@ -180,7 +180,7 @@
               <v-card style="margin-top: 10px" elevation="0">
                 <v-card-title class="pb-1"><h3>精选影评</h3>
                   <v-spacer></v-spacer>
-                  <v-btn class="mr-4">
+                  <v-btn class="mr-4" @click="jumpToAddReview">
                     <v-icon>mdi-pen</v-icon>
                     &ensp;
                     我要写影评
@@ -297,7 +297,7 @@
               <v-card style="margin-top: 10px; overflow: scroll; min-width: 1000px" elevation="0">
                 <v-card-title class="pb-1"><h3>精选短评</h3>
                   <v-spacer></v-spacer>
-                  <v-btn class="mr-4">
+                  <v-btn class="mr-4" @click="is_rating=true">
                     <v-icon>mdi-pen</v-icon>
                     &ensp;
                     我要写短评
@@ -574,6 +574,9 @@ export default {
     },
     jumpToComment() {
       this.$router.push('/movie/'+this.$route.params.id+'/comment');
+    },
+    jumpToAddReview() {
+      this.$router.push('/movie/'+this.$route.params.id+'/addreview');
     },
     starMovie() {
       this.started = !this.started;
