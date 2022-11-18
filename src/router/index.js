@@ -81,8 +81,8 @@ const routes = [
     component: allMovieView
   },
   {
-    path: '/user',
-    name: 'user',
+    path: '/user/:id',
+    name: 'userProfile',
     component: UserProfileView
   },
   {

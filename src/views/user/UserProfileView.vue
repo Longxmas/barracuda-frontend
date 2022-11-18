@@ -83,6 +83,12 @@
               </v-col>
             </v-row>
           </v-container>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn color="red" class="my-auto" style="color: white" @click="logout">
+              退出登陆
+            </v-btn>
+          </v-card-actions>
         </v-card>
 
       </v-tab-item>
@@ -561,6 +567,8 @@
 </template>
 
 <script>
+import * as api from "@/api/request";
+
 export default {
   name: "UserProfileView",
 
@@ -818,6 +826,20 @@ export default {
   },
 
   methods: {
+    async logout() {
+      let response = await api.getRequest('/logout/', '');
+      if (response.status === 200) {
+        alert('成功退出登陆');
+        this.$store.commit('user/setId', '');
+        this.$store.commit('user/setUsername', '');
+        this.$store.commit('user/setNickname', '');
+        this.$store.commit('user/setEmail', '');
+        this.$store.commit('user/setRole', '');
+        this.$store.commit('user/setAvatar', '');
+        this.$store.commit('user/setIslogin', '');
+        await this.$router.push('/')
+      }
+    },
     submitUserProfile() {
       /*this.$axios.post('/api/user_profile/', this.editedItem)
           .then(response => {

@@ -74,12 +74,12 @@ export default {
       console.log(it);
       alert(it.status);
       if (it.status === 200) {
-        // TODO: this.$store.commit('user/setId');
+        this.$store.commit('user/setId', '1');
         this.$store.commit('user/setUsername', loginForm.username);
         // TODO: this.$store.commit('user/setNickname', nickname);
         // TODO: this.$store.commit('user/setEmail', response.data.info['email']);
         this.$store.commit('user/setRole', 'NormalUser');
-        // this.$store.commit('user/setAvatar', response.data.info['avatar_url']);
+        this.$store.commit('user/setAvatar', 'https://api.yimian.xyz/img?type=head');
         this.$store.commit('user/setIslogin', 'true');
         await this.$router.push('/')
       }
