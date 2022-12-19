@@ -75,7 +75,7 @@
                     <v-icon right>mdi-star</v-icon>
                   </v-chip>
 
-                  <v-dialog v-model="is_rating" max-width="800px" scrollable >
+                  <v-dialog v-model="is_rating" max-width="800px" scrollable>
                     <v-card>
                       <v-toolbar color="green lighten-3" class="text-h6" style="color: white">
                         <span class="pl-3">写短评</span>
@@ -147,7 +147,7 @@
             <v-col cols="9" class="pl-0">
 
               <v-card style="margin:10px" elevation="0">
-                <v-card-title><h3>主演</h3></v-card-title>
+                <v-card-title><h3>主创团队</h3></v-card-title>
                 <v-card-text>
 
                   <ul class="poster-ul">
@@ -165,20 +165,20 @@
                             style="border-radius: 0;"
                             :style="calculateImageFitPattern(300,item.image)"/>
                         <v-card-text class="text--primary" style="padding: 8px; text-align: center">
-                          <span>{{ item.celebrity_name}}</span>
+                          <span>{{ item.celebrity_name }}</span>
                         </v-card-text>
                       </v-card>
                     </li>
                   </ul>
 
-                  <a><h3 style="color: black" class="mt-5">完整演职人员表</h3></a>
+                  <!--<a><h3 style="color: black" class="mt-5">完整演职人员表</h3></a>-->
                 </v-card-text>
               </v-card>
 
               <v-divider></v-divider>
 
               <v-card style="margin-top: 10px" elevation="0">
-                <v-card-title class="pb-1"><h3>精选影评</h3>
+                <v-card-title class="pb-1"><h3>最新影评</h3>
                   <v-spacer></v-spacer>
                   <v-btn class="mr-4" @click="jumpToAddReview">
                     <v-icon>mdi-pen</v-icon>
@@ -210,7 +210,7 @@
                                               half-increments readonly
                                               size="18">
                                     </v-rating>
-                                    <span class="my-auto pl-3">{{ review.time }}</span>
+                                    <span class="my-auto pl-3">{{ review.create_at }}</span>
                                   </v-row>
 
                                   <v-row class="pl-0">
@@ -233,7 +233,7 @@
                                         font-family: 微软雅黑,serif;
                                         font-size: 14px;
                                         color: dimgray;">
-                                      {{ review.introduction }} </p>
+                                      {{ review.content }} </p>
                                   </v-row>
 
                                   <v-row class="pl-5">
@@ -280,14 +280,14 @@
                         >
                           <img
                               alt="媒体"
-                              :src="item.src"
+                              :src="item.image_path"
                               style="border-radius: 0;"
-                              :style="calculateImageFitPattern(400,item.src)">
+                              :style="calculateImageFitPattern(400,item.image_path)">
                         </v-card>
                       </li>
                     </ul>
                   </v-container>
-                  <a><h3 style="color: black" class="mt-5">查看全部媒体</h3></a>
+                  <a @click="jumpToMedia"><h3 style="color: black" class="mt-5">查看全部媒体</h3></a>
 
                 </v-card-text>
               </v-card>
@@ -295,7 +295,7 @@
               <v-divider></v-divider>
 
               <v-card style="margin-top: 10px; overflow: scroll; min-width: 1000px" elevation="0">
-                <v-card-title class="pb-1"><h3>精选短评</h3>
+                <v-card-title class="pb-1"><h3>最新短评</h3>
                   <v-spacer></v-spacer>
                   <v-btn class="mr-4" @click="is_rating=true">
                     <v-icon>mdi-pen</v-icon>
@@ -315,7 +315,7 @@
                           <v-row :class="judgePosition(i)">
                             <v-col cols="1" class="px-0">
                               <v-avatar tile class="ml-5 pt-2">
-                                <v-img :src="comment.avatar"></v-img>
+                                <v-img :src="comment.author_details.avatar"></v-img>
                               </v-avatar>
                             </v-col>
                             <v-col :class="judgePosition(i)" class="mx-1">
@@ -327,13 +327,13 @@
                                         <v-container fluid>
 
                                           <v-row class="pl-0 " :class=judgePosition(i)>
-                                            <a style="font-size: 16px" class="my-auto pl-3">{{ comment.user }}</a>
+                                            <a style="font-size: 16px" class="my-auto pl-3">{{ comment.author_details.nickname }}</a>
                                             <v-rating class="my-auto pl-3"
                                                       :value="comment.rating" color="amber" dense
                                                       half-increments readonly
                                                       size="18">
                                             </v-rating>
-                                            <span class="my-auto pl-3">{{ comment.time }}</span>
+                                            <span class="my-auto pl-3">{{ comment.create_at }}</span>
                                           </v-row>
 
                                           <v-row class="pt-2 pl-3 pr-2" :class=judgePosition(i)>
@@ -348,7 +348,7 @@
                                         font-size: 14px;
                                         color: dimgray;
                                         margin-bottom: 0">
-                                              {{ comment.introduction }} </p>
+                                              {{ comment.content }} </p>
                                           </v-row>
 
                                         </v-container>
@@ -416,7 +416,7 @@
 </template>
 
 <script>
-import {queryMovieDetail, queryMovieStaff} from "@/api/movie";
+import {queryMovieDetail, queryMovieImages, queryMovieRatings, queryMovieReviews, queryMovieStaff} from "@/api/movie";
 
 export default {
   name: "movieDetail",
@@ -468,7 +468,7 @@ export default {
           id: 1,
           avatar: require("../../assets/pics/spiderman.jpg"),
           title: "太好看了吧",
-          introduction: "我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！" +
+          content: "我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！" +
               "我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！" +
               "我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！" +
               "我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！我觉得这部电影非常的好看！",
@@ -482,7 +482,7 @@ export default {
           id: 2,
           avatar: require("../../assets/pics/anne.jpg"),
           title: "略有失望",
-          introduction: "最强科幻片不过如此",
+          content: "最强科幻片不过如此",
           rating: 4.0,
           reply_count: 50,
           like_count: 110,
@@ -523,7 +523,7 @@ export default {
         {
           id: 1,
           avatar: require("../../assets/pics/anne.jpg"),
-          introduction: "最强科幻片不过如此 最强科幻片不过如此 最强科幻片不过如此" +
+          content: "最强科幻片不过如此 最强科幻片不过如此 最强科幻片不过如此" +
               "最强科幻片不过如此" +
               "最强科幻片不过如此" +
               "最强科幻片不过如此" +
@@ -564,19 +564,33 @@ export default {
       if (response.status === 200) {
         this.actors = response.data.celebrities;
       }
+      response = await queryMovieReviews('', this.$route.params.id);
+      if (response.status === 200) {
+        let len1 = response.data.reviews.length;
+        this.reviews = response.data.reviews.slice(len1-3, len1).reverse();
+      }
+      response = await queryMovieRatings('', this.$route.params.id);
+      if (response.status === 200) {
+        let len2 = response.data.rating.length;
+        this.ratings = response.data.rating.slice(len2-4, len2).reverse();
+      }
+      response = await  queryMovieImages('', this.$route.params.id);
+      if (response.status === 200) {
+        this.pictures = response.data.images;
+      }
       console.log(this.actors)
     },
     jumpToReview() {
-      this.$router.push('/movie/'+this.$route.params.id+'/review');
+      this.$router.push('/movie/' + this.$route.params.id + '/review');
     },
     jumpToMedia() {
-      this.$router.push('/movie/'+this.$route.params.id+'/media/images');
+      this.$router.push('/movie/' + this.$route.params.id + '/media/images');
     },
     jumpToComment() {
-      this.$router.push('/movie/'+this.$route.params.id+'/comment');
+      this.$router.push('/movie/' + this.$route.params.id + '/comment');
     },
     jumpToAddReview() {
-      this.$router.push('/movie/'+this.$route.params.id+'/addreview');
+      this.$router.push('/movie/' + this.$route.params.id + '/addreview');
     },
     starMovie() {
       this.started = !this.started;

@@ -1,6 +1,6 @@
 <template>
   <div class="actor-view">
-    <v-container class="actor-container">
+    <v-container class="mx-auto mt-10" fluid style="width:90%" >
       <v-row>
         <v-col style="max-width: 450px">
           <!-- actor pthoto-card-->
@@ -60,7 +60,7 @@
             </v-toolbar>
 
             <v-list dense>
-              <v-list-item>
+              <v-list-item style="min-height: 50px" class="mt-2">
                 <v-chip
                     style="width: 100px"
                     color="primary"
@@ -69,10 +69,10 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   性别
                 </v-chip>
-                <v-card-text align="right"> {{ actor_information.gender === 1 ? '男' : '女'}}</v-card-text>
+                <v-card-text align="right"> {{ actor_information.gender === 1 ? '男' : actor_information.gender === 2 ? '女' : ''}}</v-card-text>
               </v-list-item>
 
-              <v-list-item>
+              <v-list-item style="min-height: 50px">
                 <v-chip
                     style="width: 150px"
                     color="primary"
@@ -84,7 +84,7 @@
                 <v-card-text align="right"> {{ actor_information.birthday }}</v-card-text>
               </v-list-item>
 
-              <v-list-item>
+              <v-list-item style="min-height: 50px">
                 <v-chip
                     style="width: 130px"
                     color="primary"
@@ -96,7 +96,7 @@
                 <v-card-text align="right"> {{ actor_information.place_of_birth }}</v-card-text>
               </v-list-item>
 
-              <v-list-item>
+              <v-list-item style="min-height: 50px">
                 <v-chip
                     style="width: 100px"
                     color="primary"
@@ -371,11 +371,6 @@ export default {
 
 }
 
-
-.actor-container {
-  margin: 60px;
-  max-width: 100%;
-}
 
 .actor-photo-card {
   margin-left: 20px !important;

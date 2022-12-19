@@ -21,7 +21,6 @@ import searchMovieView from "@/views/SearchMovieView";
 import searchActorView from "@/views/SearchActorView";
 import addReview from "@/views/review/AddReview";
 
-
 Vue.use(VueRouter)
 
 const routes = [

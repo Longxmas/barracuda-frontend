@@ -152,8 +152,12 @@ export default {
     };
   },
   methods: {
-    searchNow() {
-      this.$router.push('/search/movie?query=' + this.query);
+    async searchNow() {
+      console.log('search');
+      if (this.query === this.$route.query.query) {
+        return;
+      }
+      await this.$router.push('/search/movie?query=' + this.query);
     },
     showSearchBar(query_word) {
       this.searchBox = true;

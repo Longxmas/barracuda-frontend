@@ -5,6 +5,7 @@ const apiRoute = {
     celebrityImage: '/images',
     celebrityMovies: '/movies',
     celebrityCooperation: '/celebrities',
+    searchActor: '/search/celebrity',
 };
 
 export async function queryAllCelebrities(data) {
@@ -25,4 +26,8 @@ export async function queryCelebrityMovies(data, id) {
 
 export async function queryCelebrityCooperation(data, id) {
     return getRequest(apiRoute.queryAllCelebrities + "/" + id + apiRoute.celebrityCooperation + '/', data);
+}
+
+export async function searchActor(data) {
+    return getRequest(apiRoute.searchActor + '/' + '?query=' + data.query, data);
 }

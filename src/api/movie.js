@@ -6,7 +6,8 @@ const apiRoute = {
     movieVideo: '/videos',
     movieRating: '/rating',
     movieStaff: '/celebrities',
-    movieComments: '/comments',
+    movieReviews: '/review',
+    searchMovie: '/search/movie',
 };
 
 export async function queryAllMovies(data) {
@@ -30,8 +31,8 @@ export async function queryMovieStaff(data, id) {
     return getRequest(apiRoute.queryAllMovies + "/" + id + apiRoute.movieStaff + '/', data);
 }
 
-export async function queryMovieComments(data, id) {
-    return getRequest(apiRoute.queryAllMovies + "/" + id + apiRoute.movieComments + '/', data);
+export async function queryMovieReviews(data, id) {
+    return getRequest(apiRoute.queryAllMovies + "/" + id + apiRoute.movieReviews + '/', data);
 }
 
 export async function queryMovieVideos(data, id) {
@@ -42,3 +43,9 @@ export async function addReview(data, id) {
     /* localhost:8000/movie/1/review/ */
     return postRequest(apiRoute.queryAllMovies + "/" + id + "/review/", data);
 }
+
+export async function searchMovie(data) {
+    return getRequest(apiRoute.searchMovie + '/' + '?query=' + data.query, data);
+}
+
+

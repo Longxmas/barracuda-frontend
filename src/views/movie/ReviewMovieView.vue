@@ -24,7 +24,7 @@
               </v-breadcrumbs>
             </v-col>
             <v-col class="d-flex flex-row-reverse">
-              <v-btn class="mr-4">
+              <v-btn class="mr-4" @click="jumpToAddReview">
                 <v-icon>mdi-pen</v-icon>
                 &ensp;
                 我要写影评
@@ -45,17 +45,17 @@
                   <v-card-text class="pa-0">
                     <v-container fluid >
                       <v-row>
-                        <v-img :src="review.movie_poster" max-width="150px"
+                        <v-img :src="movie.image" max-width="150px"
                                style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
                         <v-col style="margin-left: 5px">
                           <v-container fluid>
 
                             <v-row class="pl-0 pt-0">
                               <v-col class="pa-0">
-                                <a>
+                                <a @click="jumpToReview(review.id)">
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                       class="ma-auto pa-0 "
-                                  >{{ review.review_title }}</h3>
+                                  >{{ review.title }}</h3>
                                 </a>
                               </v-col>
                             </v-row>
@@ -65,11 +65,11 @@
                                 <v-img :src="review.user_avatar" alt="Avatar"></v-img>
                               </v-avatar>
                               &ensp;
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.user_name }}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.author_details.nickname }}</a>
                               &ensp;
                               <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                               &ensp;
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  review.movie_name}}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  movie.movie_name}}</a>
                               &ensp;
                               <p class="my-auto" style="font-size: 16px"> {{review.review_date}} </p>
                               <v-spacer></v-spacer>
@@ -90,7 +90,7 @@
                                         font-family: 微软雅黑,serif;
                                         font-size: 16px;
                                         color: black;">
-                                {{ review.review_content }} </p>
+                                {{ review.content }} </p>
                             </v-row>
 
                             <v-row>
@@ -127,11 +127,17 @@
 </template>
 
 <script>
+import {queryMovieDetail, queryMovieReviews} from "@/api/movie";
+
 export default {
   name: 'reviewMovieView',
+  async mounted() {
+    await this.refresh();
+  },
   data() {
     return {
       activeIndex: 'tab-4',
+      movie: {},
       breadcrumbs_items: [
         {
           text: '所有电影',
@@ -139,7 +145,7 @@ export default {
           href: '/movie',
         },
         {
-          text: '电影名称',
+          text: '',
           disabled: false,
           href: '/movie/'+this.$route.params.id,
         }
@@ -270,6 +276,19 @@ export default {
     }
   },
   methods: {
+    async refresh() {
+      let response = await queryMovieReviews('', this.$route.params.id);
+      if (response.status === 200) {
+        let len1 = response.data.reviews.length;
+        this.reviews = response.data.reviews.slice(len1-3, len1).reverse();
+      }
+      response = await queryMovieDetail('', this.$route.params.id);
+      if (response.status === 200) {
+        this.movie = response.data;
+        this.breadcrumbs_items[1].text = this.movie.movie_name;
+      }
+    },
+
     jumpToOverView() {
       this.$router.push('/movie/'+this.$route.params.id);
     },
@@ -278,6 +297,13 @@ export default {
     },
     jumpToComment() {
       this.$router.push('/movie/'+this.$route.params.id+'/comment');
+    },
+
+    jumpToAddReview() {
+      this.$router.push('/movie/' + this.$route.params.id + '/addreview');
+    },
+    jumpToReview(review_id) {
+      this.$router.push('/review/' + review_id);
     }
   },
   computed: {

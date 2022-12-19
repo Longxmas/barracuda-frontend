@@ -26,7 +26,7 @@
                             <p class="my-auto">影片</p>
                           </v-col>
                           <v-col class="d-flex flex-row-reverse pt-0 pb-0">
-                            <v-chip pill>114514</v-chip>
+                            <v-chip pill>{{movie_results.length}}</v-chip>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -42,7 +42,7 @@
                               <p class="my-auto">人物</p>
                             </v-col>
                             <v-col class="d-flex flex-row-reverse pt-0 pb-0">
-                              <v-chip pill>114514</v-chip>
+                              <v-chip pill>{{ this.actors.length }}</v-chip>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -69,14 +69,16 @@
 
                     <v-container fluid>
                       <v-row>
-                        <v-img src="../assets/interstellar2.png" max-width="150px"
-                               style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
+                        <v-img :src="movie.image" max-width="150px"
+                               style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"
+                               @click="jumpToMovie(movie)"
+                        ></v-img>
                         <v-col style="margin-left: 5px">
                           <v-container fluid>
 
                             <v-row>
                               <v-progress-circular
-                                  :value="80"
+                                  :value="movie.vote_average * 10"
                                   color="#13C00DFF"
                                   width="3"
                                   size="40"
@@ -84,13 +86,16 @@
                                   class="ma-auto"
                                   style="background-color: #0b1c22; border-radius: 100%"
                               >
-                                <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">80</span>
+                                <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">{{ movie.vote_average * 10 }}</span>
                               </v-progress-circular>
 
                               <v-col>
-                                <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                    class="ma-auto pa-0 ">{{ movie.name }}</h3>
-                                <span>{{ movie.date }}</span>
+                                <a :href="'/movie/' + movie.id" style="text-decoration: none">
+                                  <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
+                                      class="ma-auto pa-0 ">{{ movie.movie_name }}</h3>
+                                </a>
+
+                                <span>{{ movie.release_date }}</span>
                               </v-col>
                             </v-row>
 
@@ -106,7 +111,7 @@
                                         font-size: 16px;
                                         color: black;
                                         min-height: 50px">
-                                {{ movie.introduction }} </p>
+                                {{ movie.overview }} </p>
                             </v-row>
 
                             <v-row>
@@ -181,10 +186,14 @@
 </template>
 
 <script>
+import {searchMovie} from "@/api/movie";
+import {searchActor} from "@/api/celebrity";
+
 export default {
   name: 'searchMovieView',
-  mounted() {
+  async mounted() {
     this.$emit('showSearchBar', this.$route.query.query);
+    await this.refresh();
   },
   data() {
     return {
@@ -218,10 +227,48 @@ export default {
           introduction: 'testtesttesttesttesttesttest',
           date: '2020-10-10',
         },
-      ]
+      ],
+      actors: [],
     }
   },
-  methods: {},
+  watch: {
+    '$route.query.query': function (newVal, oldVal) {
+      if (newVal === oldVal) {
+        return;
+      }
+      this.$emit('showSearchBar', newVal);
+      this.refresh();
+    }
+  },
+  methods: {
+    async refresh() {
+      let response = await searchMovie(
+          {
+            query: this.$route.query.query,
+            limit: 100,
+            offset: 1,
+          }
+      );
+      if (response.status === 200) {
+        this.movie_results = response.data.movies;
+      }
+
+      response = await searchActor(
+          {
+            query: this.$route.query.query,
+            limit: 100,
+            offset: 1,
+          }
+      );
+      if (response.status === 200) {
+        this.actors = response.data.celebrities;
+      }
+
+    },
+    jumpToMovie(movie) {
+      this.$router.push({path: '/movie/' + movie.id});
+    }
+  },
   computed: {}
 }
 </script>

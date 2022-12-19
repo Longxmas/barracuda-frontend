@@ -26,7 +26,7 @@
                             <p class="my-auto">影片</p>
                           </v-col>
                           <v-col class="d-flex flex-row-reverse pt-0 pb-0">
-                            <v-chip pill>114514</v-chip>
+                            <v-chip pill>{{ this.movie_results.length }}</v-chip>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -42,7 +42,7 @@
                               <p class="my-auto">人物</p>
                             </v-col>
                             <v-col class="d-flex flex-row-reverse pt-0 pb-0">
-                              <v-chip pill>114514</v-chip>
+                              <v-chip pill>{{ actors.length }}</v-chip>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -69,16 +69,23 @@
 
                     <v-container fluid>
                       <v-row>
-                        <v-img :src="actor.avatar" max-width="150px"
-                               style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
+                        <v-img :src="actor.image" max-width="150px"
+                               style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"
+                               @click="jumpToActor(actor)"
+                        ></v-img>
                         <v-col style="margin-left: 5px">
                           <v-container fluid>
 
                             <v-row>
                               <v-col>
-                                <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                    class="ma-auto pa-0 ">{{ actor.name }}</h3>
-                                <span>{{ actor.birthtime }}</span>
+                                <a :href="'/actor/' + actor.id" style="text-decoration: none">
+                                  <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
+                                      class="ma-auto pa-0 "
+                                  >
+                                    {{ actor.celebrity_name }}</h3>
+                                </a>
+
+                                <span>{{ actor.birthday }}</span>
                               </v-col>
                             </v-row>
 
@@ -93,7 +100,7 @@
                                         font-family: 微软雅黑,serif;
                                         font-size: 16px;
                                         color: black;">
-                                {{ actor.introduction }} </p>
+                                {{ actor.biography }} </p>
                             </v-row>
 
 
@@ -127,10 +134,14 @@
 </template>
 
 <script>
+import {searchActor} from "@/api/celebrity";
+import {searchMovie} from "@/api/movie";
+
 export default {
   name: 'searchActorView',
-  mounted() {
+  async mounted() {
     this.$emit('showSearchBar', this.$route.query.query);
+    await this.refresh();
   },
   data() {
     return {
@@ -185,10 +196,45 @@ export default {
               '                近两年麦康纳又出演了《撒哈拉骑兵》、《利欲两心》、《赖家王老五》等商业片，知名度和影响力直线上升。'
         }
       ],
+      movie_results: [],
+    }
+  },
+  watch: {
+    '$route.query.query': function (newVal, oldVal) {
+      if (newVal === oldVal) {
+        return;
+      }
+      this.$emit('showSearchBar', newVal);
+      this.refresh();
     }
   },
   methods: {
+    async refresh() {
+      let response = await searchActor(
+          {
+            query: this.$route.query.query,
+            limit: 100,
+            offset: 1,
+          }
+      );
+      if (response.status === 200) {
+        this.actors = response.data.celebrities;
+      }
 
+      response = await searchMovie(
+          {
+            query: this.$route.query.query,
+            limit: 100,
+            offset: 1,
+          }
+      );
+      if (response.status === 200) {
+        this.movie_results = response.data.movies;
+      }
+    },
+    jumpToActor(actor) {
+      this.$router.push({path: '/actor/' + actor.id});
+    }
   },
   computed: {
 

@@ -15,10 +15,11 @@
                       solo
                       color="white"
                       style="border-radius: 30px"
+                      v-model="query"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="2">
-                  <v-btn rounded color="warning" light large>
+                  <v-btn rounded color="warning" light large @click="searchNow()">
                     搜索
                   </v-btn>
                 </v-col>
@@ -317,6 +318,7 @@ export default {
   data() {
     return {
       name: "mainView",
+      query: '',
       background_image: require("../assets/mainpage_background.png"),
 
       hotMovies: [
@@ -464,7 +466,16 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    async searchNow() {
+      console.log('search');
+      if (this.query === this.$route.query.query) {
+        return;
+      }
+      await this.$router.push('/search/movie?query=' + this.query);
+    },
+
+  },
   computed: {}
 }
 </script>
