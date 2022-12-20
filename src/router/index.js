@@ -96,18 +96,18 @@ const routes = [
     component: reviewDetail
   },
   {
-    path: '/allgroup',
-    name: 'allgroup',
+    path: '/group',
+    name: 'allGroup',
     component: allGroupView
   },
   {
-    path: '/group',
-    name: 'group',
+    path: '/group/:id',
+    name: 'groupDetail',
     component: groupDetailView
   },
   {
-    path: '/groupdiscusssion',
-    name: 'groupdiscusssion',
+    path: '/group/:id/discussion/:discussionId',
+    name: 'groupDiscusssion',
     component: groupDiscussionDetail
   },
   {

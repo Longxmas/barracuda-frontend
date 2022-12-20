@@ -7,9 +7,27 @@
       <div class="inner_content">
         <v-container fluid>
           <v-row class="my-6">
-            <v-avatar size="150px" style="margin-left: 8%">
-              <v-img :src="user.avatar"></v-img>
-            </v-avatar>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <el-upload
+                    name="avatar"
+                    v-model="fileList"
+                    :action="'http://localhost:8080/api/user/'"
+                    :on-change="uploadAvatar"
+                    :auto-upload="false"
+                    size="150px"
+                    :show-file-list="false"
+                    style="margin-left: 8%"
+                >
+                  <v-avatar size="150px" style="margin-left: 8%" v-bind="attrs" v-on="on">
+                    <v-img :src="user.avatar"></v-img>
+                  </v-avatar>
+                </el-upload>
+              </template>
+              <span>点击修改头像</span>
+            </v-tooltip>
+
+
             <v-card style="background-color: transparent; margin-left: 5%" elevation="0" class="py-10">
               <v-card-text>
                 <span class="user-name"> {{ user.name }}</span>
@@ -54,7 +72,7 @@
                   <span style="color: black; font-size: 17px;  line-height: 30px"
                         v-for="(item,k) in user.prefers"
                         :key="k">
-                    {{ item }}
+                    {{ item.name }}
                   </span>
                   <br>
                   <br>
@@ -73,10 +91,6 @@
 
                   <br>
                   <br>
-                  <v-btn color="#41b2e2" style="margin-left: 70%;margin-top: 5%; color: white"
-                         @click.stop="editInfoDialog=true">
-                    <span>编辑个人资料</span>
-                  </v-btn>
 
 
                 </v-card-text>
@@ -88,6 +102,11 @@
             <v-btn color="red" class="my-auto" style="color: white" @click="logout">
               退出登陆
             </v-btn>
+            <v-btn color="#41b2e2" style="margin-left: 70%; color: white"
+                   class="flex-column-reverse"
+                         @click.stop="editInfoDialog=true">
+                    <span>编辑个人资料</span>
+            </v-btn>
           </v-card-actions>
         </v-card>
 
@@ -98,6 +117,9 @@
           <v-card-title>
             <h2>{{ user.name }}的影评</h2>
           </v-card-title>
+          <v-card-text v-if="reviews.length === 0">
+            <h3>{{ user.name }}暂无撰写的影评</h3>
+          </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
               <v-list-item
@@ -107,7 +129,7 @@
                 <v-card elevation="5" class="mb-5" style="border-radius: 10px" width="100%">
                   <v-card-text class="pa-0">
 
-                    <v-container fluid >
+                    <v-container fluid>
                       <v-row>
                         <v-img :src="review.movie_picture" max-width="150px"
                                style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
@@ -117,22 +139,26 @@
                             <v-row class="pl-0 pt-3">
 
                               <v-col class="pa-0">
-                                <a>
+                                <a :href="'/review/' + review.id">
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                      class="ma-auto pa-0 ">{{ review.title }}</h3>
+                                      class="ma-auto pa-0 "
+
+                                      >{{ review.title }}</h3>
                                 </a>
 
                               </v-col>
                             </v-row>
 
                             <v-row>
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ user.name }}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" :href="'/user/' + user.id">{{ user.name }}</a>
                               &ensp;
                               <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                               &ensp;
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  review.movie_name}}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" :href="'/movie/' + review.movie_id">{{
+                                  review.movie_name
+                                }}</a>
                               &ensp;
-                              <p class="my-auto" style="font-size: 16px"> {{review.time}} </p>
+                              <p class="my-auto" style="font-size: 16px"> {{ review.time }} </p>
                               <v-spacer></v-spacer>
                               <v-rating style="margin-top: 15px; margin-bottom: 15px"
                                         :value="review.rating" color="amber" dense half-increments readonly size="14">
@@ -158,17 +184,17 @@
                               <v-btn small class="mr-5" style="color: white;background-color: skyblue">
                                 <v-icon small class="my-auto"> mdi-heart</v-icon>
                                 &ensp;
-                                {{review.like_count}}
+                                {{ review.like_count }}
                               </v-btn>
 
                               <v-btn small class="mr-5" style="color: white;background-color: darkorange">
                                 <v-icon small class="my-auto"> mdi-message</v-icon>
                                 &ensp;
-                                {{review.reply_count}}
+                                {{ review.reply_count }}
                               </v-btn>
 
                               <v-btn small class="mr-5" style="color: white;background-color: limegreen"
-                                @click="deleteReview(review)">
+                                     @click="deleteReview(review)">
                                 <v-icon small class="my-auto"> mdi-delete</v-icon>
                                 &ensp;
                                 <span class="my-auto">删除影评</span>
@@ -197,6 +223,9 @@
           <v-card-title>
             <h2>{{ user.name }}的收藏</h2>
           </v-card-title>
+          <v-card-text v-if="starsMovies.length === 0">
+            <h3>{{ user.name }}暂无收藏的电影</h3>
+          </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
               <v-list-item
@@ -208,7 +237,7 @@
 
                     <v-container fluid>
                       <v-row>
-                        <v-img src="../../assets/interstellar2.png" max-width="150px"
+                        <v-img :src="movie.poster" max-width="150px"
                                style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
                         <v-col style="margin-left: 5px">
                           <v-container fluid>
@@ -227,8 +256,10 @@
                               </v-progress-circular>
 
                               <v-col>
+                                <a :href="'/movie/' + movie.id">
                                 <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                     class="ma-auto pa-0 ">{{ movie.title }}</h3>
+                                </a>
                                 <span>{{ movie.datePublished }}</span>
                               </v-col>
                             </v-row>
@@ -250,14 +281,6 @@
 
                             <v-row>
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="pink" large>
-                                  <v-icon>mdi-heart</v-icon>
-                                </v-btn>
-                                <span
-                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的收藏</span>
-                              </v-col>
-
-                              <v-col cols="8" sm="2" class="pa-0">
                                 <v-menu offset-y>
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -266,6 +289,7 @@
                                         large
                                         v-bind="attrs"
                                         v-on="on"
+                                        @click="getCurrentRate(movie)"
                                     >
                                       <v-icon>mdi-star</v-icon>
                                     </v-btn>
@@ -274,13 +298,14 @@
                                   <v-list>
                                     <v-list-item>
                                       <v-rating
-                                          v-model="rating"
+                                          v-model="currentRate"
                                           color="yellow darken-3"
                                           background-color="grey darken-1"
                                           empty-icon="$ratingFull"
                                           half-increments
                                           hover
                                           large
+                                          @input="changeRate(movie)"
                                       ></v-rating>
                                     </v-list-item>
                                   </v-list>
@@ -294,10 +319,10 @@
                               </v-col>
 
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="green" large>
+                                <v-btn icon color="green" large @click="unstarMovie(movie)">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">删除</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">取消收藏</span>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -321,6 +346,9 @@
           <v-card-title>
             <h2>{{ user.name }}关注的影人</h2>
           </v-card-title>
+          <v-card-text v-if="starsActors.length === 0">
+            <h3>{{ user.name }}暂无关注的影人</h3>
+          </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
               <v-list-item
@@ -339,8 +367,11 @@
 
                             <v-row>
                               <v-col>
-                                <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
+                                <a :href="'/actor/' + actor.id">
+                                  <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                     class="ma-auto pa-0 ">{{ actor.name }}</h3>
+                                </a>
+
                                 <span>{{ actor.birthtime }}</span>
                               </v-col>
                             </v-row>
@@ -362,15 +393,7 @@
 
                             <v-row>
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="pink" large>
-                                  <v-icon>mdi-star</v-icon>
-                                </v-btn>
-                                <span
-                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的关注</span>
-                              </v-col>
-
-                              <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="green" large>
+                                <v-btn icon color="green" large @click="unStarCelebrity(actor)">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
                                 <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">删除</span>
@@ -399,7 +422,7 @@
             <h2>{{ user.name }}加入的兴趣小组</h2>
           </v-card-title>
           <v-card-text v-if="interest_groups.length === 0">
-            <h3>{{user.name}}暂无加入的兴趣小组</h3>
+            <h3>{{ user.name }}暂无加入的兴趣小组</h3>
           </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
@@ -419,8 +442,10 @@
 
                             <v-row>
                               <v-col>
-                                <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                    class="ma-auto pa-0 ">{{ group.name }}</h3>
+                                <a :href="'/group/' + group.id">
+                                  <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
+                                      class="ma-auto pa-0 ">{{ group.name }}</h3>
+                                </a>
                                 <span>创建于{{ group.created_at }}</span>
                               </v-col>
                             </v-row>
@@ -442,19 +467,10 @@
 
                             <v-row>
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="pink" large>
-                                  <v-icon>mdi-heart</v-icon>
-                                </v-btn>
-                                <span
-                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的兴趣小组</span>
-                              </v-col>
-
-
-                              <v-col cols="8" sm="2"  class="pa-0">
-                                <v-btn icon color="green" large>
+                                <v-btn icon color="green" large @click="quitGroup(group)">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">删除</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">退出兴趣小组</span>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -515,7 +531,7 @@
                 <h3 class="title mb-2">偏好的电影类型</h3>
 
                 <v-chip-group
-                    v-model="amenities"
+                    v-model="selectedAmenities"
                     column
                     multiple
                 >
@@ -540,17 +556,6 @@
               </v-col>
 
               <v-col cols="12" sm="8" md="6">
-                <v-card-text class="pa-0 pb-5">
-                  用户头像
-                </v-card-text>
-                <v-avatar>
-                  <v-img :src="editedItem.avatar"></v-img>
-                </v-avatar>
-
-                <v-btn class="ml-10">
-                  上传头像
-                </v-btn>
-
               </v-col>
             </v-row>
 
@@ -568,7 +573,16 @@
 
 <script>
 import * as api from "@/api/request";
-import {getJoinedGroups, getStarCelebrities, getStarMovies, getUserProfile, getWrittenReviews} from "@/api/user";
+import {
+  deleteReview,
+  getJoinedGroups,
+  getStarCelebrities,
+  getStarMovies,
+  getUserProfile,
+  getWrittenReviews, quitGroup, unstarCelebrity, unstarMovie, updateProfile
+} from "@/api/user";
+import Axios from "axios";
+import {queryMovieRatings} from "@/api/movie";
 
 export default {
   name: "UserProfileView",
@@ -597,7 +611,12 @@ export default {
         avatar: require("../../assets/pics/spiderman.jpg"),
         valid: true
       },
+      currentRate: 5,
+      currentComment: "",
+      selectedAmenities: [],
+      fileList: [],
       editInfoDialog: false,
+      avatarInput: null,
       topTabName: "overview",
       starsMovies: [
         {
@@ -612,7 +631,8 @@ export default {
               '，太太是一个头脑简单出手又阔绰的女人，因为自己要出国留学，所以将家教的职位暂时转交给基宇。就这样，基宇来到了朴社长（李善均 饰）家中' +
               '，并且见到了他的太太（赵汝贞 饰），' +
               '没过多久，基宇的妹妹和父母也如同寄生虫一般的进入了朴社长家里工作。然而，他们的野心并没有止步于此' +
-              '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。'
+              '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。',
+          rating: 4.5,
         },
       ],
       starsActors: [
@@ -638,7 +658,7 @@ export default {
           movie_id: 2,
           /*movie_pic应当是后端查询后返回*/
           movie_picture: require('../../assets/pics/syberpunk.jpg'),
-          rating: '4.5',
+          rating: 4.5,
           time: '2022-11-12',
           like_count: 170,
           reply_count: 100,
@@ -654,7 +674,8 @@ export default {
           created_at: '2022-11-13',
           introduction: '科幻片永远的神，欢迎大家分享喜欢的科幻电影，一起讨论科幻片的魅力！'
         },
-      ]
+      ],
+      prefer_headers: []
     }
   },
 
@@ -663,59 +684,103 @@ export default {
   },
 
   methods: {
+    async uploadAvatar(file, fileList) {
+      fileList.slice(-1);
+      let formData = new FormData();
+      formData.append('avatar', file.raw);
+      let res = await Axios.post('http://localhost:8080/api/user/' + this.$route.params.id + '/uploadavatar/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      this.fileList = [];
+      if (res.status === 200) {
+        this.$message.success('上传成功');
+        let user_info = await api.getRequest('/userinfo/', '');
+        this.$store.commit('user/setAvatar', 'http://localhost:8080/api/' + user_info.data.avatar);
+        this.user.avatar = 'http://localhost:8080/api/' + user_info.data.avatar
+        await this.refresh();
+      } else {
+        this.$message.error('上传失败');
+      }
+    },
     async refresh() {
-      let response = await getUserProfile('', this.$route.params.id);
+      let response = await api.getRequest('/genre/', '');
+      for (let i = 0; i < response.data.genres.length; i++) {
+        this.prefer_headers[i] = {
+          text: response.data.genres[i].name,
+          value: response.data.genres[i].id
+        }
+      }
+      response = await getUserProfile('', this.$route.params.id);
       if (response.status === 200) {
-        this.user = response.data;
-        this.user.name = this.user.nickname;
-        this.user.avatar = 'http://localhost:8080/api/' + this.user.avatar;
-        this.user.created_at = this.user.create_at;
+        this.user.id = response.data.id;
+        this.user.name = response.data.nickname;
+        this.user.avatar = 'http://localhost:8080/api/' + response.data.avatar;
+        this.user.created_at = response.data.create_at;
+        this.user.description = response.data.introduction;
+        this.user.prefers = response.data.prefer_types;
+        this.user.created_at = response.data.create_at;
+        this.editedItem = this.user;
       }
       this.editedItem = this.user;
       response = await getStarMovies('', this.$route.params.id);
       if (response.status === 200) {
+        this.starsMovies = []
         for (let i = 0; i < response.data.length; i++) {
-          this.starsMovies[i].id = response.data[i].id;
-          this.starsMovies[i].introduction = response.data[i].overview;
-          this.starsMovies[i].title = response.data[i].name;
-          this.starsMovies[i].poster = response.data[i].image_path;
-          this.starsMovies[i].datePublished = response.data[i].release_date;
+          this.starsMovies[i] = {
+            id: response.data[i].id,
+            introduction: response.data[i].overview,
+            title: response.data[i].movie_name,
+            poster: response.data[i].image,
+            datePublished: response.data[i].release_date,
+            rating: response.data[i].vote_average,
+          }
         }
       }
       response = await getStarCelebrities('', this.$route.params.id);
       if (response.status === 200) {
+        this.starsActors = []
         for (let i = 0; i < response.data.length; i++) {
-          this.starsActors[i].id = response.data[i].id;
-          this.starsActors[i].name = response.data[i].name;
-          this.starsActors[i].introduction = response.data[i].biography;
-          this.starsActors[i].avatar = response.data[i].image_path;
-          this.starsActors[i].birthtime = response.data[i].birthday;
+          this.starsActors[i] = {
+            id: response.data[i].id,
+            name: response.data[i].celebrity_name,
+            introduction: response.data[i].biography,
+            avatar: response.data[i].image,
+            birthtime: response.data[i].birthday,
+          }
         }
       }
       response = await getJoinedGroups('', this.$route.params.id);
       if (response.status === 200) {
+        this.interest_groups = []
         for (let i = 0; i < response.data.length; i++) {
-          this.interest_groups[i].id = response.data[i].id;
-          this.interest_groups[i].introduction = response.data[i].introduction;
-          this.interest_groups[i].avatar = 'http://localhost:8080/api/' + response.data[i].avatar;
-          this.interest_groups[i].created_at = response.data[i].created_at;
-          this.interest_groups[i].name = response.data[i].name;
+          this.interest_groups[i] = {
+            id: response.data[i].id,
+            introduction: response.data[i].introduction,
+            avatar: 'http://localhost:8080/api/' + response.data[i].avatar,
+            created_at: response.data[i].created_at,
+            name: response.data[i].name,
+          }
         }
       }
       response = await getWrittenReviews('', this.$route.params.id);
       if (response.status === 200) {
+        this.reviews = []
         for (let i = 0; i < response.data.length; i++) {
-          this.reviews[i].id = response.data[i].id;
-          this.reviews[i].title = response.data[i].title;
-          this.reviews[i].user_name = response.data[i].author_details.username;
-          this.reviews[i].movie_name = response.data[i].movie_details.movie_name;
-          this.reviews[i].movie_id = response.data[i].movie_details.movie_id;
-          this.reviews[i].movie_picture = response.data[i].movie_details.movie_poster_path;
-          this.reviews[i].rating = 5;
-          this.reviews[i].time = response.data[i].create_at;
-          this.reviews[i].like_count = response.data[i].like_count;
-          this.reviews[i].reply_count = response.data[i].reply_count;
-          this.reviews[i].introduction = response.data[i].content;
+          this.reviews[i] = {
+            id: response.data[i].id,
+            title: response.data[i].title,
+            user_name: response.data[i].author_details.username,
+            movie_name : response.data[i].movie_details.movie_name,
+            movie_id : response.data[i].movie_details.movie_id,
+            movie_picture : response.data[i].movie_details.movie_poster_path,
+            rating : 5,
+            time : response.data[i].create_at,
+            like_count : response.data[i].likes,
+            reply_count : response.data[i].reply_count,
+            introduction : response.data[i].content,
+          }
         }
       }
       console.log(this.reviews)
@@ -734,22 +799,94 @@ export default {
         await this.$router.push('/')
       }
     },
-    submitUserProfile() {
-      /*this.$axios.post('/api/user_profile/', this.editedItem)
-          .then(response => {
-            console.log(response)
-            this.editInfoDialog = false
-          })
-          .catch(error => {
-            console.log(error)
-          })*/
-      this.editInfoDialog = false;
-      console.log(this.editedItem);
-      alert("修改成功");
+    async submitUserProfile() {
+      let payload = {
+        username: this.editedItem.name,
+        nickname: this.editedItem.name,
+        introduction: this.editedItem.description,
+        email: this.editedItem.email,
+        prefer_types: []
+      }
+      for (let i = 0; i < this.selectedAmenities.length; i++) {
+        payload.prefer_types[i] = this.prefer_headers[this.selectedAmenities[i]].text;
+      }
+      console.log(payload);
+      let response = await updateProfile(payload, this.$route.params.id);
+      console.log(response)
+      if (response.status === 200) {
+        this.editInfoDialog = false;
+        this.$message.success('修改成功');
+        await this.refresh();
+      } else {
+        this.$message.error('修改失败');
+      }
+
     },
-    deleteReview(review) {
-      alert("删除成功" + review.id);
-    }
+    async deleteReview(review) {
+      let response = await deleteReview('', this.$route.params.id, review.id);
+      if (response.status === 200) {
+        this.$message.success('删除成功');
+        await this.refresh();
+      } else {
+        this.$message.error('删除失败');
+      }
+    },
+    async unstarMovie(movie) {
+      let response = await unstarMovie('', this.$route.params.id, movie.id);
+      if (response.status === 200) {
+        this.$message.success('取消收藏成功');
+        await this.refresh();
+      } else {
+        this.$message.error('取消收藏失败');
+      }
+    },
+    async unStarCelebrity(actor) {
+      let response = await unstarCelebrity('', this.$route.params.id, actor.id);
+      if (response.status === 200) {
+        this.$message.success('取消收藏成功');
+        await this.refresh();
+      } else {
+        this.$message.error('取消收藏失败');
+      }
+    },
+    async quitGroup(group) {
+      let response = await quitGroup('', this.$route.params.id, group.id);
+      if (response.status === 200) {
+        this.$message.success('退出成功');
+        await this.refresh();
+      } else {
+        this.$message.error('退出失败');
+      }
+    },
+    async getCurrentRate(movie) {
+      console.log(movie)
+      let response = await queryMovieRatings('', movie.id);
+      console.log(response.data)
+      if (response.status === 200) {
+        this.currentRate = response.data.current_user.value/2;
+        this.currentComment = response.data.current_user.content;
+      } else {
+        this.currentRate = 5;
+        this.currentComment = '';
+      }
+    },
+    async changeRate(movie) {
+      console.log(movie)
+      console.log(this.currentRate)
+      let payload = {
+        value: this.currentRate*2,
+        content: this.currentComment,
+      }
+      console.log(payload)
+      let response = await api.postRequest('/movie/' + movie.id + '/rating/', payload);
+      console.log(response)
+      if (response.status === 200) {
+        this.$message.success('评分成功');
+        await this.refresh();
+      } else {
+        this.$message.error('评分失败');
+      }
+    },
   },
 
   computed: {
@@ -784,63 +921,15 @@ export default {
           value: 'avatar'
         }
       ];
-    },
-    prefer_headers() {
-      return [
-        {
-          text: '喜剧',
-          value: 'comedy'
-        },
-        {
-          text: '爱情',
-          value: 'romance'
-        },
-        {
-          text: '动作',
-          value: 'action'
-        },
-        {
-          text: '科幻',
-          value: 'science'
-        },
-        {
-          text: '恐怖',
-          value: 'horror'
-        },
-        {
-          text: '剧情',
-          value: 'drama'
-        },
-        {
-          text: '动画',
-          value: 'animation'
-        },
-        {
-          text: '战争',
-          value: 'war'
-        },
-        {
-          text: '犯罪',
-          value: 'crime'
-        },
-        {
-          text: '惊悚',
-          value: 'thriller'
-        },
-        {
-          text: '悬疑',
-          value: 'suspense'
-        }
-      ]
-    },
-
+    }
   }
-
-
 }
 </script>
 
 <style scoped>
+
+
+a {text-decoration: NONE}
 
 .user-background {
 
@@ -848,7 +937,7 @@ export default {
 }
 
 .inner_content {
-  background-image: url("../../assets/pics/userBackground.svg");
+  background-image: url("@/assets/pics/userBackground.svg");
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: center -250px;

@@ -5,9 +5,11 @@ const apiRoute = {
     profile: '/info/',
     writtenReview: '/review/',
     jointGroup: '/groups/',
-    starMovies: '/starmovie/',
-    starCelebrities: '/starcelebrity/',
-    updateProfile: '/updateinfo/'
+    starMovies: '/starmovies/',
+    starCelebrities: '/starcelebrities/',
+    updateProfile: '/updateinfo/',
+    updateStarMovies: '/starmovie/',
+    updateStarCelebrities: '/starcelebrity/'
 };
 
 /*
@@ -54,26 +56,36 @@ export async function updateProfile(data, user_id) {
 
 export async function starMovie(data, user_id, movie_id) {
     return postRequest(apiRoute.userRoot + user_id +
-        apiRoute.starMovies + movie_id + '/', data);
+        apiRoute.updateStarMovies + movie_id + '/', data);
 }
 
 export async function starCelebrity(data, user_id, celebrity_id) {
     return postRequest(apiRoute.userRoot + user_id +
-        apiRoute.starCelebrities + celebrity_id + '/', data);
+        apiRoute.updateStarCelebrities + celebrity_id + '/', data);
 }
 
 export async function unstarMovie(data, user_id, movie_id) {
     return deleteRequest(apiRoute.userRoot + user_id +
-        apiRoute.starMovies + movie_id + '/', data);
+        apiRoute.updateStarMovies + movie_id + '/', data);
 }
 
 export async function unstarCelebrity(data, user_id, celebrity_id) {
     return deleteRequest(apiRoute.userRoot + user_id +
-        apiRoute.starCelebrities + celebrity_id + '/', data);
+        apiRoute.updateStarCelebrities + celebrity_id + '/', data);
+}
+
+export async function deleteReview(data, user_id, review_id) {
+    return deleteRequest(apiRoute.userRoot + user_id +
+        apiRoute.writtenReview + review_id + '/', data);
 }
 
 export async function uploadAvatar(data, user_id) {
     return postRequest(apiRoute.userRoot + user_id +
         '/uploadavatar/', data);
+}
+
+
+export async function quitGroup(data, group_id) {
+    return deleteRequest('/group/' + group_id + '/join/', data);
 }
 
