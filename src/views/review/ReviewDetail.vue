@@ -8,30 +8,27 @@
             <v-card-title>
               <v-container fluid class="pl-5">
                 <v-row>
-                  <h2>{{ review.review_title }}</h2>
+                  <h2>{{ review.title }}</h2>
                 </v-row>
                 <v-row class="pt-5">
                   <v-avatar>
-                    <v-img :src="review.user_avatar" alt="Avatar"></v-img>
+                    <v-img :src="author_details.avatar"></v-img>
                   </v-avatar>
                   &ensp;
-                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.user_name }}</a>
+                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ author_details.nickname }}</a>
                   &ensp;
                   <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                   &ensp;
-                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.movie_name }}</a>
+                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ movie_details.movie_name }}</a>
                   &ensp;
-                  <p class="my-auto" style="font-size: 16px"> {{ review.review_date }} </p>
+                  <p class="my-auto" style="font-size: 16px"> {{ review.created_at }} </p>
                   <v-spacer></v-spacer>
-                  <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                            :value="review.user_rate" color="amber" dense half-increments readonly
-                            size="14">
-                  </v-rating>
                 </v-row>
-              </v-container>
+
+
               <v-row class="py-3">
                 <mavon-editor
-                    v-model="review.review_content"
+                    v-model="review.content"
                     :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
                     box-shadow-style="0 0 0 0 rgba(0,0,0,0)"
                     preview-background="#fff"
@@ -41,15 +38,15 @@
               <v-row class="pl-5 pb-5" style="text-align: center">
                 <v-col class="mx-auto">
                   <v-btn large class="mr-5" style="color: white;background-color: skyblue"
-                         @click="like_review(review)">
-                    <v-icon class="my-auto"> mdi-heart</v-icon>
+                         @click="changeLike()">
+                    <v-icon class="my-auto" :color="heart_color"> mdi-heart</v-icon>
                     &ensp;
                     已有点赞
                     &ensp;
-                    {{ review.review_thumb }}
+                    {{ review.likes }}
                   </v-btn>
 
-                  <v-btn large class="mr-5" style="color: white;background-color: darkorange">
+                  <v-btn large class="mr-5" style="color: white;background-color: darkorange" @click="toBottom">
                     <v-icon class="my-auto"> mdi-message</v-icon>
                     &ensp;
                     已有回复
@@ -58,7 +55,7 @@
                   </v-btn>
                 </v-col>
               </v-row>
-
+              </v-container>
             </v-card-title>
           </v-card>
 
@@ -69,14 +66,14 @@
 
             <v-list class="py-0 pl-0" width="95%">
               <v-list-item
-                  v-for="(comment, i) in review.reply"
+                  v-for="(comment, i) in replies"
                   :key=i
                   class="pl-0">
                 <v-container>
                   <v-row class="pl-0">
                     <v-col cols="1" class="px-0">
                       <v-avatar tile class="ml-5 pt-2" size="55">
-                        <v-img :src="comment.user_avatar"></v-img>
+                        <v-img :src="comment.author_details.avatar"></v-img>
                       </v-avatar>
                     </v-col>
                     <v-col class="mx-1 pt-1">
@@ -89,8 +86,8 @@
 
                                   <v-row class="pl-0" style="background-color: #dff2fa">
                                     <a style="font-size: 16px; line-height: 25px"
-                                       class="my-auto pl-3">{{ comment.user_name }}</a>
-                                    <span class="my-auto pl-3">{{ comment.reply_date }}</span>
+                                       class="my-auto pl-3">{{ comment.author_details.nickname }}</a>
+                                    <span class="my-auto pl-3">{{ comment.create_at }}</span>
                                   </v-row>
 
                                   <v-row class="pt-2 pl-1 pr-2">
@@ -105,7 +102,7 @@
                                         font-size: 15px;
                                         color: black;
                                         margin-bottom: 0">
-                                      {{ comment.reply_content }} </p>
+                                      {{ comment.content }} </p>
                                   </v-row>
 
                                 </v-container>
@@ -124,7 +121,7 @@
                   <v-row class="pl-0 py-0 my-0">
                     <v-col cols="1" class="px-0">
                       <v-avatar tile class="ml-5 pt-2" size="55">
-                        <v-img :src="review.user_avatar"></v-img>
+                        <v-img :src="author_details.avatar"></v-img>
                       </v-avatar>
                     </v-col>
                     <v-col class="pt-0 py-0 my-0" cols="10">
@@ -134,9 +131,9 @@
                             filled
                             auto-grow
                             row-height="20px"
-                            value="先生所言极是！"
                             placeholder="添加回复"
                             background-color="green lighten-5"
+                            v-model="reply_cotent"
                         >
                         </v-textarea>
                       </v-card-text>
@@ -148,7 +145,9 @@
                       <span></span>
                     </v-col>
                     <v-col class="my-0 py-0">
-                      <v-btn color="green lighten-3" style="color: white" class="ml-5 mt-0">添加回复</v-btn>
+                      <v-btn color="green lighten-3" style="color: white" class="ml-5 mt-0"
+                        @click="submitReply"
+                      >添加回复</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -160,29 +159,29 @@
         <v-col cols="3">
           <v-card class="mt-10" flat>
             <v-card-title>
-              <a>{{ review.movie_name }}</a>
+              <a @click="jumpToMovie">{{ movie_details.movie_name }}</a>
             </v-card-title>
             <v-card-text>
-              <v-img :src="review.movie_poster"
+              <v-img :src="movie_details.movie_poster_path"
                      height="300px"
                      width="225px"></v-img>
               <v-container class="pt-8">
                 <v-row>
-                  <span>导演： {{review.movie_director}}</span>
+                  <span>导演： {{ movie_director }}</span>
                 </v-row>
                 <v-row>
                   <span>主演：</span>
-                  <span v-for="(actor, i) in review.movie_actor" :key=i>{{actor}}</span>
+                  <span v-for="(actor, i) in actors" :key=i>{{ actor.celebrity_name }}</span>
                 </v-row>
                 <v-row>
                   <span>类型：</span>
-                  <span v-for="(type, i) in review.movie_genre" :key=i>{{type}}</span>
+                  <span v-for="(type, i) in movie.genres.slice(0,4)" :key=i>{{ type.name}} &ensp;</span>
                 </v-row>
                 <v-row>
-                  <span>地区：{{review.movie_country}}</span>
+                  <span>地区：{{ movie.region }}</span>
                 </v-row>
                 <v-row>
-                  <span>上映时间：{{review.movie_date}}</span>
+                  <span>上映时间：{{ movie.release_date }}</span>
                 </v-row>
               </v-container>
 
@@ -197,12 +196,29 @@
 </template>
 
 <script>
+import {
+  queryMovieDetail,
+  queryMoviePositionStaff,
+} from "@/api/movie";
+import {
+  addReviewLike,
+  cancelReviewLike,
+  queryReviewDetail,
+  queryReviewLike,
+  queryReviewReply,
+  submitReviewReply
+} from "@/api/review";
+
 export default {
   name: 'reviewDetail',
   created() {
     this.breadcrumbs_items[1].text = this.review.movie_name;
     //console.log(this.breadcrumbs_items[1])
   },
+  async mounted() {
+    await this.refresh();
+  },
+
   data() {
     return {
       activeIndex: 'tab-3',
@@ -245,89 +261,176 @@ export default {
         review_date: "2020-01-01",
         review_title: "这是计组P8的教程",
         review_content:
-            "通过阅读本文，您肯定做不出P8，本文也仅限于介绍很少一部分P8的思路以及实现\n" +
-            "P8作为FPGA实验，需要详细参考教程，本文仅供参考\n" +
-            "P8的主要内容是对Verilog搭建的MIPS微系统进行综合，并使其能够运行在FPGA上\n" +
-            "课上课下会要求编写汇编代码实现一些功能\n" +
-            "\n" +
-            "## 课下部分\n" +
-            "\n" +
-            "坚持到最后感觉还是写点东西吧，这个系列最好不要半途而废，这里是P8的一些做法和提示，详细的等到有时间再慢慢写\n" +
-            "\n" +
-            "首先是P8怎么做，P8很范围很广，看起来很复杂，但是其实如果P7写的好，那么把乘除槽注释掉之后过综合不是问题，然后按照要求添加约束文件，换IP核之后就完成了很多工作了\n" +
-            "\n" +
-            "然后需要修改的只有顶层模块和桥bridge两块，主要是按照要求添加外设\n" +
-            "\n" +
-            "外设中有很多好添加的比如LED、按动开关和拨动开关，尤其复杂的是串口通信和数码管\n" +
-            "\n" +
-            "数码管建议对着我的代码看看，然后再去仔细看看教程，搞清楚数码管是四个一组，每一次刷新两个8的位置，利用视觉暂留原理显示图像\n" +
-            "\n" +
-            "串口通信我也没太搞明白，总之按我的设计文档加一个中断就完了，但是据助教说这样有问题，需要考虑一下read_over这个信号，因为P8选做，我也没细看，留个坑等以后看懂了再填\n" +
-            "\n" +
-            "后面附的有设计文档\n" +
-            "\n" +
-            "## 课上部分\n" +
-            "\n" +
-            "课上的话三选一，下面就是三道题目，解法就不放了，毕竟这个汇编各自有各自的写法，但是一定注意一下beq后面一定要手写一个nop，否则就会出锅，个人觉得UART最难没选，计时器肯定最简单，然后第三题就没看了\n" +
-            "\n" +
-            "另：今年的P8可以带自己的笔记本，不知道以后还是不是这样\n" +
-            "\n" +
-            "### 可变速计时器\n" +
-            "\n" +
-            "从拨码开关(switch)读入数据： 在计数器进行计数时触发读入操作。拨码开关组A中读入一个无符号 32 bit 数字，设该无符号32 bit数字为$n$，实现以下功能\n" +
-            "\n" +
-            "**控制计时器计数时间间隔**：$n$即为计时器计数的时间间隔秒数，并有以下限制：\n" +
-            "\n" +
-            "- 若$n=0$，计数器不工作，数码管显示为自定义初始值（该值有且仅有一种，形如\"00000000\"）；\n" +
-            "- 若$0<n\\leq2$，计数器每隔大约n秒进行一次计数的操作，并在数码管上显示；\n" +
-            "- 若$n>2$，视$n=2$，计数器每隔大约2秒进行一次计数的操作。时间间隔可以不精确，但需要使记数速度的差异可以被分辨。\n" +
-            "\n" +
-            "**循环计数**：在计时器工作时，计数器从0计数至9，之后又回到0重新从0至9计数。计时器任意一个工作时刻所记的数需要在数码管上显示。\n" +
-            "\n" +
-            "**举例**：拨码开关1设置为`00000000000000000000000000000010`，则每隔大约2秒数码管上的数值加1。特别地，当要更新数码管数值时，数码管显示数值为9，则更新数码管显示数值为0。\n" +
-            "\n" +
-            "### 十六进制数串口输出\n" +
-            "在不改变外部设备代码设计的情况下，编写`mips`汇编程序，实现以下功能。\n" +
-            "\n" +
             "**从拨码开关(`switch`)读入数据**：从拨码开关组B中读入一个无符号32bit数字，设该无符号32bit数字为$n$。\n" +
             "**用户定义开关(`user key`)触发操作**：将$n$显示在数码管上（8个十六进制数字），并通过UART将数码管上显示的数字以ASCII字符形式输出。\n",
-        review_thumb: 100,
         reply_count: 100,
-        reply: [
-          {
-            id: 1,
-            user_name: "Longxmas",
-            user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-            reply_date: "2020-01-01",
-            reply_content: "太菜了，我的评价是不如hys一根毛",
-            reply_title: "啊对对对",
-            reply_thumb: 100,
-          },
-          {
-            id: 2,
-            user_name: "Harahan",
-            user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-            reply_date: "2020-01-01",
-            reply_content: "太菜了，确实不如我",
-            reply_title: "啊对对对",
-            reply_thumb: 100,
-          },
-        ]
-      }
+      },
+      author_details: {
+        username: "flyinglandlord",
+        avatar: "https://api.yimian.xyz/img?type=head",
+        nickname: "飞翔的房东",
+        id:1,
+      },
+      movie_details : {
+        movie_name: "摔跤吧！爸爸 Dangal",
+        movie_id: 1,
+        movie_poster_path: "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2401676338.jpg"
+      },
+      replies: [
+        {
+          id: 1,
+          user_name: "Longxmas",
+          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
+          reply_date: "2020-01-01",
+          reply_content: "太菜了，我的评价是不如hys一根毛",
+          reply_title: "啊对对对",
+          reply_thumb: 100,
+        },
+        {
+          id: 2,
+          user_name: "Harahan",
+          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
+          reply_date: "2020-01-01",
+          reply_content: "太菜了，确实不如我",
+          reply_title: "啊对对对",
+          reply_thumb: 100,
+        },
+      ],
+      actors: [
+        {
+          "id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
+          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p39941.jpg",
+          "birthday": "1956年12月15日", "place_of_birth":
+              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"
+        },
+        {
+          "id": 86, "celebrity_name": "迈克尔·刘易斯 Michael Lewis", "biography": "",
+          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p1453114346.61.jpg", "birthday":
+              "+1960年10月15日", "place_of_birth": "美国,路易斯安那州,新奥尔良", "gender": 1, "career": "编剧"
+        }
+      ],
+      movie_director: "约翰·李·汉考克 John Lee Hancock",
+      movie_id : 1,
+      movie: {
+        "id": 1,
+        "movie_name": "摔跤吧！爸爸 Dangal",
+        "overview": "\t马哈维亚（阿米尔·汗 Aamir Khan饰）曾经是一名前途无量的摔跤运动员，在放弃了职业生涯后，他最大的遗憾就是没有能够替国家赢得金牌。马哈维亚将这份希望寄托在了尚未出生的儿子身上，哪知道妻子接连给他生了两个女儿，取名吉塔（法缇玛·萨那·纱卡 Fatima Sana Shaikh饰）和巴比塔（桑亚·玛荷塔 Sanya Malhotra饰）。让马哈维亚没有想到的是，两个姑娘展现出了杰出的摔跤天赋，让他幡然醒悟，就算是女孩，也能够昂首挺胸的站在比赛场上，为了国家和她们自己赢得荣誉。\n\t就这样，在马哈维亚的指导下，吉塔和巴比塔开始了艰苦的训练，两人进步神速，很快就因为在比赛中连连获胜而成为了当地的名人。为了获得更多的机会，吉塔进入了国家体育学院学习，在那里，她将面对更大的诱惑和更多的选择。\n",
+        "release_date": "2016-12-23",
+        "duration": "2H41M",
+        "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2401676338.jpg",
+        "region": "印度",
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "movie_director" : " ",
+        "genres": [{"id": 1, "name": "剧情"}, {"id": 2, "name": "家庭"}, {"id": 3, "name": "传记"}, {
+          "id": 4,
+          "name": "运动"
+        }]
+      },
+      reply_title: "影评回复",
+      reply_cotent: "",
+      liked: false,
     }
+
   },
   methods: {
+    async refresh() {
+      let response = await queryReviewDetail('', this.$route.params.id);
+      if (response.status === 200) {
+        this.review = response.data;
+        this.author_details = response.data.author_details;
+        this.movie_id = response.data.movie_details.movie_id;
+        this.movie_details = response.data.movie_details;
+      }
+
+      response = await queryMovieDetail('', this.movie_id);
+      if (response.status === 200) {
+        this.movie = response.data;
+      }
+
+      response = await queryReviewReply('', this.$route.params.id);
+      if (response.status === 200) {
+        this.replies = response.data.replies;
+      }
+
+      response = await queryMoviePositionStaff({ position: 0,}, this.movie_id);
+      if (response.status === 200) {
+        this.movie_director = response.data.staffs[0].celebrity_name;
+      }
+
+      response = await queryMoviePositionStaff({ position: 2,}, this.movie_id);
+      if (response.status === 200) {
+        this.actors = response.data.staffs.slice(0, 2);
+      }
+
+      response = await queryReviewLike('', this.$route.params.id);
+      if (response.status === 200) {
+        this.liked = response.data.liked;
+      }
+
+    },
+
     jumpToOverView() {
       this.$router.push('/movie');
     },
     jumpToMedia() {
       this.$router.push('/moviemedia');
     },
-    like_review(review) {
-      review.review_thumb += 1;
-      alert("点赞成功");
-    }
+    jumpToMovie() {
+      this.$router.push('/movie/' + this.movie_id);
+    },
+
+    async submitReply() {
+      let response = await submitReviewReply(
+          {
+            value: this.reply_title,
+            content: this.reply_cotent,
+          }, this.$route.params.id);
+      if (response.status === 200) {
+        alert("回复成功");
+        await this.refresh();
+      }
+    },
+    async addLike() {
+      let response = await addReviewLike('', this.$route.params.id);
+      response = await queryReviewLike('', this.$route.params.id);
+      if (response.status === 200) {
+        this.liked = response.data.liked;
+        console.log(response.data)
+      }
+      await this.refresh();
+    },
+    async cancelLike() {
+      let response = await cancelReviewLike('', this.$route.params.id);
+      response = await queryReviewLike('', this.$route.params.id);
+      if (response.status === 200) {
+        this.liked = response.data.liked;
+      }
+      await this.refresh();
+    },
+
+    async changeLike() {
+      if (this.liked) {
+        await this.cancelLike();
+      } else {
+        await this.addLike();
+      }
+    },
+
+    toBottom() {
+      window.scrollTo(0, 500000);
+    },
+
+
   },
-  computed: {}
+  computed: {
+    heart_color: function () {
+      if (this.liked) {
+        return "red";
+      } else {
+        return "white";
+      }
+    },
+  }
 }
 </script>

@@ -52,7 +52,7 @@
 
                             <v-row class="pl-0 pt-0">
                               <v-col class="pa-0">
-                                <a @click="jumpToReview(review.id)">
+                                <a @click="jumpToMovieReview(review)">
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                       class="ma-auto pa-0 "
                                   >{{ review.title }}</h3>
@@ -73,9 +73,6 @@
                               &ensp;
                               <p class="my-auto" style="font-size: 16px"> {{review.review_date}} </p>
                               <v-spacer></v-spacer>
-                              <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                                        :value="review.user_rate" color="amber" dense half-increments readonly size="14">
-                              </v-rating>
                             </v-row>
 
 
@@ -94,13 +91,13 @@
                             </v-row>
 
                             <v-row>
-                              <v-btn small class="mr-5" style="color: white;background-color: skyblue">
+                              <v-btn small class="mr-5" style="color: white;background-color: skyblue" @click="jumpToMovieReview(review)">
                                 <v-icon small class="my-auto"> mdi-heart</v-icon>
                                 &ensp;
-                                {{review.review_thumb}}
+                                {{review.likes}}
                               </v-btn>
 
-                              <v-btn small class="mr-5" style="color: white;background-color: darkorange">
+                              <v-btn small class="mr-5" style="color: white;background-color: darkorange" @click="jumpToMovieReview(review)">
                                 <v-icon small class="my-auto"> mdi-message</v-icon>
                                 &ensp;
                                 {{review.reply_count}}
@@ -302,9 +299,11 @@ export default {
     jumpToAddReview() {
       this.$router.push('/movie/' + this.$route.params.id + '/addreview');
     },
-    jumpToReview(review_id) {
-      this.$router.push('/review/' + review_id);
-    }
+
+    jumpToMovieReview(review) {
+      this.$router.push('/review/' + review.id);
+    },
+
   },
   computed: {
 

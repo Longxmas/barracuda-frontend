@@ -1,7 +1,18 @@
 <template>
   <div id="reviewHomeView">
     <v-container style="width: 90%" class="mt-5">
-      <h1>热门影评</h1>
+      <v-row>
+        <v-col cols="10">
+          <h1>随便看看</h1>
+        </v-col>
+        <v-col cols = "2"  class="pt-4">
+          <v-btn class=" ma-0" text @click="refresh">
+            <v-icon>mdi-autorenew</v-icon> 换一批
+          </v-btn>
+        </v-col>
+
+      </v-row>
+
       <v-card elevation="0">
         <v-card-text class="pl-0">
           <v-list  class="pl-0">
@@ -14,7 +25,7 @@
                 <v-card-text class="pa-0">
                   <v-container fluid >
                     <v-row>
-                      <v-img :src="review.movie_poster" max-width="150px"
+                      <v-img :src="review.movie_details.image" max-width="150px"
                              style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
                       <v-col style="margin-left: 5px">
                         <v-container fluid>
@@ -23,27 +34,24 @@
                             <v-col class="pa-0">
                               <a :href="'/review/'+review.id" style="text-decoration: none">
                                 <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                    class="ma-auto pa-0 ">{{ review.review_title }}</h3>
+                                    class="ma-auto pa-0 ">{{ review.title }}</h3>
                               </a>
                             </v-col>
                           </v-row>
 
                           <v-row class="py-4">
                             <v-avatar>
-                              <v-img :src="review.user_avatar" alt="Avatar"></v-img>
+                              <v-img :src="review.author_details.avatar" alt="Avatar"></v-img>
                             </v-avatar>
                             &ensp;
-                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.user_name }}</a>
+                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.author_details.nickname }}</a>
                             &ensp;
                             <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                             &ensp;
-                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  review.movie_name}}</a>
+                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  review.movie_details.movie_name}}</a>
                             &ensp;
-                            <p class="my-auto" style="font-size: 16px"> {{review.review_date}} </p>
+                            <p class="my-auto" style="font-size: 16px"> {{review.create_at}} </p>
                             <v-spacer></v-spacer>
-                            <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                                      :value="review.user_rate" color="amber" dense half-increments readonly size="14">
-                            </v-rating>
                           </v-row>
 
 
@@ -58,14 +66,14 @@
                                         font-family: 微软雅黑,serif;
                                         font-size: 16px;
                                         color: black;">
-                              {{ review.review_content }} </p>
+                              {{ review.content }} </p>
                           </v-row>
 
                           <v-row>
                             <v-btn small class="mr-5" style="color: white;background-color: skyblue">
                               <v-icon small class="my-auto"> mdi-heart</v-icon>
                               &ensp;
-                              {{review.review_thumb}}
+                              {{review.likes}}
                             </v-btn>
 
                             <v-btn small class="mr-5" style="color: white;background-color: darkorange">
@@ -94,8 +102,16 @@
 </template>
 
 <script>
+import {
+
+} from "@/api/movie";
+import {queryRandomReview} from "@/api/review";
+
 export default {
   name: 'reviewHomeView',
+  async mounted() {
+    await this.refresh();
+  },
   data() {
     return {
       selection: '最近的影评',
@@ -215,7 +231,12 @@ export default {
     }
   },
   methods: {
-
+    async refresh() {
+      let response = await queryRandomReview('');
+      if (response.status === 200) {
+        this.reviews = response.data;
+      }
+    },
   },
   computed: {
 

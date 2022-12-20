@@ -252,8 +252,6 @@ export default {
           },
           this.$route.params.id
       );
-      alert(this.$route.params.id);
-      alert(response.status);
       console.log(response);
       this.$router.back();
     }

@@ -37,11 +37,11 @@
                     </v-chip>&ensp;
                   </h3>
                   <h1 class="mt-2">·</h1>
-                  <h3 class="mt-2">2h 49m</h3>
+                  <h3 class="mt-2">{{ movie.duration }}</h3>
                 </v-row>
                 <v-row class="pt-5 pb-5">
                   <v-progress-circular
-                      :value="80"
+                      :value="movie.vote_average * 10"
                       color="#13C00DFF"
                       width="5"
                       size="60"
@@ -49,7 +49,7 @@
                       style="background-color: #0b1c22; border-radius: 100%"
                       class="mr-3"
                   >
-                    <span style="color: white; font-family: gotham-bold,serif; font-size: 25px">80</span>
+                    <span style="color: white; font-family: gotham-bold,serif; font-size: 25px">{{ movie.vote_average * 10 }}</span>
                   </v-progress-circular>
                   <h3 class="my-auto">用户评分</h3>
                   &ensp;
@@ -101,14 +101,17 @@
                       </v-card>
 
                       <v-card>
-                        <v-card-text>
+                        <v-card-text v-model="rating_content">
                           <textarea
                               placeholder="请留下您对这部电影的简短评论"
                               class="ml-3"
                               style="align-self: center; width: 100%; min-height: 150px;
-                                        outline: none; resize: none">
+                                        outline: none; resize: none"
+                              >
                           </textarea>
-                          <v-btn class="ml-2" color="green lighten-3" style="color: white"> 提交</v-btn>
+                          <v-btn class="ml-2" color="green lighten-3" style="color: white"
+                                  @click="submitRating"
+                          > 提交</v-btn>
                         </v-card-text>
                       </v-card>
 
@@ -126,14 +129,14 @@
                 </v-row>
 
                 <v-row>
-                  <v-col class="pl-0 pt-6" cols="3">
+                  <v-col class="pl-0 pt-6" cols="5">
                     <p style="font-size: medium; font-weight: bold; margin-bottom: 4px">导演</p>
-                    <p style="font-size: medium">{{ movie.director }}</p>
+                    <p style="font-size: medium">{{ director.celebrity_name }}</p>
                   </v-col>
 
-                  <v-col class="pl-0 pt-6" cols="3">
+                  <v-col class="pl-0 pt-6" cols="5">
                     <p style="font-size: medium; font-weight: bold; margin-bottom: 4px">编剧</p>
-                    <p style="font-size: medium">{{ movie.writer }}</p>
+                    <p style="font-size: medium">{{ writer.celebrity_name }}</p>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -144,7 +147,7 @@
 
         <v-container fluid style="width: 90%; min-width: 1200px" class="mx-auto">
           <v-row class="pl-0">
-            <v-col cols="9" class="pl-0">
+            <v-col cols="10" class="pl-0">
 
               <v-card style="margin:10px" elevation="0">
                 <v-card-title><h3>主创团队</h3></v-card-title>
@@ -202,14 +205,9 @@
 
                                   <v-row class="pl-0">
                                     <v-avatar class="ml-5">
-                                      <v-img :src="review.avatar"></v-img>
+                                      <v-img :src="review.author_details.avatar"></v-img>
                                     </v-avatar>
-                                    <a style="font-size: 16px" class="my-auto pl-3">{{ review.user }}</a>
-                                    <v-rating class="my-auto pl-3"
-                                              :value="review.rating" color="amber" dense
-                                              half-increments readonly
-                                              size="18">
-                                    </v-rating>
+                                    <a style="font-size: 16px" class="my-auto pl-3">{{ review.author_details.nickname }}</a>
                                     <span class="my-auto pl-3">{{ review.create_at }}</span>
                                   </v-row>
 
@@ -238,14 +236,14 @@
 
                                   <v-row class="pl-5">
                                     <v-btn small class="mr-5" style="color: white;background-color: skyblue"
-                                           @click="like_review(review)">
+                                           @click="jumpToMovieReview(review)">
                                       <v-icon small class="my-auto"> mdi-heart</v-icon>
                                       &ensp;
-                                      {{ review.like_count }}
+                                      {{ review.likes }}
                                     </v-btn>
 
                                     <v-btn small class="mr-5" style="color: white;background-color: darkorange"
-                                           @click="jumpToReview(review)">
+                                           @click="jumpToMovieReview(review)">
                                       <v-icon small class="my-auto"> mdi-message</v-icon>
                                       &ensp;
                                       {{ review.reply_count }}
@@ -294,7 +292,7 @@
 
               <v-divider></v-divider>
 
-              <v-card style="margin-top: 10px; overflow: scroll; min-width: 1000px" elevation="0">
+              <v-card style="margin-top: 10px" elevation="0">
                 <v-card-title class="pb-1"><h3>最新短评</h3>
                   <v-spacer></v-spacer>
                   <v-btn class="mr-4" @click="is_rating=true">
@@ -303,6 +301,7 @@
                     我要写短评
                   </v-btn>
                 </v-card-title>
+
                 <v-card-text class="pl-0 ml-0 pb-0 mb-0">
 
                   <v-container fluid class="pl-0 ml-0 pt-0 mt-0">
@@ -327,9 +326,10 @@
                                         <v-container fluid>
 
                                           <v-row class="pl-0 " :class=judgePosition(i)>
-                                            <a style="font-size: 16px" class="my-auto pl-3">{{ comment.author_details.nickname }}</a>
+                                            <h style="font-size: 16px"
+                                               class="my-auto pl-3">{{ comment.author_details.nickname }}</h>
                                             <v-rating class="my-auto pl-3"
-                                                      :value="comment.rating" color="amber" dense
+                                                      :value="comment.value" color="amber" dense
                                                       half-increments readonly
                                                       size="18">
                                             </v-rating>
@@ -372,10 +372,12 @@
 
 
             </v-col>
-            <v-col cols="3">
+            <!--<v-col cols="3">
+
               <v-card style="margin:20px; overflow: hidden" class="pt-11" elevation="0">
                 <v-card-text style="color: black">
                   <v-row>
+                    <v-btn @click="checkLogin"> </v-btn>
                     <h3>原产地片名</h3>
                   </v-row>
                   <v-row>
@@ -407,7 +409,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-            </v-col>
+            </v-col> -->
           </v-row>
         </v-container>
       </v-tab-item>
@@ -416,7 +418,14 @@
 </template>
 
 <script>
-import {queryMovieDetail, queryMovieImages, queryMovieRatings, queryMovieReviews, queryMovieStaff} from "@/api/movie";
+import {
+  queryMovieDetail,
+  queryMovieImages,
+  queryMoviePositionStaff,
+  queryMovieRatings,
+  queryMovieReviews,
+  queryMovieStaff, submitMovieRating
+} from "@/api/movie";
 
 export default {
   name: "movieDetail",
@@ -455,6 +464,22 @@ export default {
               "+1960年10月15日", "place_of_birth": "美国,路易斯安那州,新奥尔良", "gender": 1, "career": "编剧"
         }
       ],
+      director: [
+        {
+          "id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
+          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p39941.jpg",
+          "birthday": "1956年12月15日", "place_of_birth":
+              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"
+        },
+      ],
+      writer: [
+        {
+          "id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
+          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p39941.jpg",
+          "birthday": "1956年12月15日", "place_of_birth":
+              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"
+        },
+      ],
       reviewHeaders: [
         {text: "头像", value: "avatar"},
         {text: "标题", value: "title"},
@@ -492,6 +517,7 @@ export default {
       ],
       is_rating: false,
       rating: 0,
+      rating_content: "",
       started: false,
       heart_color: "white",
       pictures: [
@@ -567,17 +593,32 @@ export default {
       response = await queryMovieReviews('', this.$route.params.id);
       if (response.status === 200) {
         let len1 = response.data.reviews.length;
-        this.reviews = response.data.reviews.slice(len1-3, len1).reverse();
+        this.reviews = response.data.reviews.slice(len1 - 3, len1).reverse();
       }
       response = await queryMovieRatings('', this.$route.params.id);
       if (response.status === 200) {
         let len2 = response.data.rating.length;
-        this.ratings = response.data.rating.slice(len2-4, len2).reverse();
+        this.ratings = response.data.rating.slice(len2 - 4, len2).reverse();
+        if (response.data.current_user != null) {
+          this.rating = response.data.current_user.value;
+        }
       }
-      response = await  queryMovieImages('', this.$route.params.id);
+      response = await queryMovieImages('', this.$route.params.id);
       if (response.status === 200) {
         this.pictures = response.data.images;
       }
+
+      response = await queryMoviePositionStaff({ position: 0,}, this.$route.params.id);
+      if (response.status === 200) {
+        this.director = response.data.staffs[0];
+      }
+
+
+      response = await queryMoviePositionStaff({ position: 1,}, this.$route.params.id);
+      if (response.status === 200) {
+        this.writer = response.data.staffs[0];
+      }
+
       console.log(this.actors)
     },
     jumpToReview() {
@@ -592,6 +633,9 @@ export default {
     jumpToAddReview() {
       this.$router.push('/movie/' + this.$route.params.id + '/addreview');
     },
+    jumpToMovieReview(review) {
+      this.$router.push('/review/' + review.id);
+    },
     starMovie() {
       this.started = !this.started;
       if (this.heart_color === "red") {
@@ -601,7 +645,6 @@ export default {
         this.heart_color = "red";
         alert("收藏成功");
       }
-
     },
     like_review(review) {
       alert("点赞成功");
@@ -619,7 +662,20 @@ export default {
       } else {
         return "d-flex flex-row"
       }
-    }
+    },
+    async submitRating() {
+      let response = await submitMovieRating(
+          {value: this.rating,
+                content: this.rating_content,
+      }, this.$route.params.id);
+      if (response.status === 200) {
+        alert("评分成功");
+        this.is_rating = false;
+        await this.refresh();
+      }
+    },
+
+
   },
   computed: {},
 }
