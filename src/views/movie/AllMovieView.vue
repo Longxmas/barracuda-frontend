@@ -59,22 +59,7 @@
                         v-for="tag in tags"
                         :key="tag"
                         :label="tag"
-                    > {{ tag }}
-                    </v-chip>
-                  </v-chip-group>
-
-                  <v-divider></v-divider>
-                  <p style="margin-top: 20px">语言</p>
-                  <v-chip-group
-                      v-model="selectedLanguage"
-                      column
-                      multiple
-                      active-class="primary--text">
-                    <v-chip
-                        v-for="languageTag in languageTags"
-                        :key="languageTag"
-                        :label="languageTag">
-                      {{ languageTag }}
+                    > {{ tag.name }}
                     </v-chip>
                   </v-chip-group>
 
@@ -178,7 +163,7 @@
 </template>
 
 <script>
-import {queryAllMovies} from "@/api/movie";
+import {queryAllGenres, queryAllMovies} from "@/api/movie";
 
 export default {
   name: 'allMovieView',
@@ -257,7 +242,11 @@ export default {
       this.dates = []
     },
     async refresh() {
-      let response = await queryAllMovies({
+      let response = await queryAllGenres("");
+      if (response.status === 200) {
+        this.tags = response.data.genres;
+      }
+      response = await queryAllMovies({
         limit: 20,
         offset: this.page_offset,
         range_at: 0,
@@ -269,6 +258,8 @@ export default {
         this.page_count = response.data.meta.total_page;
         this.movies = response.data.movies;
       }
+
+
       console.log(this.movies);
     },
   },

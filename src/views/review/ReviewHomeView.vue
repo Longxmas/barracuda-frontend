@@ -44,11 +44,13 @@
                               <v-img :src="review.author_details.avatar" alt="Avatar"></v-img>
                             </v-avatar>
                             &ensp;
-                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.author_details.nickname }}</a>
+                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" @click="jumpToUserProfile(review.author_details.id)">{{ review.author_details.nickname }}</a>
                             &ensp;
                             <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                             &ensp;
-                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  review.movie_details.movie_name}}</a>
+                            <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" @click="jumpToMovie(review.movie_details.id)">
+                              {{  review.movie_details.movie_name}}
+                            </a>
                             &ensp;
                             <p class="my-auto" style="font-size: 16px"> {{review.create_at}} </p>
                             <v-spacer></v-spacer>
@@ -70,13 +72,13 @@
                           </v-row>
 
                           <v-row>
-                            <v-btn small class="mr-5" style="color: white;background-color: skyblue">
+                            <v-btn small class="mr-5" style="color: white;background-color: skyblue"  @click="jumpToMovieReview(review)">
                               <v-icon small class="my-auto"> mdi-heart</v-icon>
                               &ensp;
                               {{review.likes}}
                             </v-btn>
 
-                            <v-btn small class="mr-5" style="color: white;background-color: darkorange">
+                            <v-btn small class="mr-5" style="color: white;background-color: darkorange"  @click="jumpToMovieReview(review)">
                               <v-icon small class="my-auto"> mdi-message</v-icon>
                               &ensp;
                               {{review.reply_count}}
@@ -237,6 +239,17 @@ export default {
         this.reviews = response.data;
       }
     },
+
+    jumpToMovieReview(review) {
+      this.$router.push('/review/' + review.id);
+    },
+    jumpToUserProfile(user_id) {
+      this.$router.push('/user/' + user_id);
+    },
+    jumpToMovie(movie_id) {
+      this.$router.push('/movie/' + movie_id);
+    }
+
   },
   computed: {
 

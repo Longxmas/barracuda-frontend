@@ -49,7 +49,7 @@
                       style="background-color: #0b1c22; border-radius: 100%"
                       class="mr-3"
                   >
-                    <span style="color: white; font-family: gotham-bold,serif; font-size: 25px">{{ movie.vote_average * 10 }}</span>
+                    <span style="color: white; font-family: gotham-bold,serif; font-size: 25px">{{ Math.round(movie.vote_average * 10) }}</span>
                   </v-progress-circular>
                   <h3 class="my-auto">用户评分</h3>
                   &ensp;
@@ -59,7 +59,7 @@
                       dark
                       color="primary"
                       text-color="white"
-                      @click="starMovie"
+                      @click="changeStar"
                   >
                     收藏
                     <v-icon right :color="heart_color">mdi-heart</v-icon>
@@ -101,8 +101,8 @@
                       </v-card>
 
                       <v-card>
-                        <v-card-text v-model="rating_content">
-                          <textarea
+                        <v-card-text>
+                          <textarea  v-model="rating_content"
                               placeholder="请留下您对这部电影的简短评论"
                               class="ml-3"
                               style="align-self: center; width: 100%; min-height: 150px;
@@ -207,13 +207,14 @@
                                     <v-avatar class="ml-5">
                                       <v-img :src="review.author_details.avatar"></v-img>
                                     </v-avatar>
-                                    <a style="font-size: 16px" class="my-auto pl-3">{{ review.author_details.nickname }}</a>
+                                    <a style="font-size: 16px" class="my-auto pl-3" @click="jumpToUserProfile(review.author_details.id)">
+                                      {{ review.author_details.nickname }}</a>
                                     <span class="my-auto pl-3">{{ review.create_at }}</span>
                                   </v-row>
 
                                   <v-row class="pl-0">
                                     <v-col class="pl-5">
-                                      <a>
+                                      <a @click="jumpToMovieReview(review)">
                                         <h2 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                             class="my-2 pa-0 ">{{ review.title }}</h2>
                                       </a>
@@ -326,8 +327,9 @@
                                         <v-container fluid>
 
                                           <v-row class="pl-0 " :class=judgePosition(i)>
-                                            <h style="font-size: 16px"
-                                               class="my-auto pl-3">{{ comment.author_details.nickname }}</h>
+                                            <a style="font-size: 16px"
+                                               class="my-auto pl-3" @click="jumpToUserProfile(comment.author_details.id)">
+                                              {{ comment.author_details.nickname }}</a>
                                             <v-rating class="my-auto pl-3"
                                                       :value="comment.value" color="amber" dense
                                                       half-increments readonly
@@ -342,8 +344,8 @@
                                         display: -webkit-box;
                                         -webkit-box-orient: vertical;
                                         -webkit-line-clamp: 3;
-                                        line-height: 15px;
-                                        max-height: 45px;
+                                        line-height: 18px;
+                                        max-height: 54px;
                                         font-family: 微软雅黑,serif;
                                         font-size: 14px;
                                         color: dimgray;
@@ -424,8 +426,9 @@ import {
   queryMoviePositionStaff,
   queryMovieRatings,
   queryMovieReviews,
-  queryMovieStaff, submitMovieRating
+  queryMovieStaff, queryMovieStar, submitMovieRating
 } from "@/api/movie";
+import {starMovie, unstarMovie} from "@/api/user";
 
 export default {
   name: "movieDetail",
@@ -516,10 +519,8 @@ export default {
         }
       ],
       is_rating: false,
-      rating: 0,
+      rating: 5,
       rating_content: "",
-      started: false,
-      heart_color: "white",
       pictures: [
         {
           src: require('../../assets/interstellar2.png'),
@@ -577,7 +578,8 @@ export default {
           time: "2022-10-12",
           user: "user2",
         }
-      ]
+      ],
+      stared: false,
     };
   },
   methods: {
@@ -619,6 +621,11 @@ export default {
         this.writer = response.data.staffs[0];
       }
 
+      response = await queryMovieStar('', this.$route.params.id);
+      if (response.status === 200) {
+        this.stared = response.data.liked;
+      }
+
       console.log(this.actors)
     },
     jumpToReview() {
@@ -636,20 +643,11 @@ export default {
     jumpToMovieReview(review) {
       this.$router.push('/review/' + review.id);
     },
-    starMovie() {
-      this.started = !this.started;
-      if (this.heart_color === "red") {
-        this.heart_color = "white";
-        alert("取消收藏");
-      } else {
-        this.heart_color = "red";
-        alert("收藏成功");
-      }
+    jumpToUserProfile(user_id) {
+      this.$router.push('/user/' + user_id);
     },
-    like_review(review) {
-      alert("点赞成功");
-      review.like_count += 1;
-    },
+
+
     calculateImageFitPattern(fixedHeight, src) {
       let imgObj = new Image();
       imgObj.src = src;
@@ -664,20 +662,60 @@ export default {
       }
     },
     async submitRating() {
+      let content = this.rating_content === "" ? "该用户没有留下评论" :this.rating_content;
       let response = await submitMovieRating(
           {value: this.rating,
-                content: this.rating_content,
-      }, this.$route.params.id);
+                content: content,
+                },
+                this.$route.params.id);
       if (response.status === 200) {
         alert("评分成功");
         this.is_rating = false;
         await this.refresh();
       }
+
     },
 
+    async addStar() {
+      let user_id = this.$store.getters['user/id'];
+      let response = await starMovie('', user_id, this.$route.params.id);
+      response = await queryMovieStar('', this.$route.params.id);
+      if (response.status === 200) {
+        this.stared = response.data.liked;
+        alert("收藏成功");
+      }
+      await this.refresh();
+    },
+    async cancelStar() {
+      let user_id = this.$store.getters['user/id'];
+      let response = await unstarMovie('', user_id,  this.$route.params.id);
+      response = await queryMovieStar('', this.$route.params.id);
+      if (response.status === 200) {
+        alert("取消收藏");
+        this.stared = response.data.liked;
+      }
+      await this.refresh();
+    },
+
+    async changeStar() {
+      if (this.stared) {
+        await this.cancelStar();
+      } else {
+        await this.addStar();
+      }
+    },
 
   },
-  computed: {},
+  computed: {
+    heart_color: function () {
+      if (this.stared) {
+        return "red";
+      } else {
+        return "white";
+      }
+    },
+
+  },
 }
 
 </script>

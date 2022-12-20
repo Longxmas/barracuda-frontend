@@ -33,3 +33,7 @@ export async function submitReviewReply(data, id) {
 export async function queryRandomReview(data) {
     return getRequest(apiRoute.queryAllReviews + "/random/", data);
 }
+
+export async function queryLatestReview(data) {
+    return getRequest(apiRoute.queryAllReviews + "/latest/", data);
+}

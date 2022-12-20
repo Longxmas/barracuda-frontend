@@ -5,8 +5,8 @@ const apiRoute = {
     profile: '/info/',
     writtenReview: '/review/',
     jointGroup: '/groups/',
-    starMovies: '/starmovies/',
-    starCelebrities: '/starcelebrities/',
+    starMovies: '/starmovie/',
+    starCelebrities: '/starcelebrity/',
     updateProfile: '/updateinfo/'
 };
 
@@ -76,3 +76,4 @@ export async function uploadAvatar(data, user_id) {
     return postRequest(apiRoute.userRoot + user_id +
         '/uploadavatar/', data);
 }
+

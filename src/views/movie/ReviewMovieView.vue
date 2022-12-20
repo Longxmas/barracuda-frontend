@@ -277,7 +277,7 @@ export default {
       let response = await queryMovieReviews('', this.$route.params.id);
       if (response.status === 200) {
         let len1 = response.data.reviews.length;
-        this.reviews = response.data.reviews.slice(len1-3, len1).reverse();
+        this.reviews = response.data.reviews.slice(Math.max(0,len1-6), len1).reverse();
       }
       response = await queryMovieDetail('', this.$route.params.id);
       if (response.status === 200) {

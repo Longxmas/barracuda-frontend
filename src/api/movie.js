@@ -1,4 +1,4 @@
-import {deleteRequest, getRequest, postRequest} from '@/api/request';
+import {getRequest, postRequest} from '@/api/request';
 
 const apiRoute = {
     queryAllMovies: '/movie',
@@ -57,3 +57,10 @@ export async function submitMovieRating(data, id) {
 }
 
 
+export async function queryMovieStar(data, id) {
+    return getRequest(apiRoute.queryAllMovies + "/" + id + '/current_like/', data);
+}
+
+export async function queryAllGenres(data) {
+    return getRequest("/genre/", data);
+}

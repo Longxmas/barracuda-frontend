@@ -15,7 +15,8 @@
                     <v-img :src="author_details.avatar"></v-img>
                   </v-avatar>
                   &ensp;
-                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ author_details.nickname }}</a>
+                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" @click="jumpToUserProfile(author_details.id)">
+                    {{ author_details.nickname }}</a>
                   &ensp;
                   <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                   &ensp;
@@ -86,7 +87,8 @@
 
                                   <v-row class="pl-0" style="background-color: #dff2fa">
                                     <a style="font-size: 16px; line-height: 25px"
-                                       class="my-auto pl-3">{{ comment.author_details.nickname }}</a>
+                                       class="my-auto pl-3" @click="jumpToUserProfile(comment.author_details.id)">
+                                      {{ comment.author_details.nickname }}</a>
                                     <span class="my-auto pl-3">{{ comment.create_at }}</span>
                                   </v-row>
 
@@ -378,6 +380,9 @@ export default {
     },
     jumpToMovie() {
       this.$router.push('/movie/' + this.movie_id);
+    },
+    jumpToUserProfile(user_id) {
+      this.$router.push('/user/' + user_id);
     },
 
     async submitReply() {

@@ -25,7 +25,7 @@
 
                       <v-row>
                         <v-progress-circular
-                            :value="80"
+                            :value="movie.vote_average * 10"
                             color="#13C00DFF"
                             width="3"
                             size="40"
@@ -33,7 +33,7 @@
                             class="ma-auto"
                             style="background-color: #0b1c22; border-radius: 100%"
                         >
-                          <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">80</span>
+                          <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">{{ Math.round(movie.vote_average * 10) }}</span>
                         </v-progress-circular>
 
                         <v-col>
@@ -66,10 +66,10 @@
                       <v-row>
                         <v-col cols="8" sm="2" class="pa-0">
                           <v-btn icon color="pink" large>
-                            <v-icon>mdi-heart</v-icon>
+                            <v-icon :color="heart_color" @click="changeStar">mdi-heart</v-icon>
                           </v-btn>
                           <span
-                              style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">添加收藏</span>
+                              style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">收藏电影</span>
                         </v-col>
 
                         <v-col cols="8" sm="2" class="pa-0">
@@ -89,7 +89,7 @@
                             <v-list>
                               <v-list-item>
                                 <v-rating
-                                    v-model="user_rate"
+                                    v-model="rating"
                                     color="yellow darken-3"
                                     background-color="grey darken-1"
                                     empty-icon="$ratingFull"
@@ -148,7 +148,8 @@
 </template>
 
 <script>
-import {addReview, queryMovieDetail} from "@/api/movie";
+import {addReview, queryMovieDetail, queryMovieRatings, queryMovieStar, submitMovieRating} from "@/api/movie";
+import {starMovie, unstarMovie} from "@/api/user";
 
 export default {
   name: "addReview",
@@ -216,7 +217,9 @@ export default {
         alignright: true,
         subfield: true,
         preview: true
-      }
+      },
+      stared: false,
+      rating: 5,
     };
   },
   watch: {
@@ -235,6 +238,14 @@ export default {
       if (response.status === 200) {
         this.movie = response.data;
       }
+
+      response = await queryMovieRatings('', this.$route.params.id);
+      if (response.status === 200) {
+        if (response.data.current_user != null) {
+          this.rating = response.data.current_user.value;
+        }
+      }
+
       console.log(this.movie);
     },
     async imageAdd(pos, file) {
@@ -254,7 +265,62 @@ export default {
       );
       console.log(response);
       this.$router.back();
-    }
+    },
+
+    async addStar() {
+      let user_id = this.$store.getters['user/id'];
+      let response = await starMovie('', user_id, this.$route.params.id);
+      response = await queryMovieStar('', this.$route.params.id);
+      if (response.status === 200) {
+        this.stared = response.data.liked;
+        alert("收藏成功");
+      }
+      await this.refresh();
+    },
+    async cancelStar() {
+      let user_id = this.$store.getters['user/id'];
+      let response = await unstarMovie('', user_id,  this.$route.params.id);
+      response = await queryMovieStar('', this.$route.params.id);
+      if (response.status === 200) {
+        alert("取消收藏");
+        this.stared = response.data.liked;
+      }
+      await this.refresh();
+    },
+
+    async changeStar() {
+      if (this.stared) {
+        await this.cancelStar();
+      } else {
+        await this.addStar();
+      }
+    },
+
+    async submitRating() {
+      let response = await submitMovieRating(
+          {value: this.rating,
+            content: "该用户没有留下评论",
+          },
+          this.$route.params.id);
+      if (response.status === 200) {
+        console.log(this.rating);
+        console.log(response);
+        alert("评分成功");
+        this.is_rating = false;
+        await this.refresh();
+      }
+    },
+
+
+  },
+  computed: {
+    heart_color: function () {
+      if (this.stared) {
+        return "red";
+      } else {
+        return "green";
+      }
+    },
   }
 };
 </script>
