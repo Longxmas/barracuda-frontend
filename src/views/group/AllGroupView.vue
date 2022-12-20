@@ -4,7 +4,6 @@
       <v-row>
         <v-col lg="8" md="8" xs="12" style="margin-top: 0;">
           <h1>所有兴趣小组</h1>
-          <v-divider></v-divider>
           <v-item-group
               multiple class="mt-5 pl-0" >
             <v-container fluid class="pl-0">
@@ -24,11 +23,14 @@
                         <v-img :src="group.photo"
                         ></v-img>
                       </v-avatar>
-                      <span class="mx-auto">{{ group.name }}</span>
+                      <a class="mx-auto" :href="'/group/' + group.id">
+                        <span class="mx-auto">{{ group.name }}</span>
+                      </a>
+
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-subtitle>
-                      共有{{ group.members.length }}位成员
+                      共有{{ group.member_count }}位成员
                       &ensp;
                       &ensp;
                       <span class="mx-auto"> 创建于{{group.create_at}}</span>
@@ -80,6 +82,8 @@
 </template>
 
 <script>
+import {getAllGroup} from "@/api/group";
+
 export default {
   name: 'allGroupView',
   data() {
@@ -97,90 +101,21 @@ export default {
               "我们平等地热爱每一部优秀的科幻片",
           photo: require("../../assets/pics/syberpunk.jpg"),
           create_at: '2022-11-16',
-          members: [
-            {
-              id: 1,
-              name: "成员1",
-              introduction: "这是一个成员",
-              photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-            },
-            {
-              id: 2,
-              name: "成员2",
-              introduction: "这是一个成员",
-              photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-            },
-            {
-              id: 3,
-              name: "成员3",
-              introduction: "这是一个成员",
-              photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-            },
-          ]
+          member_count: 3,
         },
         {
           id: 2,
           name: "小组2",
           introduction: "这是一个小组",
           photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          members: [
-            {
-              id: 1,
-              name: "成员1",
-              introduction: "这是一个成员",
-              photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-            },
-            {
-              id: 2,
-              name: "成员2",
-              introduction: "这是一个成员",
-              photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-            },
-            {
-              id: 3,
-              name: "成员3",
-              introduction: "这是一个成员",
-              photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-            },
-          ]
+          member_count: 3,
         },
         {
           id: 3,
           name: "小组3",
           introduction: "这是一个小组",
           photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          members: [
-          ]
-        },
-        {
-          id: 4,
-          name: "小组4",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          members: [
-          ]
-        },
-        {
-          id: 5,
-          name: "小组5",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          members: [
-          ]
-        },{
-          id: 4,
-          name: "小组4",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          members: [
-          ]
-        },{
-          id: 4,
-          name: "小组4",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          members: [
-          ]
+          member_count: 3,
         },
       ],
       discussions: [
@@ -208,8 +143,26 @@ export default {
       ]
     }
   },
+  async mounted() {
+    await this.refresh();
+  },
   methods: {
-
+    async refresh() {
+      let response = await getAllGroup('');
+      console.log(response)
+      if (response.status === 200) {
+        this.groups = [];
+        for (let i = 0; i < response.data.groups.length; i++) {
+          this.groups[i] = {
+            id: response.data.groups[i].id,
+            name: response.data.groups[i].name,
+            introduction: response.data.groups[i].introduction,
+            photo: 'http://localhost:8080/api/' + response.data.groups[i].avatar,
+            create_at: response.data.groups[i].create_at,
+          }
+        }
+      }
+    }
   },
   computed: {
 
