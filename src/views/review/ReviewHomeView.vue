@@ -238,6 +238,9 @@ export default {
       if (response.status === 200) {
         this.reviews = response.data;
       }
+      for (let i = 0 ; i < this.reviews.length; i++) {
+        this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+      }
     },
 
     jumpToMovieReview(review) {

@@ -20,7 +20,8 @@
                   &ensp;
                   <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                   &ensp;
-                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ movie_details.movie_name }}</a>
+                  <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                  @click = jumpToMovie>{{ movie_details.movie_name }}</a>
                   &ensp;
                   <p class="my-auto" style="font-size: 16px"> {{ review.created_at }} </p>
                   <v-spacer></v-spacer>
@@ -341,6 +342,7 @@ export default {
       if (response.status === 200) {
         this.review = response.data;
         this.author_details = response.data.author_details;
+        this.author_details.avatar = "http://localhost:8080/api/" + this.author_details.avatar;
         this.movie_id = response.data.movie_details.movie_id;
         this.movie_details = response.data.movie_details;
       }
@@ -353,6 +355,9 @@ export default {
       response = await queryReviewReply('', this.$route.params.id);
       if (response.status === 200) {
         this.replies = response.data.replies;
+        for (let i = 0 ; i < this.replies.length; i++) {
+          this.replies[i].author_details.avatar = "http://localhost:8080/api/" + this.replies[i].author_details.avatar;
+        }
       }
 
       response = await queryMoviePositionStaff({ position: 0,}, this.movie_id);

@@ -47,6 +47,8 @@
                       range
                       full-width
                   ></v-date-picker>
+
+                  <!--
                   <v-divider></v-divider>
                   <p style="margin-top: 20px">类型</p>
                   <v-chip-group
@@ -62,7 +64,7 @@
                     > {{ tag.name }}
                     </v-chip>
                   </v-chip-group>
-
+                  -->
                   <v-divider></v-divider>
                   <p style="margin-top: 20px">评分</p>
                   <v-slider
@@ -96,8 +98,8 @@
               </v-expansion-panel>
             </v-expansion-panels>
 
-            <v-btn rounded>
-              搜索
+            <v-btn rounded @click="refresh">
+              筛选
             </v-btn>
           </v-col>
 
@@ -177,10 +179,10 @@ export default {
         '按评分排序',
         '按时间排序',
       ],
+      ratingSelector: 0,
       selectSortType: '按热度排序',
-      ratingSelector: 5,
       displayType: null,
-      dates: ['2019-09-10', '2019-09-20'],
+      dates: ['1900-09-20', '2022-09-20'],
       movieType: [],
       durationSelector: [0, 300],
       selectedLanguage: [],
@@ -246,19 +248,39 @@ export default {
       if (response.status === 200) {
         this.tags = response.data.genres;
       }
+      let range_at;
+      if (this.selectSortType === "按热度排序") {
+        range_at = 0;
+      } else if (this.selectSortType === "按评分排序") {
+        range_at = 2;
+      } else if (this.selectSortType === "按时间排序") {
+        range_at = 1;
+      }
+
+      let selectGenres = this.tags;
+      for (let j = 0; j < this.movieType.length; j++) {
+        let genre_id = this.movieType[j];
+        for (let i = 0; i < this.tags.length; i++) {
+          if (this.tags[i].id === genre_id + 1) {
+            selectGenres.push(this.tags[i]);
+          }
+        }
+      }
+
       response = await queryAllMovies({
         limit: 20,
         offset: this.page_offset,
-        range_at: 0,
+        range_at: range_at,
         filter: {
-
+          release_date_gap: this.dates,
+          min_rating: this.ratingSelector,
+          duration_gap: this.durationSelector,
         }
       });
       if (response.status === 200) {
         this.page_count = response.data.meta.total_page;
         this.movies = response.data.movies;
       }
-
 
       console.log(this.movies);
     },
@@ -267,6 +289,7 @@ export default {
     dateRangeText() {
       return this.dates.join('~')
     },
+
   },
 
   watch: {
@@ -276,6 +299,7 @@ export default {
     page_count: function () {
       this.refresh();
     },
+
   }
 }
 </script>

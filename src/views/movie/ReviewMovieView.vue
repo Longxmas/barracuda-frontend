@@ -62,14 +62,17 @@
 
                             <v-row class="py-4">
                               <v-avatar>
-                                <v-img :src="review.user_avatar" alt="Avatar"></v-img>
+                                <v-img :src="review.author_details.avatar" alt="Avatar"></v-img>
                               </v-avatar>
                               &ensp;
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{ review.author_details.nickname }}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                                 @click="jumpToUserProfile(review.author_details.id)">
+                                {{ review.author_details.nickname }}</a>
                               &ensp;
                               <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                               &ensp;
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">{{  movie.movie_name}}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                              @click="jumpToOverView()">{{  movie.movie_name}}</a>
                               &ensp;
                               <p class="my-auto" style="font-size: 16px"> {{review.review_date}} </p>
                               <v-spacer></v-spacer>
@@ -278,6 +281,9 @@ export default {
       if (response.status === 200) {
         let len1 = response.data.reviews.length;
         this.reviews = response.data.reviews.slice(Math.max(0,len1-6), len1).reverse();
+        for (let i = 0 ; i < this.reviews.length; i++) {
+          this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+        }
       }
       response = await queryMovieDetail('', this.$route.params.id);
       if (response.status === 200) {
@@ -303,6 +309,11 @@ export default {
     jumpToMovieReview(review) {
       this.$router.push('/review/' + review.id);
     },
+
+    jumpToUserProfile(user_id) {
+      this.$router.push('/user/' + user_id);
+    },
+
 
   },
   computed: {

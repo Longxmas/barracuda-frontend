@@ -221,6 +221,10 @@ export default {
       response = await queryMovieRatings('', this.$route.params.id);
       if (response.status === 200) {
         this.all_comments = response.data.rating.reverse();
+        for (let i = 0 ; i < this.all_comments.length; i++) {
+          this.all_comments[i].author_details.avatar = "http://localhost:8080/api/" + this.all_comments[i].author_details.avatar;
+        }
+
       }
 
       response = await queryMoviePositionStaff({ position: 0,}, this.$route.params.id);

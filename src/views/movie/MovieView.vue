@@ -24,9 +24,8 @@
 
             <v-col cols="8">
               <v-card-text>
-                <v-row style="height:50px" class="mt-3 pb-0">
-                  <h1 style="font-size: 40px">{{ movie.movie_name }}</h1>
-                  <h1 style="font-size: 40px; color: dimgray">({{ movie.release_date.substring(0, 4) }})</h1>
+                <v-row class="mt-0 pb-2">
+                  <h1 style="font-size: 40px; height: auto; line-height: 50px">{{ movie.movie_name }} &ensp; ({{ movie.release_date.substring(0, 4) }})</h1>
                 </v-row>
                 <v-row>
                   <h3 class="mt-2">{{ movie.release_date }} ({{ movie.region }})</h3>
@@ -596,6 +595,9 @@ export default {
       if (response.status === 200) {
         let len1 = response.data.reviews.length;
         this.reviews = response.data.reviews.slice(len1 - 3, len1).reverse();
+        for (let i = 0 ; i < this.reviews.length; i++) {
+           this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+        }
       }
       response = await queryMovieRatings('', this.$route.params.id);
       if (response.status === 200) {
@@ -603,6 +605,9 @@ export default {
         this.ratings = response.data.rating.slice(len2 - 4, len2).reverse();
         if (response.data.current_user != null) {
           this.rating = response.data.current_user.value;
+        }
+        for (let i = 0 ; i < this.ratings.length; i++) {
+          this.ratings[i].author_details.avatar = "http://localhost:8080/api/" + this.ratings[i].author_details.avatar;
         }
       }
       response = await queryMovieImages('', this.$route.params.id);
