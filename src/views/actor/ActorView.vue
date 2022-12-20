@@ -1,8 +1,8 @@
 <template>
   <div class="actor-view">
-    <v-container class="mx-auto mt-10" fluid style="width:90%" >
+    <v-container class="mx-auto mt-10 pl-15" fluid >
       <v-row>
-        <v-col style="max-width: 450px">
+        <v-col col="4">
           <!-- actor pthoto-card-->
           <v-card
               class="actor-photo-card mx-auto"
@@ -26,7 +26,8 @@
                   @click="starActor"
               >
                 关注
-                <v-icon right>mdi-star</v-icon>
+                <v-icon right color="yellow" v-if="isStarred">mdi-star</v-icon>
+                <v-icon right v-else>mdi-star</v-icon>
               </v-chip>
 
               <v-spacer></v-spacer>
@@ -112,7 +113,7 @@
           </v-card>
         </v-col>
 
-        <v-col>
+        <v-col col="9">
           <v-card
               class="introduction"
               elevation="0"
@@ -245,74 +246,19 @@ import {
   queryCelebrityCooperation,
   queryCelebrityDetail,
   queryCelebrityImages,
-  queryCelebrityMovies
+  queryCelebrityMovies, starActor, unstarActor
 } from "@/api/celebrity";
+import {getStarCelebrities} from "@/api/user";
 
 export default {
   name: "actorView",
   data() {
     return {
-      actor_information: {
-        "id": 5,
-        "celebrity_name": "阿米尔·汗 Aamir Khan",
-        "biography": "\t阿米尔·汗，印度著名男演员。8岁时出演一部轰动印度全国的电影，是公认的很有前途的童星，但长大后他却坚决不愿从影，而一心去打网球，而且打得还不错，曾经获得过马哈拉施特拉邦的网球冠军。随着年纪的增长，才抛弃网球重回大银幕。阿米尔的罗曼史就是一部电影的好题材。\n\t他21岁的时候爱上了邻居家的女孩，但由于宗教原因（女孩家是印度教徒，他是一个正统的穆斯林），两方家长都坚决反对这桩婚事，两个年轻人决定私奔。现在他们过着幸福美满的生活，甚至常常被印度政府和印度政党拿来当作印度教和穆斯林和睦相处的典范。\n\t2006年元旦，象征新年开始的一个节日，印度“阿汤哥”阿米尔这一天在印度西部山区度假村举行婚礼，迎娶第二任妻子基琳·拉奥。41岁的阿米尔汗将与拉奥完婚。\n\t2001年阿米尔·汗出演的《印度往事》曾获得了奥斯卡最佳外语片提名。2005年，制作了电影《KetanMehta's The Rising》(2005)。2007年，阿米尔·汗开始尝试导演一职，并因导演影片《Taare Zameen par》获得Filmfare电影节最佳导演奖 。\n",
-        "image": "https://img1.doubanio.com/view/celebrity/raw/public/p13628.jpg",
-        "birthday": "1965年03月14日",
-        "place_of_birth": "印度,孟买",
-        "gender": 1,
-        "career": "演员 / 制片人 / 导演 / 编剧 / 配音"
-      },
-      movies: [
-        {
-          "id": 54,
-          "movie_name": "地球上的星星 Taare Zameen Par",
-          "overview": "\t对于8岁的男孩伊夏（达席尔·萨法瑞 Darsheel Safary饰）来说，世界是充满了惊奇和快乐的万花筒，他正在用一切他能够想到的方式和这个陌生的世界进行着交流，同时也充分的享受着大地万物慷慨的赠与。可是，这样的伊夏却是成年人眼中的问题儿童，他的成绩不好，在班上的排名靠后，脑子里还充满了各种匪夷所思的鬼点子，在又一次闯下大祸后，忍无可忍的父母将他送往了寄宿学校。\n\t虽然伊夏的新生活并没有什么改变，但在内心里，和父母分离的生活让他感到闷闷不乐，这时，一位名叫尼克（阿米尔·汗 Aamir Khan饰）的美术老师走进了他的生活。和以往所见到的固守成规的老师不同，尼克主张让学生们保留自己的个性和思想，自由的发展。在和尼克相处的日子里，伊夏和尼克都慢慢的成熟了起来。\n", "release_date": "2007-12-21",
-          "duration": "2H45M",
-          "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2197897857.jpg",
-          "region": "印度",
-          "vote_average": 0.0,
-          "vote_count": 0
-        }
-      ],
-
-      photos: [
-        {
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          src: require("../../assets/interstellar2.png"),
-        },
-        {
-          src: require("../../assets/interstellar2.png"),
-        },
-      ],
-
-
-      partners: [
-        {
-          "id": 1,
-          "celebrity_name": "涅提·蒂瓦里 Nitesh Tiwari",
-          "biography": "",
-          "image": "https://img9.doubanio.com/view/celebrity/raw/public/p1484120321.24.jpg",
-          "birthday": "",
-          "place_of_birth": "",
-          "gender": 1,
-          "career": "编剧 / 导演 / 制片人"
-        },
-        {
-          "id": 2,
-          "celebrity_name": "比于什·古普塔 Piyush Gupta",
-          "biography": "",
-          "image": "https://img1.doubanio.com/view/celebrity/raw/public/p1498636219.48.jpg",
-          "birthday": "",
-          "place_of_birth": "",
-          "gender": 1,
-          "career": "编剧"
-        }
-      ]
+      actor_information: {},
+      movies: [],
+      photos: [],
+      partners: [],
+      isStarred: false,
     }
   },
 
@@ -335,13 +281,35 @@ export default {
       if (response.status === 200) {
         this.movies = response.data.movies;
       }
-      console.log(this.photos)
+      response = await getStarCelebrities('', this.$store.getters["user/id"]);
+      for (let i = 0; i < response.data.length; i++) {
+        if (response.data[i].id === this.$route.params.id) {
+          this.isStarred = true;
+          break;
+        }
+      }
     },
-    starActor() {
-      alert('关注成功！')
+    async starActor() {
+      if (this.isStarred) {
+        this.$message.warning('虽然你很喜欢他/它，但是你也只能收藏一次捏~(￣▽￣)~*')
+      } else {
+        let response = await starActor('', this.$store.getters["user/id"], this.$route.params.id);
+        if (response.status === 200) {
+          this.$message.success('收藏成功！')
+          this.isStarred = true;
+        }
+      }
     },
-    deleteStarActor() {
-      alert('您已取消关注！')
+    async deleteStarActor() {
+      if (this.isStarred) {
+        let response = await unstarActor('', this.$store.getters["user/id"], this.$route.params.id);
+        if (response.status === 200) {
+          this.$message.success('取消收藏成功！')
+          this.isStarred = false;
+        }
+      } else {
+        this.$message.warning('哼(￢︿̫̿￢☆)，你根本没有收藏过他/她！')
+      }
     },
     calculateImageFitPattern(fixedHeight, src) {
       let imgObj = new Image();

@@ -1,4 +1,4 @@
-import { getRequest, postRequest } from '@/api/request';
+import {deleteRequest, getRequest, postRequest} from '@/api/request';
 
 const apiRoute = {
     queryAllCelebrities: '/celebrity',
@@ -30,4 +30,12 @@ export async function queryCelebrityCooperation(data, id) {
 
 export async function searchActor(data) {
     return getRequest(apiRoute.searchActor + '/' + '?query=' + data.query, data);
+}
+
+export async function starActor(data, user_id, actor_id) {
+    return postRequest('/user/' + user_id + '/starcelebrity/' + actor_id + '/', data);
+}
+
+export async function unstarActor(data, user_id, actor_id) {
+    return deleteRequest('/user/' + user_id + '/starcelebrity/' + actor_id + '/', data);
 }
