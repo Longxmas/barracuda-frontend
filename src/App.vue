@@ -58,7 +58,7 @@
 
             <v-col cols="1" class="mx-0 pl-0" align-self="center">
               <v-card style="background-color: transparent" flat>
-                <a href="/allgroup" style="width: 80px; text-decoration: none; color: #ff8d1a;">
+                <a href="/group" style="width: 80px; text-decoration: none; color: #ff8d1a;">
                   <v-card-text class="text-center text-h6" style="padding-top: 30px; width: 120px">
                     <p style="font-family: YouSheBiaoTi,sans-serif; font-size: 23px">兴趣小组</p>
                   </v-card-text>
@@ -182,25 +182,25 @@ export default {
 @font-face {
   /* font-properties */
   font-family: 'YouSheBiaoTi';
-  src:url('assets/fonts/youshebiaoti.ttf');
+  src:url('@/assets/fonts/youshebiaoti.ttf');
 }
 
 @font-face {
   /* font-properties */
   font-family: 'consensus';
-  src:url('assets/fonts/consensus-bold.otf');
+  src:url('@/assets/fonts/consensus-bold.otf');
 }
 
 @font-face {
   /* font-properties */
   font-family: 'gotham-bold';
-  src:url('assets/fonts/gotham-bold.otf');
+  src:url('@/assets/fonts/gotham-bold.otf');
 }
 
 @font-face {
   /* font-properties */
   font-family: 'source-sans-pro-bold';
-  src:url('assets/fonts/SourceSansPro-Bold.ttf');
+  src:url('@/assets/fonts/SourceSansPro-Bold.ttf');
 }
 
 h3 {

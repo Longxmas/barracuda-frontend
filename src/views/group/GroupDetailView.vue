@@ -12,7 +12,7 @@
             <v-col lg="9" md="6" sm="12" xs="12" style="margin-top: 0;">
               <v-card>
                 <v-card-title>
-                  <h1>弱智吧</h1>
+                  <h1>{{ group_meta.name }}</h1>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
@@ -22,18 +22,18 @@
                         <v-avatar rounded size="200">
                           <v-img
                               aspect-ratio="1"
-                              src="../../assets/ruozhi.png">
+                              :src="group_meta.avatar">
                           </v-img>
                         </v-avatar>
                       </v-col>
                       <v-col lg="9" md="6" sm="12" xs="12">
-                        <p>来到了弱智吧，就好像回到了家一样</p>
+                        <p>{{ group_meta.introduction }}</p>
                       </v-col>
                     </v-row>
                   </v-container>
                   <v-divider></v-divider>
                   <v-card-actions class="d-flex justify-space-between">
-                    创建于 XXXX-XX-XX
+                    创建于 {{ group_meta.create_at }}
                     <v-btn color="green lighten-4">加入这个小组</v-btn>
                   </v-card-actions>
                 </v-card-text>
@@ -178,10 +178,19 @@
 </template>
 
 <script>
+import {getGroupDetail, getGroupDiscussion, getGroupMember} from "@/api/group";
+
 export default {
   name: 'groupDetailView',
   data() {
     return {
+      group_meta: {
+        id: 1,
+        avatar: "/media/Group/avatar/initial.jpg",
+        create_at: "2022-12-21",
+        introduction: "0",
+        name: "group0"
+      },
       topTabName: '',
       recent_members: [
         {
@@ -269,7 +278,44 @@ export default {
       ]
     }
   },
-  methods: {},
+  async mounted() {
+    await this.refresh();
+  },
+  methods: {
+    async refresh() {
+      let response = await getGroupDetail('', this.$route.params.id);
+      if (response.status === 200) {
+        this.group_meta.id = response.data.id;
+        this.group_meta.avatar = 'http://localhost:8080/api/' + response.data.avatar;
+        this.group_meta.create_at = response.data.create_at;
+        this.group_meta.introduction = response.data.introduction;
+        this.group_meta.name = response.data.name;
+      }
+      response = await getGroupMember('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.group_members.length; i++) {
+          this.all_members[i] = {
+            id: response.data.group_members[i].id,
+            name: response.data.group_members[i].nickname,
+            join_time: response.data.group_members[i].join_time,
+            photo: 'http://localhost:8080/api/' + response.data.group_members[i].avatar,
+            introduction: response.data.group_members[i].introduction
+          };
+        }
+      }
+      response = await getGroupDiscussion('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.group_discussions.length; i++) {
+          this.allDiscussionItems[i] = {
+            topic: response.data.group_discussions[i].title,
+            author: response.data.group_discussions[i].author.nickname,
+            reply_count: response.data.group_discussions[i].reply_count,
+            last_reply_time: response.data.group_discussions[i].updated_at,
+          }
+        }
+      }
+    }
+  },
   computed: {}
 }
 </script>
