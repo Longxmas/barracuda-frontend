@@ -24,7 +24,6 @@ export async function postRequest(url, data) {
     }
 }
 
-
 export async function deleteRequest(url, data) {
     try {
         return await axios(url, {

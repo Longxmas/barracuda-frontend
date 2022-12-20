@@ -568,10 +568,10 @@
 
 <script>
 import * as api from "@/api/request";
+import {getJoinedGroups, getStarCelebrities, getStarMovies, getUserProfile, getWrittenReviews} from "@/api/user";
 
 export default {
   name: "UserProfileView",
-
   data() {
     return {
       user: {
@@ -614,48 +614,6 @@ export default {
               '没过多久，基宇的妹妹和父母也如同寄生虫一般的进入了朴社长家里工作。然而，他们的野心并没有止步于此' +
               '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。'
         },
-        {
-          id: 1,
-          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
-          title: 'ぼっち・ざ・ろっく！',
-          datePublished: '2019-05-30',
-          introduction: '《寄生虫》是由奉俊昊执导，宋康昊、李善均、赵茹珍、崔宇植、朴素丹主演的剧情片，于2019年5月30日在韩国上映。' +
-              '该片讲述了一家四口全是无业游民的爸爸金基泽成天游手好闲，直到积极向上的长子金基宇靠着伪造的文凭来到富豪朴社长的家应征家教，' +
-              '两个天差地别的家庭因而被卷入一连串的意外事件之中的故事。 基宇（崔宇植 饰）出生在一个贫穷的家庭之中，和妹妹基婷（朴素丹 饰）' +
-              '以及父母在狭窄的地下室里过着相依为命的日子。一天，基宇的同学上门拜访，他告诉基宇，自己在一个有钱人家里给他们的女儿做家教' +
-              '，太太是一个头脑简单出手又阔绰的女人，因为自己要出国留学，所以将家教的职位暂时转交给基宇。就这样，基宇来到了朴社长（李善均 饰）家中' +
-              '，并且见到了他的太太（赵汝贞 饰），' +
-              '没过多久，基宇的妹妹和父母也如同寄生虫一般的进入了朴社长家里工作。然而，他们的野心并没有止步于此' +
-              '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。'
-        },
-        {
-          id: 1,
-          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
-          title: 'ぼっち・ざ・ろっく！',
-          datePublished: '2019-05-30',
-          introduction: '《寄生虫》是由奉俊昊执导，宋康昊、李善均、赵茹珍、崔宇植、朴素丹主演的剧情片，于2019年5月30日在韩国上映。' +
-              '该片讲述了一家四口全是无业游民的爸爸金基泽成天游手好闲，直到积极向上的长子金基宇靠着伪造的文凭来到富豪朴社长的家应征家教，' +
-              '两个天差地别的家庭因而被卷入一连串的意外事件之中的故事。 基宇（崔宇植 饰）出生在一个贫穷的家庭之中，和妹妹基婷（朴素丹 饰）' +
-              '以及父母在狭窄的地下室里过着相依为命的日子。一天，基宇的同学上门拜访，他告诉基宇，自己在一个有钱人家里给他们的女儿做家教' +
-              '，太太是一个头脑简单出手又阔绰的女人，因为自己要出国留学，所以将家教的职位暂时转交给基宇。就这样，基宇来到了朴社长（李善均 饰）家中' +
-              '，并且见到了他的太太（赵汝贞 饰），' +
-              '没过多久，基宇的妹妹和父母也如同寄生虫一般的进入了朴社长家里工作。然而，他们的野心并没有止步于此' +
-              '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。'
-        },
-        {
-          id: 1,
-          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
-          title: 'ぼっち・ざ・ろっく！',
-          datePublished: '2019-05-30',
-          introduction: '《寄生虫》是由奉俊昊执导，宋康昊、李善均、赵茹珍、崔宇植、朴素丹主演的剧情片，于2019年5月30日在韩国上映。' +
-              '该片讲述了一家四口全是无业游民的爸爸金基泽成天游手好闲，直到积极向上的长子金基宇靠着伪造的文凭来到富豪朴社长的家应征家教，' +
-              '两个天差地别的家庭因而被卷入一连串的意外事件之中的故事。 基宇（崔宇植 饰）出生在一个贫穷的家庭之中，和妹妹基婷（朴素丹 饰）' +
-              '以及父母在狭窄的地下室里过着相依为命的日子。一天，基宇的同学上门拜访，他告诉基宇，自己在一个有钱人家里给他们的女儿做家教' +
-              '，太太是一个头脑简单出手又阔绰的女人，因为自己要出国留学，所以将家教的职位暂时转交给基宇。就这样，基宇来到了朴社长（李善均 饰）家中' +
-              '，并且见到了他的太太（赵汝贞 饰），' +
-              '没过多久，基宇的妹妹和父母也如同寄生虫一般的进入了朴社长家里工作。然而，他们的野心并没有止步于此' +
-              '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。'
-        },
       ],
       starsActors: [
         {
@@ -670,42 +628,6 @@ export default {
               '2016年，出演电视剧《爱情的故事9》。2017年，出演电视剧《爱情的故事10》。2018年，出演电视剧《爱情的故事11》。' +
               '2019年，出演电视剧《爱情的故事12》。2019年，出演电影《寄生虫》。'
         },
-        {
-          id: 1,
-          name: '马修·麦康纳',
-          avatar: require('../../assets/maconar.jpg'),
-          birthtime: "1969-11-04",
-          introduction: '马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，\n' +
-              '                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，\n' +
-              '                在1992年执导了一部短片。在早期马修·麦康纳的表演生涯中，他只是饰演一些追逐女孩子的花花公子角色，\n' +
-              '                在1994年的电影《德州电锯杀人狂 4》饰演一个阴郁疯狂的嗜血杀手，开始转变戏路。在2000年他参与了电影《猎杀U-571》的表演。\n' +
-              '                马修·麦康纳同是还在喜剧片中出演角色，如《缘分没法挡》、《十日拍拖手册》，他觉得最有意思的银幕角色是在《火焰末日》扮演一名美国战士。\n' +
-              '                近两年麦康纳又出演了《撒哈拉骑兵》、《利欲两心》、《赖家王老五》等商业片，知名度和影响力直线上升。'
-        },
-        {
-          id: 1,
-          name: '马修·麦康纳',
-          avatar: require('../../assets/maconar.jpg'),
-          birthtime: "1969-11-04",
-          introduction: '马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，\n' +
-              '                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，\n' +
-              '                在1992年执导了一部短片。在早期马修·麦康纳的表演生涯中，他只是饰演一些追逐女孩子的花花公子角色，\n' +
-              '                在1994年的电影《德州电锯杀人狂 4》饰演一个阴郁疯狂的嗜血杀手，开始转变戏路。在2000年他参与了电影《猎杀U-571》的表演。\n' +
-              '                马修·麦康纳同是还在喜剧片中出演角色，如《缘分没法挡》、《十日拍拖手册》，他觉得最有意思的银幕角色是在《火焰末日》扮演一名美国战士。\n' +
-              '                近两年麦康纳又出演了《撒哈拉骑兵》、《利欲两心》、《赖家王老五》等商业片，知名度和影响力直线上升。'
-        },
-        {
-          id: 1,
-          name: '马修·麦康纳',
-          avatar: require('../../assets/maconar.jpg'),
-          birthtime: "1969-11-04",
-          introduction: '马修·麦康纳，美国演员。早先他没有对表演产生兴趣，而是立志要做一名律师，在德州大学的学习期间，\n' +
-              '                受到一本名为《世界上最伟大的销售员》的灵感启发，从而改变志向，开始学习电影。他的表演生涯开始于1991年在学生的电影作品中出演角色，\n' +
-              '                在1992年执导了一部短片。在早期马修·麦康纳的表演生涯中，他只是饰演一些追逐女孩子的花花公子角色，\n' +
-              '                在1994年的电影《德州电锯杀人狂 4》饰演一个阴郁疯狂的嗜血杀手，开始转变戏路。在2000年他参与了电影《猎杀U-571》的表演。\n' +
-              '                马修·麦康纳同是还在喜剧片中出演角色，如《缘分没法挡》、《十日拍拖手册》，他觉得最有意思的银幕角色是在《火焰末日》扮演一名美国战士。\n' +
-              '                近两年麦康纳又出演了《撒哈拉骑兵》、《利欲两心》、《赖家王老五》等商业片，知名度和影响力直线上升。'
-        }
       ],
       reviews: [
         {
@@ -721,83 +643,8 @@ export default {
           like_count: 170,
           reply_count: 100,
           introduction:
-              ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
-              '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
-              '         我们会按照一切人类自古以来的设定和程序去生活，没有人能够逃离。像离弦的剑，只有来路，没有归途。面对挫折和困难，只有向前走，生命的轨迹永远都是单向的。\n' +
-              '         泰戈尔的诗句：生如夏花之绚烂。生活中有绚烂的时光就有大雨滂沱的历程。你得面对浅薄的时光，琐碎的日子，凌乱的步伐，看着生命一天天粗糙；你不得不承认，曾经有过时刻，你看到的天都是灰色的，而你必须得永恒地站在这里，哪怕下一秒就是你能预知的风险，因为这是躲不过去的；你得记得到那些脆弱和不安的岁月，你去从苦难中成长，但不一定要感谢苦难，因为值得感谢的是你心里的倔强还有那些生命中的温暖。\n' +
-              '        时间让生命的一切有了局限也同时有了意义，我们的生命和生活是有局限的，但是，生命本该如夏花般绚烂，生命本来就在于突破和坚持。想到了小学课文里的一句话，人只不过是一根苇草，是自然界最脆弱的东西，但他是一根能思想的苇草，必然是自然界最坚强的存在。'
+              ' 每个人的一生都会有几个临界'
         },
-        {
-          id: 1,
-          title: '生如夏花之绚烂，死如秋叶之静美',
-          user_name: 'longxmas',
-          movie_name: '赛博朋克：边缘行者',
-          movie_id: 2,
-          /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../../assets/pics/syberpunk.jpg'),
-          rating: '4.5',
-          time: '2022-11-12',
-          like_count: 170,
-          reply_count: 100,
-          introduction:
-              ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
-              '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
-              '         我们会按照一切人类自古以来的设定和程序去生活，没有人能够逃离。像离弦的剑，只有来路，没有归途。面对挫折和困难，只有向前走，生命的轨迹永远都是单向的。\n' +
-              '         泰戈尔的诗句：生如夏花之绚烂。生活中有绚烂的时光就有大雨滂沱的历程。你得面对浅薄的时光，琐碎的日子，凌乱的步伐，看着生命一天天粗糙；你不得不承认，曾经有过时刻，你看到的天都是灰色的，而你必须得永恒地站在这里，哪怕下一秒就是你能预知的风险，因为这是躲不过去的；你得记得到那些脆弱和不安的岁月，你去从苦难中成长，但不一定要感谢苦难，因为值得感谢的是你心里的倔强还有那些生命中的温暖。\n' +
-              '        时间让生命的一切有了局限也同时有了意义，我们的生命和生活是有局限的，但是，生命本该如夏花般绚烂，生命本来就在于突破和坚持。想到了小学课文里的一句话，人只不过是一根苇草，是自然界最脆弱的东西，但他是一根能思想的苇草，必然是自然界最坚强的存在。'
-        },
-        {
-          id: 1,
-          title: '生如夏花之绚烂，死如秋叶之静美',
-          user_name: 'longxmas',
-          movie_name: '赛博朋克：边缘行者',
-          movie_id: 2,
-          /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../../assets/pics/syberpunk.jpg'),
-          rating: '4.5',
-          time: '2022-11-12',
-          like_count: 170,
-          reply_count: 100,
-          introduction:
-              ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
-              '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
-              '         我们会按照一切人类自古以来的设定和程序去生活，没有人能够逃离。像离弦的剑，只有来路，没有归途。面对挫折和困难，只有向前走，生命的轨迹永远都是单向的。\n' +
-              '         泰戈尔的诗句：生如夏花之绚烂。生活中有绚烂的时光就有大雨滂沱的历程。你得面对浅薄的时光，琐碎的日子，凌乱的步伐，看着生命一天天粗糙；你不得不承认，曾经有过时刻，你看到的天都是灰色的，而你必须得永恒地站在这里，哪怕下一秒就是你能预知的风险，因为这是躲不过去的；你得记得到那些脆弱和不安的岁月，你去从苦难中成长，但不一定要感谢苦难，因为值得感谢的是你心里的倔强还有那些生命中的温暖。\n' +
-              '        时间让生命的一切有了局限也同时有了意义，我们的生命和生活是有局限的，但是，生命本该如夏花般绚烂，生命本来就在于突破和坚持。想到了小学课文里的一句话，人只不过是一根苇草，是自然界最脆弱的东西，但他是一根能思想的苇草，必然是自然界最坚强的存在。'
-        },
-        {
-          id: 1,
-          title: '生如夏花之绚烂，死如秋叶之静美',
-          user_name: 'longxmas',
-          movie_name: '赛博朋克：边缘行者',
-          movie_id: 2,
-          /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../../assets/pics/syberpunk.jpg'),
-          rating: '4.5',
-          time: '2022-11-12',
-          like_count: 170,
-          reply_count: 100,
-          introduction:
-              ' 每个人的一生都会有几个临界点，都会面对一次又一次的选择，黄色树林里分出的两条道路，你必然会选择其中的一条，而另一条的风景你注定是无法体验的，这就是生活，要得到必先懂得失去。最终我们都会面对人生的最后一个临界点，那就是生与死，而这次，我们没有选择。\n' +
-              '         我们的生命被设定的时间是有限的，不论是生理上还是心理上。从最初什么也不知道到逐渐去认识一些事情，再到最终慢慢老去的记忆和身体器官。最终还是会离开，赤条条地来，什么也不带走地消逝。\n' +
-              '         我们会按照一切人类自古以来的设定和程序去生活，没有人能够逃离。像离弦的剑，只有来路，没有归途。面对挫折和困难，只有向前走，生命的轨迹永远都是单向的。\n' +
-              '         泰戈尔的诗句：生如夏花之绚烂。生活中有绚烂的时光就有大雨滂沱的历程。你得面对浅薄的时光，琐碎的日子，凌乱的步伐，看着生命一天天粗糙；你不得不承认，曾经有过时刻，你看到的天都是灰色的，而你必须得永恒地站在这里，哪怕下一秒就是你能预知的风险，因为这是躲不过去的；你得记得到那些脆弱和不安的岁月，你去从苦难中成长，但不一定要感谢苦难，因为值得感谢的是你心里的倔强还有那些生命中的温暖。\n' +
-              '        时间让生命的一切有了局限也同时有了意义，我们的生命和生活是有局限的，但是，生命本该如夏花般绚烂，生命本来就在于突破和坚持。想到了小学课文里的一句话，人只不过是一根苇草，是自然界最脆弱的东西，但他是一根能思想的苇草，必然是自然界最坚强的存在。'
-        },
-        {
-          id: 1,
-          title: '生如夏花之绚烂，死如秋叶之静美',
-          user_name: 'longxmas',
-          movie_name: '赛博朋克：边缘行者',
-          movie_id: 2,
-          /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../../assets/pics/syberpunk.jpg'),
-          rating: '4.5',
-          time: '2022-11-12',
-          like_count: 170,
-          reply_count: 100,
-          introduction: "我的瑞贝卡呜呜呜呜呜呜呜"
-        }
       ],
       interest_groups: [
         {
@@ -807,25 +654,72 @@ export default {
           created_at: '2022-11-13',
           introduction: '科幻片永远的神，欢迎大家分享喜欢的科幻电影，一起讨论科幻片的魅力！'
         },
-        {
-          id: 2,
-          name: '爱情至上',
-          avatar: require('../../assets/pics/syberpunk.jpg'),
-          created_at: '2022-11-15',
-          introduction: '生命诚可贵，爱情价更高'
-        },
-        {
-          id: 3,
-          name: '动作片yyds',
-          avatar: require('../../assets/pics/syberpunk.jpg'),
-          created_at: '2022-11-13',
-          introduction: '我们喜欢看拳拳到肉的动作片，欢迎大家分享喜欢的动作片，一起讨论动作片的魅力！'
-        }
       ]
     }
   },
 
+  async mounted() {
+    await this.refresh();
+  },
+
   methods: {
+    async refresh() {
+      let response = await getUserProfile('', this.$route.params.id);
+      if (response.status === 200) {
+        this.user = response.data;
+        this.user.name = this.user.nickname;
+        this.user.avatar = 'http://localhost:8080/api/' + this.user.avatar;
+        this.user.created_at = this.user.create_at;
+      }
+      this.editedItem = this.user;
+      response = await getStarMovies('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.length; i++) {
+          this.starsMovies[i].id = response.data[i].id;
+          this.starsMovies[i].introduction = response.data[i].overview;
+          this.starsMovies[i].title = response.data[i].name;
+          this.starsMovies[i].poster = response.data[i].image_path;
+          this.starsMovies[i].datePublished = response.data[i].release_date;
+        }
+      }
+      response = await getStarCelebrities('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.length; i++) {
+          this.starsActors[i].id = response.data[i].id;
+          this.starsActors[i].name = response.data[i].name;
+          this.starsActors[i].introduction = response.data[i].biography;
+          this.starsActors[i].avatar = response.data[i].image_path;
+          this.starsActors[i].birthtime = response.data[i].birthday;
+        }
+      }
+      response = await getJoinedGroups('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.length; i++) {
+          this.interest_groups[i].id = response.data[i].id;
+          this.interest_groups[i].introduction = response.data[i].introduction;
+          this.interest_groups[i].avatar = 'http://localhost:8080/api/' + response.data[i].avatar;
+          this.interest_groups[i].created_at = response.data[i].created_at;
+          this.interest_groups[i].name = response.data[i].name;
+        }
+      }
+      response = await getWrittenReviews('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.length; i++) {
+          this.reviews[i].id = response.data[i].id;
+          this.reviews[i].title = response.data[i].title;
+          this.reviews[i].user_name = response.data[i].author_details.username;
+          this.reviews[i].movie_name = response.data[i].movie_details.movie_name;
+          this.reviews[i].movie_id = response.data[i].movie_details.movie_id;
+          this.reviews[i].movie_picture = response.data[i].movie_details.movie_poster_path;
+          this.reviews[i].rating = 5;
+          this.reviews[i].time = response.data[i].create_at;
+          this.reviews[i].like_count = response.data[i].like_count;
+          this.reviews[i].reply_count = response.data[i].reply_count;
+          this.reviews[i].introduction = response.data[i].content;
+        }
+      }
+      console.log(this.reviews)
+    },
     async logout() {
       let response = await api.getRequest('/logout/', '');
       if (response.status === 200) {
@@ -857,7 +751,6 @@ export default {
       alert("删除成功" + review.id);
     }
   },
-
 
   computed: {
     user_headers() {
