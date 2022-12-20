@@ -23,3 +23,15 @@ export async function postRequest(url, data) {
         console.log(error)
     }
 }
+
+export async function deleteRequest(url, data) {
+    try {
+        return await axios(url, {
+            method: 'delete',
+            data: data
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
