@@ -699,7 +699,8 @@ export default {
       formData.append('avatar', file.raw);
       let res = await Axios.post('http://localhost:8080/api/user/' + this.$route.params.id + '/uploadavatar/', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin' : '*'
         }
       });
       this.fileList = [];
