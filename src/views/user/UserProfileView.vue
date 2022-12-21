@@ -164,10 +164,6 @@
                                 }}</a>
                               &ensp;
                               <p class="my-auto" style="font-size: 16px"> {{ review.time }} </p>
-                              <v-spacer></v-spacer>
-                              <v-rating style="margin-top: 15px; margin-bottom: 15px"
-                                        :value="review.rating" color="amber" dense half-increments readonly size="14">
-                              </v-rating>
                             </v-row>
 
 
@@ -697,10 +693,10 @@ export default {
       fileList.slice(-1);
       let formData = new FormData();
       formData.append('avatar', file.raw);
-      let res = await Axios.post('http://localhost:8080/api/user/' + this.$route.params.id + '/uploadavatar/', formData, {
+      let res = await Axios.post('http://0.0.0.0:8080/api/user/' + this.$route.params.id + '/uploadavatar/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin' : '*'
+          'Access-Control-Allow-Origin': '*'
         }
       });
       this.fileList = [];

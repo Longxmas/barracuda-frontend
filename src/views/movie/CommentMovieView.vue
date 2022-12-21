@@ -42,7 +42,9 @@
                                         <v-container fluid>
 
                                           <v-row class="pl-0 " :class=judgePosition(i)>
-                                            <a style="font-size: 16px" class="my-auto pl-3">{{ comment.author_details.nickname}}</a>
+                                            <a style="font-size: 16px" class="my-auto pl-3" :href="'/user/' + comment.author_details.id">
+                                              {{ comment.author_details.nickname}}
+                                            </a>
                                             <v-rating class="my-auto pl-3"
                                                       :value="comment.value / 2" color="amber" dense
                                                       half-increments readonly
@@ -85,7 +87,7 @@
             <v-col cols="3">
               <v-card flat class="mt-0">
                 <v-card-title>
-                  <a>{{ movie.movie_name }}</a>
+                  <a :href="'/movie/' + movie.id">{{ movie.movie_name }}</a>
                 </v-card-title>
                 <v-card-text>
                   <v-img :src="movie.image"
