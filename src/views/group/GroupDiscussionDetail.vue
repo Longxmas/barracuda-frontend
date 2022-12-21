@@ -158,7 +158,7 @@
                   <span>创建于： {{group.create_at}}</span>
                 </v-row>
                 <v-row>
-                  <span>小组成员数：{{group.members.length}}</span>
+                  <span>小组成员数：{{group.member_count}}</span>
                 </v-row>
               </v-container>
 
@@ -174,6 +174,8 @@
 </template>
 
 <script>
+import {getGroupDetail, getGroupDiscussionDetail, getGroupMember} from "@/api/group";
+
 export default {
   name: 'groupDiscussionDetail',
   data() {
@@ -249,31 +251,40 @@ export default {
             "我们平等地热爱每一部优秀的科幻片",
         photo: require("../../assets/pics/syberpunk.jpg"),
         create_at: '2022-11-16',
-        members: [
-          {
-            id: 1,
-            name: "成员1",
-            introduction: "这是一个成员",
-            photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          },
-          {
-            id: 2,
-            name: "成员2",
-            introduction: "这是一个成员",
-            photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          },
-          {
-            id: 3,
-            name: "成员3",
-            introduction: "这是一个成员",
-            photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          },
-        ]
+        member_count: 3
       },
     }
   },
+  async mounted() {
+    await this.refresh();
+  },
   methods: {
+    async refresh() {
+      let response = await getGroupDetail('', this.$route.params.id);
+      if (response.status === 200) {
+        this.group.id = response.data.id;
+        this.group.photo = 'http://localhost:8080/api/' + response.data.avatar;
+        this.group.create_at = response.data.create_at;
+        this.group.introduction = response.data.introduction;
+        this.group.name = response.data.name;
+        response = await getGroupMember('', this.$route.params.id);
+        this.group.member_count = response.data.group_members.length;
+      }
 
+      response = await getGroupDiscussionDetail('', this.$route.params.id, this.$route.params.discussionId);
+      if (response.status === 200) {
+        this.discussion.id = response.data.id;
+        this.discussion.group_id = response.data.group.id;
+        this.discussion.group_name = response.data.group.name;
+        this.discussion.user_name = response.data.author.nickname;
+        this.discussion.user_avatar = 'http://localhost:8080/api/' + response.data.author.avatar;
+        this.discussion.date = response.data.create_at;
+        this.discussion.title = response.data.title;
+        this.discussion.content = response.data.content;
+        this.discussion.thumb = response.data.likes;
+        this.discussion.reply_count = response.data.reply_count;
+      }
+    }
   },
   computed: {
 
