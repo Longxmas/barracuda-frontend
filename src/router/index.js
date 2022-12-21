@@ -124,10 +124,25 @@ const routes = [
     path: '/movie/:id/addreview',
     name: 'addReview',
     component: addReview
+  },
+    {
+    path: '/404',
+    name: 'NotFound',
+    meta: {
+      title: 'Page not found',
+      isLogin: false
+    },
+    component: NotFound
+  },
+  // 所有未定义路由，全部重定向到404页
+  {
+    path: '*',
+    redirect: '/404'
   }
 ]
 
 import store from '@/store/index.js';
+import NotFound from "@/views/NotFound.vue";
 
 const router = new VueRouter({
   mode: 'history',
