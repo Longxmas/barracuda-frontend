@@ -157,9 +157,12 @@
                         >
                           <v-row no-gutters>
                             <v-col cols="4" class="pa-0">
-                              <v-img :src="item.image" height="100%" aspect-ratio="1"
-                                     @click="jumpToMovie(item.id)">
-                              </v-img>
+                              <a>
+                                <v-img :src="item.image" height="100%" aspect-ratio="1"
+                                       @click="jumpToMovie(item.id)">
+                                </v-img>
+                              </a>
+
 
                             </v-col>
 
@@ -168,7 +171,7 @@
                                   max-height="400"
                                   style="background-color: ghostwhite;"
                                   height="400"
-                                  @click="jumpToMovie(item.id)"
+                                  @click="jumpToMovieMedia(item.id)"
                               >
                                 <v-card style="padding: 15% 10% 0 10%; background: transparent" elevation="0">
                                   <span style="font-family: 微软雅黑,serif; font-size: 20px; line-height: normal; ">
@@ -495,6 +498,10 @@ export default {
     jumpToMovie(movie_id) {
       this.$router.push('/movie/' + movie_id);
     },
+    jumpToMovieMedia(movie_id) {
+      this.$router.push('/movie/' + movie_id + '/media/videos/');
+    },
+
 
 
   },
