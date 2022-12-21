@@ -95,6 +95,7 @@
                                     empty-icon="$ratingFull"
                                     half-increments
                                     hover
+                                    @input="submitRating()"
                                 ></v-rating>
                               </v-list-item>
                             </v-list>
@@ -199,8 +200,8 @@ export default {
         quote: true,
         ol: true,
         ul: true,
-        link: true,
-        imagelink: true,
+        link: false,
+        imagelink: false,
         code: true,
         table: true,
         fullscreen: true,
@@ -219,7 +220,7 @@ export default {
         preview: true
       },
       stared: false,
-      rating: 5,
+      rating: 0,
     };
   },
   watch: {
@@ -242,8 +243,15 @@ export default {
       response = await queryMovieRatings('', this.$route.params.id);
       if (response.status === 200) {
         if (response.data.current_user != null) {
-          this.rating = response.data.current_user.value;
+          this.rating = response.data.current_user.value / 2;
+        } else {
+          this.rating = 0;
         }
+      }
+
+      response = await queryMovieStar('', this.$route.params.id);
+      if (response.status === 200) {
+        this.stared = response.data.liked;
       }
 
       console.log(this.movie);
@@ -298,14 +306,14 @@ export default {
 
     async submitRating() {
       let response = await submitMovieRating(
-          {value: this.rating,
+          {value: this.rating * 2,
             content: "该用户没有留下评论",
           },
           this.$route.params.id);
       if (response.status === 200) {
         console.log(this.rating);
         console.log(response);
-        alert("评分成功");
+        this.$message.success("评分成功");
         this.is_rating = false;
         await this.refresh();
       }

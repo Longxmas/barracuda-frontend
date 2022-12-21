@@ -17,8 +17,7 @@
                   &ensp;
                   <p class="my-auto" style="font-size: 16px"> {{ discussion.date }} </p>
                 </v-row>
-              </v-container>
-              <v-row class="py-5">
+              <v-row class="py-3">
                 <mavon-editor
                     v-model="discussion.content"
                     :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
@@ -46,7 +45,7 @@
                   </v-btn>
                 </v-col>
               </v-row>
-
+              </v-container>
             </v-card-title>
           </v-card>
 

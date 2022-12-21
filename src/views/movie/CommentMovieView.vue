@@ -44,7 +44,7 @@
                                           <v-row class="pl-0 " :class=judgePosition(i)>
                                             <a style="font-size: 16px" class="my-auto pl-3">{{ comment.author_details.nickname}}</a>
                                             <v-rating class="my-auto pl-3"
-                                                      :value="comment.value" color="amber" dense
+                                                      :value="comment.value / 2" color="amber" dense
                                                       half-increments readonly
                                                       size="18">
                                             </v-rating>

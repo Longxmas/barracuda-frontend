@@ -258,7 +258,6 @@ export default {
       movies: [],
       photos: [],
       partners: [],
-      isStarred: false,
     }
   },
 
@@ -283,7 +282,7 @@ export default {
       }
       response = await getStarCelebrities('', this.$store.getters["user/id"]);
       for (let i = 0; i < response.data.length; i++) {
-        if (response.data[i].id === this.$route.params.id) {
+        if (response.data[i].id.toString() === this.$route.params.id.toString()) {
           this.isStarred = true;
           break;
         }
@@ -295,7 +294,7 @@ export default {
       } else {
         let response = await starActor('', this.$store.getters["user/id"], this.$route.params.id);
         if (response.status === 200) {
-          this.$message.success('收藏成功！')
+          this.$message.success('关注成功！')
           this.isStarred = true;
         }
       }
@@ -304,7 +303,7 @@ export default {
       if (this.isStarred) {
         let response = await unstarActor('', this.$store.getters["user/id"], this.$route.params.id);
         if (response.status === 200) {
-          this.$message.success('取消收藏成功！')
+          this.$message.success('取消关注成功！')
           this.isStarred = false;
         }
       } else {
@@ -326,6 +325,7 @@ export default {
   },
 
   computed: {
+    isStarred: false,
   },
 
   async mounted() {

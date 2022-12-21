@@ -330,7 +330,7 @@
                                                class="my-auto pl-3" @click="jumpToUserProfile(comment.author_details.id)">
                                               {{ comment.author_details.nickname }}</a>
                                             <v-rating class="my-auto pl-3"
-                                                      :value="comment.value" color="amber" dense
+                                                      :value="comment.value / 2" color="amber" dense
                                                       half-increments readonly
                                                       size="18">
                                             </v-rating>
@@ -604,7 +604,7 @@ export default {
         let len2 = response.data.rating.length;
         this.ratings = response.data.rating.slice(len2 - 4, len2).reverse();
         if (response.data.current_user != null) {
-          this.rating = response.data.current_user.value;
+          this.rating = response.data.current_user.value / 2;
         }
         for (let i = 0 ; i < this.ratings.length; i++) {
           this.ratings[i].author_details.avatar = "http://localhost:8080/api/" + this.ratings[i].author_details.avatar;
@@ -669,12 +669,12 @@ export default {
     async submitRating() {
       let content = this.rating_content === "" ? "该用户没有留下评论" :this.rating_content;
       let response = await submitMovieRating(
-          {value: this.rating,
+          {value: this.rating * 2,
                 content: content,
                 },
                 this.$route.params.id);
       if (response.status === 200) {
-        alert("评分成功");
+        this.$message.success("评分成功");
         this.is_rating = false;
         await this.refresh();
       }
@@ -687,7 +687,7 @@ export default {
       response = await queryMovieStar('', this.$route.params.id);
       if (response.status === 200) {
         this.stared = response.data.liked;
-        alert("收藏成功");
+        this.$message.success("收藏成功");
       }
       await this.refresh();
     },
@@ -696,7 +696,7 @@ export default {
       let response = await unstarMovie('', user_id,  this.$route.params.id);
       response = await queryMovieStar('', this.$route.params.id);
       if (response.status === 200) {
-        alert("取消收藏");
+        this.$message.success("取消收藏");
         this.stared = response.data.liked;
       }
       await this.refresh();

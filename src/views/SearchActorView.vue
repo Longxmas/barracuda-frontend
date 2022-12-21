@@ -105,8 +105,8 @@
 
 
                             <v-row>
-                              <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="pink" large>
+                              <v-col cols="8" sm="4" class="pa-0">
+                                <v-btn icon color="pink" large @click="starActor(actor)">
                                   <v-icon>mdi-star</v-icon>
                                 </v-btn>
                                 <span
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import {searchActor} from "@/api/celebrity";
+import {searchActor, starActor} from "@/api/celebrity";
 import {searchMovie} from "@/api/movie";
 
 export default {
@@ -234,7 +234,20 @@ export default {
     },
     jumpToActor(actor) {
       this.$router.push({path: '/actor/' + actor.id});
-    }
+    },
+
+    async starActor(actor) {
+      if (this.isStarred) {
+        this.$message.warning('虽然你很喜欢他/它，但是你也只能收藏一次捏~(￣▽￣)~*')
+      } else {
+        let response = await starActor('', this.$store.getters["user/id"], actor.id);
+        if (response.status === 200) {
+          this.$message.success('关注成功！')
+          this.isStarred = true;
+        }
+      }
+    },
+
   },
   computed: {
 

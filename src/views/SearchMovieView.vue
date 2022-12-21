@@ -26,7 +26,7 @@
                             <p class="my-auto">影片</p>
                           </v-col>
                           <v-col class="d-flex flex-row-reverse pt-0 pb-0">
-                            <v-chip pill>{{movie_results.length}}</v-chip>
+                            <v-chip pill>{{ movie_results.length }}</v-chip>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -86,7 +86,9 @@
                                   class="ma-auto"
                                   style="background-color: #0b1c22; border-radius: 100%"
                               >
-                                <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">{{ movie.vote_average * 10 }}</span>
+                                <span style="color: white; font-family: gotham-bold,serif; font-size: 20px">{{
+                                    Math.round(movie.vote_average * 10)
+                                  }}</span>
                               </v-progress-circular>
 
                               <v-col>
@@ -115,18 +117,20 @@
                             </v-row>
 
                             <v-row>
-                              <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="pink" large>
-                                  <v-icon>mdi-heart</v-icon>
+                              <v-col cols="6"  class="pa-0">
+                                <v-btn icon color="pink" large @click="changeStar(movie.id)">
+                                  <v-icon color="red" v-if="stars[i]"> mdi-heart</v-icon>
+                                  <v-icon color="blue" v-if="!stars[i]"> mdi-heart</v-icon>
                                 </v-btn>
                                 <span
                                     style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">添加收藏</span>
                               </v-col>
 
-                              <v-col cols="8" sm="2" class="pa-0">
+                              <v-col cols="6"  class="pa-0">
                                 <v-menu offset-y>
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
+                                        v-model:="ratings[i]"
                                         color="indigo"
                                         icon
                                         large
@@ -140,29 +144,23 @@
                                   <v-list>
                                     <v-list-item>
                                       <v-rating
-                                          v-model="rating"
+                                          v-model="ratings[i]"
                                           color="yellow darken-3"
                                           background-color="grey darken-1"
                                           empty-icon="$ratingFull"
                                           half-increments
                                           hover
                                           large
+                                          @input="submitRating(i,movie.id)"
                                       ></v-rating>
                                     </v-list-item>
+
                                   </v-list>
-
                                 </v-menu>
-
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的评分</span>
-
+                                <span
+                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的评分</span>
                               </v-col>
 
-                              <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="green" large>
-                                  <v-icon>mdi-delete</v-icon>
-                                </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">删除</span>
-                              </v-col>
                             </v-row>
 
 
@@ -186,8 +184,9 @@
 </template>
 
 <script>
-import {searchMovie} from "@/api/movie";
+import {addReview, queryMovieRatings, queryMovieStar, searchMovie, submitMovieRating} from "@/api/movie";
 import {searchActor} from "@/api/celebrity";
+import {starMovie, unstarMovie} from "@/api/user";
 
 export default {
   name: 'searchMovieView',
@@ -229,6 +228,8 @@ export default {
         },
       ],
       actors: [],
+      ratings: [5,5,5],
+      stars: ["red"],
     }
   },
   watch: {
@@ -239,6 +240,7 @@ export default {
       this.$emit('showSearchBar', newVal);
       this.refresh();
     }
+
   },
   methods: {
     async refresh() {
@@ -264,11 +266,117 @@ export default {
         this.actors = response.data.celebrities;
       }
 
+      let new_ratings = [];
+      let l = this.movie_results.length;
+      for (let i = 0; i < l; i++) {
+        response = await queryMovieRatings('', this.movie_results[i].id);
+        if (response.status === 200) {
+          if (response.data.current_user !== null) {
+            new_ratings.push(response.data.current_user.value / 2);
+          } else {
+            new_ratings.push(0);
+          }
+        }
+      }
+      this.ratings = new_ratings;
+
+      let new_stars = [];
+      for (let i = 0; i < l; i++) {
+        response = await queryMovieStar('', this.movie_results[i].id);
+        if (response.status === 200) {
+          if (response.data.liked === true) {
+            new_stars.push(true);
+          } else {
+            new_stars.push(false);
+          }
+        }
+      }
+      this.stars = new_stars;
+
     },
+
+
     jumpToMovie(movie) {
       this.$router.push({path: '/movie/' + movie.id});
-    }
+    },
+
+
+
+    async addReview() {
+      let response = await addReview(
+          {
+            title: this.review_title,
+            content: this.content
+          },
+          this.$route.params.id
+      );
+      console.log(response);
+      this.$router.back();
+    },
+
+    async addStar(movie_id) {
+      let user_id = this.$store.getters['user/id'];
+      let response = await starMovie('', user_id, movie_id);
+      response = await queryMovieStar('', movie_id);
+      if (response.status === 200) {
+        this.stared = response.data.liked;
+        this.$message.success("收藏成功");
+      }
+      await this.refresh();
+    },
+    async cancelStar(movie_id) {
+      let user_id = this.$store.getters['user/id'];
+      let response = await unstarMovie('', user_id, movie_id);
+      response = await queryMovieStar('', movie_id);
+      if (response.status === 200) {
+        this.$message.success("取消收藏");
+        this.stared = response.data.liked;
+      }
+      await this.refresh();
+    },
+
+    async changeStar(movie_id) {
+      let response = await queryMovieStar('', movie_id);
+      let starred = false;
+      if (response.status === 200) {
+        starred = response.data.liked;
+      }
+      if (starred) {
+        await this.cancelStar(movie_id);
+      } else {
+        await this.addStar(movie_id);
+      }
+    },
+
+    async submitRating(i, movie_id) {
+      let response = await submitMovieRating(
+          {
+            value: this.ratings[i] * 2,
+            content: "该用户没有留下评论",
+          },
+          movie_id);
+      if (response.status === 200) {
+        console.log(this.ratings[i]);
+        console.log(response);
+        this.$message.success("评分成功");
+        this.is_rating = false;
+        await this.refresh();
+      }
+    },
+
+    async heart_color(movie_id) {
+      let response = await queryMovieStar('', movie_id);
+      if (response.status === 200) {
+        if (response.data.liked === true) return "red";
+        else return "green";
+      }
+      await this.refresh();
+    },
+
   },
-  computed: {}
+
+  computed: {
+
+  }
 }
 </script>
