@@ -41,7 +41,7 @@
               <v-card>
                 <v-card-title><h3>最新讨论</h3>
                 <v-spacer></v-spacer>
-                  <v-btn color="blue lighten-4">查看全部讨论</v-btn>
+                  <v-btn color="blue lighten-4" @click="jumpToAllDiscussion">查看全部讨论</v-btn>
                 </v-card-title>
                 <v-card-text>
                   <v-data-table
@@ -111,6 +111,11 @@
                 :items="allDiscussionItems"
                 class="elevation-1"
                 calculate-widths>
+              <template v-slot:[`item.topic`]="{ item }">
+                <a :href="'/group/' + group_meta.id + '/discussion/' + item.id">
+                  {{ item.topic }}
+                </a>
+              </template>
               <template v-slot:[`item.avatar`]="{ item }">
                 <v-avatar>
                   <v-img :src="item.avatar" width="20px"></v-img>
@@ -121,7 +126,7 @@
                           overflow: hidden;
                           text-overflow: ellipsis;
                           text-align: right;">
-                  于{{ item.time }}
+                  于{{ item.last_reply_time }}
                 </p>
                 <p>由{{ item.user }}最后回复</p>
               </template>
@@ -178,7 +183,7 @@
 </template>
 
 <script>
-import {getGroupDetail, getGroupDiscussion, getGroupMember} from "@/api/group";
+import {getGroupDetail, getGroupDiscussion, getGroupMember, getGroupRecentMember} from "@/api/group";
 
 export default {
   name: 'groupDetailView',
@@ -303,18 +308,36 @@ export default {
           };
         }
       }
+      response = await getGroupRecentMember('', this.$route.params.id);
+      if (response.status === 200) {
+        for (let i = 0; i < response.data.length; i++) {
+          this.recent_members[i] = {
+            id: response.data[i].id,
+            name: response.data[i].nickname,
+            join_time: response.data[i].join_time,
+            photo: 'http://localhost:8080/api/' + response.data[i].avatar,
+            introduction: response.data[i].introduction
+          };
+        }
+      }
+      console.log(this.recent_members);
+      console.log(this.topTabName);
       response = await getGroupDiscussion('', this.$route.params.id);
       if (response.status === 200) {
-        for (let i = 0; i < response.data.group_discussions.length; i++) {
+        for (let i = 0; i < response.data.discussions.length; i++) {
           this.allDiscussionItems[i] = {
-            topic: response.data.group_discussions[i].title,
-            author: response.data.group_discussions[i].author.nickname,
-            reply_count: response.data.group_discussions[i].reply_count,
-            last_reply_time: response.data.group_discussions[i].updated_at,
+            id: response.data.discussions[i].id,
+            topic: response.data.discussions[i].title,
+            author: response.data.discussions[i].author.nickname,
+            reply_count: response.data.discussions[i].comment_count,
+            last_reply_time: response.data.discussions[i].update_at,
           }
         }
       }
-    }
+    },
+    jumpToAllDiscussion() {
+      this.topTabName = 1;
+    },
   },
   computed: {}
 }
