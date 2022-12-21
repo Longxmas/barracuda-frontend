@@ -195,30 +195,8 @@ export default {
       isMember: false,
       isStarred: false,
       commentInput: "",
-      discussion: {
-        id: 1,
-        group_id: 1,
-        group_name: "小组1",
-        user_name: "flyinglandlord",
-        user_avatar: "https://api.yimian.xyz/img?type=head",
-        date: "2020-01-01",
-        title: "分子构成物质，环境决定人的成长方位那么我炸书，周围就...",
-        content: "分子构成物质，环境决定人的成长方位那么我炸书，周围就会充满了知识分子",
-        thumb: 100,
-        reply_count: 100,
-        reply: []
-      },
-      group: {
-        id: 1,
-        name: "科幻片yyds",
-        introduction: "我们平等地热爱每一部优秀的科幻片" +
-            "我们平等地热爱每一部优秀的科幻片" +
-            "我们平等地热爱每一部优秀的科幻片" +
-            "我们平等地热爱每一部优秀的科幻片",
-        photo: require("../../assets/pics/syberpunk.jpg"),
-        create_at: '2022-11-16',
-        member_count: 3
-      },
+      discussion: {},
+      group: {},
     }
   },
   async mounted() {

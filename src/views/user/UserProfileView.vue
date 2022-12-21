@@ -107,8 +107,8 @@
             </v-btn>
             <v-btn color="#41b2e2" style="margin-left: 70%; color: white"
                    class="flex-column-reverse"
-                         @click.stop="editInfoDialog=true" v-if="checkPrivilege">
-                    <span>编辑个人资料</span>
+                   @click.stop="editInfoDialog=true" v-if="checkPrivilege">
+              <span>编辑个人资料</span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -146,18 +146,20 @@
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                       class="ma-auto pa-0 "
 
-                                      >{{ review.title }}</h3>
+                                  >{{ review.title }}</h3>
                                 </a>
 
                               </v-col>
                             </v-row>
 
                             <v-row>
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" :href="'/user/' + user.id">{{ user.name }}</a>
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                                 :href="'/user/' + user.id">{{ user.name }}</a>
                               &ensp;
                               <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                               &ensp;
-                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" :href="'/movie/' + review.movie_id">{{
+                              <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                                 :href="'/movie/' + review.movie_id">{{
                                   review.movie_name
                                 }}</a>
                               &ensp;
@@ -260,8 +262,8 @@
 
                               <v-col>
                                 <a :href="'/movie/' + movie.id">
-                                <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                    class="ma-auto pa-0 ">{{ movie.title }}</h3>
+                                  <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
+                                      class="ma-auto pa-0 ">{{ movie.title }}</h3>
                                 </a>
                                 <span>{{ movie.datePublished }}</span>
                               </v-col>
@@ -316,7 +318,8 @@
 
                                 </v-menu>
 
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">我的评分</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5"
+                                      v-if="checkPrivilege">我的评分</span>
                                 <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-else>他/她的评分</span>
                               </v-col>
 
@@ -324,7 +327,8 @@
                                 <v-btn icon color="green" large @click="unstarMovie(movie)" v-if="checkPrivilege">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">取消收藏</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5"
+                                      v-if="checkPrivilege">取消收藏</span>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -371,7 +375,7 @@
                               <v-col>
                                 <a :href="'/actor/' + actor.id">
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                    class="ma-auto pa-0 ">{{ actor.name }}</h3>
+                                      class="ma-auto pa-0 ">{{ actor.name }}</h3>
                                 </a>
 
                                 <span>{{ actor.birthtime }}</span>
@@ -398,7 +402,8 @@
                                 <v-btn icon color="green" large @click="unStarCelebrity(actor)" v-if="checkPrivilege">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">删除</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5"
+                                      v-if="checkPrivilege">删除</span>
                               </v-col>
 
                             </v-row>
@@ -472,7 +477,8 @@
                                 <v-btn icon color="green" large @click="quitGroup(group)" v-if="checkPrivilege">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">退出兴趣小组</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5"
+                                      v-if="checkPrivilege">退出兴趣小组</span>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -778,14 +784,14 @@ export default {
             id: response.data[i].id,
             title: response.data[i].title,
             user_name: response.data[i].author_details.username,
-            movie_name : response.data[i].movie_details.movie_name,
-            movie_id : response.data[i].movie_details.movie_id,
-            movie_picture : response.data[i].movie_details.movie_poster_path,
-            rating : 5,
-            time : response.data[i].create_at,
-            like_count : response.data[i].likes,
-            reply_count : response.data[i].reply_count,
-            introduction : response.data[i].content,
+            movie_name: response.data[i].movie_details.movie_name,
+            movie_id: response.data[i].movie_details.movie_id,
+            movie_picture: response.data[i].movie_details.movie_poster_path,
+            rating: 5,
+            time: response.data[i].create_at,
+            like_count: response.data[i].likes,
+            reply_count: response.data[i].reply_count,
+            introduction: response.data[i].content,
           }
         }
       }
@@ -873,7 +879,7 @@ export default {
           this.currentRate = 0;
           this.currentComment = '';
         } else {
-          this.currentRate = response.data.current_user.value/2;
+          this.currentRate = response.data.current_user.value / 2;
           this.currentComment = response.data.current_user.content;
         }
       } else {
@@ -888,7 +894,7 @@ export default {
       console.log(movie)
       console.log(this.currentRate)
       let payload = {
-        value: this.currentRate*2,
+        value: this.currentRate * 2,
         content: this.currentComment,
       }
       console.log(payload)
@@ -946,7 +952,9 @@ export default {
 
 <style scoped>
 
-a {text-decoration: NONE}
+a {
+  text-decoration: NONE
+}
 
 .user-background {
 

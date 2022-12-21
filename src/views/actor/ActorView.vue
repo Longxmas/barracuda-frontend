@@ -1,6 +1,6 @@
 <template>
   <div class="actor-view">
-    <v-container class="mx-auto mt-10 pl-15" fluid >
+    <v-container class="mx-auto mt-10 pl-15" fluid>
       <v-row>
         <v-col col="4">
           <!-- actor pthoto-card-->
@@ -70,7 +70,9 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   性别
                 </v-chip>
-                <v-card-text align="right"> {{ actor_information.gender === 1 ? '男' : actor_information.gender === 2 ? '女' : ''}}</v-card-text>
+                <v-card-text align="right">
+                  {{ actor_information.gender === 1 ? '男' : actor_information.gender === 2 ? '女' : '' }}
+                </v-card-text>
               </v-list-item>
 
               <v-list-item style="min-height: 50px">
@@ -106,7 +108,7 @@
                   <v-icon left>mdi-account-circle-outline</v-icon>
                   职业
                 </v-chip>
-                <v-card-text align="right"  style=""> {{ actor_information.career }}</v-card-text>
+                <v-card-text align="right" style=""> {{ actor_information.career }}</v-card-text>
               </v-list-item>
 
             </v-list>
@@ -120,7 +122,7 @@
 
           >
             <v-card-text class="actor-name">
-              {{ actor_information.celebrity_name}}
+              {{ actor_information.celebrity_name }}
             </v-card-text>
 
             <p></p>
@@ -128,12 +130,12 @@
 
             <v-card-text>
               <p class="personal-introduction-title">个人简介 </p>
-              <p class="personal-introduction"> {{actor_information.biography}} </p>
+              <p class="personal-introduction"> {{ actor_information.biography }} </p>
             </v-card-text>
 
 
             <v-card style="margin:10px; width: min-content" elevation="0">
-              <v-card-title> <span class="personal-introduction-title">代表作</span></v-card-title>
+              <v-card-title><span class="personal-introduction-title">代表作</span></v-card-title>
               <v-card-text>
 
                 <v-sheet
@@ -152,15 +154,17 @@
                           :href="'/movie/' + item.id"
                           elevation="0"
                           style="margin-right: 10px; text-align: center">
-                          <v-img
-                              height="400px"
-                              width="300px"
-                              :src="item.image"
-                              class="mx-auto"
-                          ></v-img>
+                        <v-img
+                            height="400px"
+                            width="300px"
+                            :src="item.image"
+                            class="mx-auto"
+                        ></v-img>
 
                         <v-card-text style="text-align: center">
-                          <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #0b1c22">{{ item.movie_name }}</span>
+                          <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #0b1c22">{{
+                              item.movie_name
+                            }}</span>
                         </v-card-text>
                       </v-card>
                     </v-slide-item>
@@ -170,29 +174,29 @@
               </v-card-text>
             </v-card>
 
-              <v-card-text>
-                <p></p>
-                <p class="personal-introduction-title"> 影人图片 </p>
-                <p></p>
+            <v-card-text>
+              <p></p>
+              <p class="personal-introduction-title"> 影人图片 </p>
+              <p></p>
 
-                <ul class="photo-ul">
-                  <li v-for="(item,i) in photos"
-                      :key="i"
-                      style="display: inline-block">
-                    <v-card
-                        elevation="0"
-                        style="border-radius: 0"
-                    >
-                      <img
-                          alt="影人图片"
-                          :src="item.image_path"
-                          style="border-radius: 0;"
-                          :style="calculateImageFitPattern(200, item.image_path)"
-                      />
-                    </v-card>
-                  </li>
-                </ul>
-              </v-card-text>
+              <ul class="photo-ul">
+                <li v-for="(item,i) in photos"
+                    :key="i"
+                    style="display: inline-block">
+                  <v-card
+                      elevation="0"
+                      style="border-radius: 0"
+                  >
+                    <img
+                        alt="影人图片"
+                        :src="item.image_path"
+                        style="border-radius: 0;"
+                        :style="calculateImageFitPattern(200, item.image_path)"
+                    />
+                  </v-card>
+                </li>
+              </ul>
+            </v-card-text>
 
 
             <v-card-text>
@@ -235,8 +239,6 @@
     </v-container>
 
   </div>
-
-
 
 
 </template>
@@ -325,8 +327,7 @@ export default {
     },
   },
 
-  computed: {
-  },
+  computed: {},
 
   async mounted() {
     await this.refresh();
@@ -335,7 +336,7 @@ export default {
 </script>
 
 <style>
-.actor-view{
+.actor-view {
 
 }
 
@@ -382,7 +383,7 @@ export default {
 .photo-ul {
   height: auto;
   overflow-x: scroll;
-  white-space:nowrap;  /* ul中的内容不换行 */
+  white-space: nowrap; /* ul中的内容不换行 */
 }
 
 .photo-ul li {
@@ -403,7 +404,7 @@ export default {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  border-radius: 10px;  /* 整体 圆角 */
+  border-radius: 10px; /* 整体 圆角 */
 }
 
 

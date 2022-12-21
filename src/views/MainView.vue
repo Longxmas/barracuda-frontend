@@ -66,7 +66,9 @@
                         rotate="270"
                         style="margin-top: -30px; margin-right: 115px; background-color: #0b1c22; border-radius: 100%"
                     >
-                      <span style="color: white; font-family: gotham-bold,serif; font-size: 18px">{{ Math.round(item.vote_average * 10) }}</span>
+                      <span style="color: white; font-family: gotham-bold,serif; font-size: 18px">{{
+                          Math.round(item.vote_average * 10)
+                        }}</span>
                     </v-progress-circular>
 
                     <v-card-text class="text--primary" style="padding: 3px !important;">
@@ -114,7 +116,9 @@
                         rotate="270"
                         style="margin-top: -30px; margin-right: 115px; background-color: #0b1c22; border-radius: 100%"
                     >
-                      <span style="color: white; font-family: gotham-bold,serif; font-size: 18px">{{ Math.round(item.vote_average * 10) }}</span>
+                      <span style="color: white; font-family: gotham-bold,serif; font-size: 18px">{{
+                          Math.round(item.vote_average * 10)
+                        }}</span>
                     </v-progress-circular>
 
                     <v-card-text class="text--primary" style="padding: 3px !important;">
@@ -199,12 +203,12 @@
           </v-card>
 
 
-          <v-card elevation="0" width="100%" >
+          <v-card elevation="0" width="100%">
             <v-card-title>
               <h3>最新影评</h3>
             </v-card-title>
             <v-card-text class="pl-10">
-              <v-list  class="pl-0">
+              <v-list class="pl-0">
                 <v-list-item
                     v-for="(review,i) in reviews"
                     :key=i
@@ -212,7 +216,7 @@
                 >
                   <v-card elevation="5" class="mb-5" style="border-radius: 10px" width="100%">
                     <v-card-text class="pa-0">
-                      <v-container fluid >
+                      <v-container fluid>
                         <v-row>
                           <v-img :src="review.movie_details.image" max-width="150px"
                                  style="border-bottom-left-radius: 10px; border-top-left-radius: 10px"></v-img>
@@ -221,7 +225,8 @@
 
                               <v-row class="pl-0 pt-0">
                                 <v-col class="pa-0">
-                                  <a :href="'/review/'+review.id" style="text-decoration: none" @click="jumpToMovieReview(review)">
+                                  <a :href="'/review/'+review.id" style="text-decoration: none"
+                                     @click="jumpToMovieReview(review)">
                                     <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
                                         class="ma-auto pa-0 ">{{ review.title }}</h3>
                                   </a>
@@ -233,15 +238,19 @@
                                   <v-img :src="review.author_details.avatar" alt="Avatar"></v-img>
                                 </v-avatar>
                                 &ensp;
-                                <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" @click="jumpToUserProfile(review.author_details.id)">{{ review.author_details.nickname }}</a>
+                                <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                                   @click="jumpToUserProfile(review.author_details.id)">{{
+                                    review.author_details.nickname
+                                  }}</a>
                                 &ensp;
                                 <p style="margin-top: 15px; margin-bottom: 15px; font-size: 16px">评论</p>
                                 &ensp;
-                                <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px" @click="jumpToMovie(review.movie_details.id)">
-                                  {{  review.movie_details.movie_name}}
+                                <a style="margin-top: 15px; margin-bottom: 15px; font-size: 16px"
+                                   @click="jumpToMovie(review.movie_details.id)">
+                                  {{ review.movie_details.movie_name }}
                                 </a>
                                 &ensp;
-                                <p class="my-auto" style="font-size: 16px"> {{review.create_at}} </p>
+                                <p class="my-auto" style="font-size: 16px"> {{ review.create_at }} </p>
                                 <v-spacer></v-spacer>
                               </v-row>
 
@@ -261,16 +270,18 @@
                               </v-row>
 
                               <v-row>
-                                <v-btn small class="mr-5" style="color: white;background-color: skyblue"  @click="jumpToMovieReview(review)">
+                                <v-btn small class="mr-5" style="color: white;background-color: skyblue"
+                                       @click="jumpToMovieReview(review)">
                                   <v-icon small class="my-auto"> mdi-heart</v-icon>
                                   &ensp;
-                                  {{review.likes}}
+                                  {{ review.likes }}
                                 </v-btn>
 
-                                <v-btn small class="mr-5" style="color: white;background-color: darkorange"  @click="jumpToMovieReview(review)">
+                                <v-btn small class="mr-5" style="color: white;background-color: darkorange"
+                                       @click="jumpToMovieReview(review)">
                                   <v-icon small class="my-auto"> mdi-message</v-icon>
                                   &ensp;
-                                  {{review.reply_count}}
+                                  {{ review.reply_count }}
                                 </v-btn>
 
                               </v-row>
@@ -387,48 +398,46 @@ export default {
       ],
       suggests: [
         {
-          movie: {
-
-          },
+          movie: {},
           suggest_title: "",
           suggest_cotent: ""
         }
       ],
-      suggest_titles : [
-          "知己难求",
-          ""
+      suggest_titles: [
+        "知己难求",
+        ""
       ],
-      suggest_contents : [
+      suggest_contents: [
         {
-          content:"每个人都至少有这么一个挚友，你和他/她在人生的拐点遇到，惊叹于彼此的不同或者相似," +
+          content: "每个人都至少有这么一个挚友，你和他/她在人生的拐点遇到，惊叹于彼此的不同或者相似," +
               " 有过不少平淡无奇却值得纪念的时光，ta会将心比心，为你的哀伤扼腕，为你的快慰击节，更会在ta的心里，" +
               "为你留下那么一块永恒的位置，任白云苍狗，风云变幻。只叹今生，得缘遇见你。"
         },
         {
-          content:"当李奥纳多从梦中醒来之后，他向四周望去，曾经在梦中和他一起出生入死的伙伴都在，大家心照不宣眼神，这比梦还美好的一刻，你永远无法在梦中体会得到。"
+          content: "当李奥纳多从梦中醒来之后，他向四周望去，曾经在梦中和他一起出生入死的伙伴都在，大家心照不宣眼神，这比梦还美好的一刻，你永远无法在梦中体会得到。"
         },
         {
-          content:"在姜文的电影里，理想有时是一种很虚很模糊的东西。张麻子的理想是打土豪分田地，" +
+          content: "在姜文的电影里，理想有时是一种很虚很模糊的东西。张麻子的理想是打土豪分田地，" +
               "张麻子的理想却又不是打土豪分田地。张麻子的理想是什么？恐怕他自己也说不清楚。理想在内心最深处，" +
               "在远处的青山和夕阳里。你知道它在那儿，却永远不知道如何去追寻它。可是当碉楼已破黄四郎已擒，" +
               "你们抽着烟聊着天的时候，你就明白它依然在那儿等着你。"
         },
         {
-          content:"  犹记得瑞梅尔残破的桥头，霍瓦斯中士面对着米勒上尉，柔和的眼神融化在夕阳的余晖里：" +
+          content: "  犹记得瑞梅尔残破的桥头，霍瓦斯中士面对着米勒上尉，柔和的眼神融化在夕阳的余晖里：" +
               " “有一天我们回首往事，会觉得拯救大兵瑞恩是我们在这个战火纷飞的年代里，完成的一件杰作。”"
         },
         {
-          content:" 其实在麦克心里，弗雷多是他最想去保护的兄弟。他送弗雷多去拉斯维加斯，外人看起来是一种放逐，" +
+          content: " 其实在麦克心里，弗雷多是他最想去保护的兄弟。他送弗雷多去拉斯维加斯，外人看起来是一种放逐，" +
               "其实麦克深知二哥的性格不适合在帮派中担任要职，他希望二哥远离权力核心，远离帮派斗争，过平静幸福的生活。" +
               "但弗雷多未能理解弟弟的苦心。"
         },
         {
-          content:"那个屋子永远不会衰老，它站在瀑布边站成了回忆时的美好与自然的注脚。" +
-          "Pixar反复刻画的声色是我们遥遥在望的日暮和未曾来临的清晨。影片开头的十几分钟就已经泪流满面，" +
+          content: "那个屋子永远不会衰老，它站在瀑布边站成了回忆时的美好与自然的注脚。" +
+              "Pixar反复刻画的声色是我们遥遥在望的日暮和未曾来临的清晨。影片开头的十几分钟就已经泪流满面，" +
               "只觉得平平淡淡值得珍贵， Carl和Ellie相守芳菲不尽，初遇到黄昏，相看两不厌，尘世多么美。"
         },
         {
-          content:"世界上哪一种功夫最强？不是如来神掌，不是蛤蟆功，不是太极或者狮子吼。" +
+          content: "世界上哪一种功夫最强？不是如来神掌，不是蛤蟆功，不是太极或者狮子吼。" +
               "世界上最强的功夫在《功夫》中有生动的诠释，就是阿星被火云邪神打得没头没脸之时，" +
               "用比火柴棒稍粗的木棍对火云邪神的迎头轻轻一击。这轻轻一击，意味着他天良未泯，" +
               "终于选择善良需要极大的勇气，而在具备了这样的勇气之后，反抗恶势力——哪怕是最强的,也是顺理成章的事情。"
@@ -440,28 +449,28 @@ export default {
   },
   methods: {
     async refresh() {
-       let response = await queryLatestReview('');
-       if (response.status === 200) {
-         this.reviews = response.data.slice(0, 5);
-       }
-       for (let i = 0 ; i < this.reviews.length; i++) {
-         this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
-       }
+      let response = await queryLatestReview('');
+      if (response.status === 200) {
+        this.reviews = response.data.slice(0, 5);
+      }
+      for (let i = 0; i < this.reviews.length; i++) {
+        this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+      }
 
-       let new_hotMovies = [];
-       let hotMovies_ids = [1, 2, 10, 11, 12, 13, 14, 18, 22, 23, 24, 26, 30, 33, 35]
-       for (let i = 1;i <= 15; i++) {
-         response = await queryMovieDetail('',hotMovies_ids[i - 1]);
-         let movie = response.data;
-         new_hotMovies.push(movie);
-       }
-       this.hotMovies = new_hotMovies;
+      let new_hotMovies = [];
+      let hotMovies_ids = [1, 2, 10, 11, 12, 13, 14, 18, 22, 23, 24, 26, 30, 33, 35]
+      for (let i = 1; i <= 15; i++) {
+        response = await queryMovieDetail('', hotMovies_ids[i - 1]);
+        let movie = response.data;
+        new_hotMovies.push(movie);
+      }
+      this.hotMovies = new_hotMovies;
 
 
       new_hotMovies = [];
       let classicMovies_ids = [61, 64, 68, 70, 74, 75, 76, 77, 79, 80, 83, 84, 86, 87, 90]
-      for (let i = 1;i <= 15; i++) {
-        response = await queryMovieDetail('',classicMovies_ids[i - 1]);
+      for (let i = 1; i <= 15; i++) {
+        response = await queryMovieDetail('', classicMovies_ids[i - 1]);
         let movie = response.data;
         new_hotMovies.push(movie);
       }
@@ -469,8 +478,8 @@ export default {
 
       let suggest_ids = [140, 139, 137, 111, 116, 117, 120]
       new_hotMovies = [];
-      for (let i = 0;i < 7; i++) {
-        response = await queryMovieDetail('',suggest_ids[i]);
+      for (let i = 0; i < 7; i++) {
+        response = await queryMovieDetail('', suggest_ids[i]);
         let movie = response.data;
         new_hotMovies.push(movie);
       }
@@ -497,7 +506,6 @@ export default {
     jumpToMovieMedia(movie_id) {
       this.$router.push('/movie/' + movie_id + '/media/videos/');
     },
-
 
 
   },

@@ -25,7 +25,8 @@
             <v-col cols="8">
               <v-card-text>
                 <v-row class="mt-0 pb-2">
-                  <h1 style="font-size: 40px; height: auto; line-height: 50px">{{ movie.movie_name }} &ensp; ({{ movie.release_date.substring(0, 4) }})</h1>
+                  <h1 style="font-size: 40px; height: auto; line-height: 50px">{{ movie.movie_name }} &ensp;
+                    ({{ movie.release_date.substring(0, 4) }})</h1>
                 </v-row>
                 <v-row>
                   <h3 class="mt-2">{{ movie.release_date }} ({{ movie.region }})</h3>
@@ -48,7 +49,9 @@
                       style="background-color: #0b1c22; border-radius: 100%"
                       class="mr-3"
                   >
-                    <span style="color: white; font-family: gotham-bold,serif; font-size: 25px">{{ Math.round(movie.vote_average * 10) }}</span>
+                    <span style="color: white; font-family: gotham-bold,serif; font-size: 25px">{{
+                        Math.round(movie.vote_average * 10)
+                      }}</span>
                   </v-progress-circular>
                   <h3 class="my-auto">用户评分</h3>
                   &ensp;
@@ -101,16 +104,17 @@
 
                       <v-card>
                         <v-card-text>
-                          <textarea  v-model="rating_content"
-                              placeholder="请留下您对这部电影的简短评论"
-                              class="ml-3"
-                              style="align-self: center; width: 100%; min-height: 150px;
+                          <textarea v-model="rating_content"
+                                    placeholder="请留下您对这部电影的简短评论"
+                                    class="ml-3"
+                                    style="align-self: center; width: 100%; min-height: 150px;
                                         outline: none; resize: none"
-                              >
+                          >
                           </textarea>
                           <v-btn class="ml-2" color="green lighten-3" style="color: white"
-                                  @click="submitRating"
-                          > 提交</v-btn>
+                                 @click="submitRating"
+                          > 提交
+                          </v-btn>
                         </v-card-text>
                       </v-card>
 
@@ -206,7 +210,8 @@
                                     <v-avatar class="ml-5">
                                       <v-img :src="review.author_details.avatar"></v-img>
                                     </v-avatar>
-                                    <a style="font-size: 16px" class="my-auto pl-3" @click="jumpToUserProfile(review.author_details.id)">
+                                    <a style="font-size: 16px" class="my-auto pl-3"
+                                       @click="jumpToUserProfile(review.author_details.id)">
                                       {{ review.author_details.nickname }}</a>
                                     <span class="my-auto pl-3">{{ review.create_at }}</span>
                                   </v-row>
@@ -327,7 +332,8 @@
 
                                           <v-row class="pl-0 " :class=judgePosition(i)>
                                             <a style="font-size: 16px"
-                                               class="my-auto pl-3" @click="jumpToUserProfile(comment.author_details.id)">
+                                               class="my-auto pl-3"
+                                               @click="jumpToUserProfile(comment.author_details.id)">
                                               {{ comment.author_details.nickname }}</a>
                                             <v-rating class="my-auto pl-3"
                                                       :value="comment.value / 2" color="amber" dense
@@ -351,7 +357,6 @@
                                         margin-bottom: 0">
                                               {{ comment.content }} </p>
                                           </v-row>
-
                                         </v-container>
                                       </v-col>
                                     </v-row>
@@ -359,58 +364,14 @@
                                 </v-card-text>
                               </v-card>
                             </v-col>
-
                           </v-row>
                         </v-container>
-
                       </v-list-item>
                     </v-list>
                   </v-container>
-
-
                 </v-card-text>
               </v-card>
-
-
             </v-col>
-            <!--<v-col cols="3">
-
-              <v-card style="margin:20px; overflow: hidden" class="pt-11" elevation="0">
-                <v-card-text style="color: black">
-                  <v-row>
-                    <v-btn @click="checkLogin"> </v-btn>
-                    <h3>原产地片名</h3>
-                  </v-row>
-                  <v-row>
-                    <p>Interstellar</p>
-                  </v-row>
-                  <v-row>
-                    <h3>状态</h3>
-                  </v-row>
-                  <v-row>
-                    <p>{{ movie.status }}</p>
-                  </v-row>
-                  <v-row>
-                    <h3>原始语言</h3>
-                  </v-row>
-                  <v-row>
-                    <p>英语</p>
-                  </v-row>
-                  <v-row>
-                    <h3>预算</h3>
-                  </v-row>
-                  <v-row>
-                    <p>$165,000,000.00</p>
-                  </v-row>
-                  <v-row>
-                    <h3>票房</h3>
-                  </v-row>
-                  <v-row>
-                    <p>$701,729,206.00</p>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-col> -->
           </v-row>
         </v-container>
       </v-tab-item>
@@ -595,8 +556,8 @@ export default {
       if (response.status === 200) {
         let len1 = response.data.reviews.length;
         this.reviews = response.data.reviews.slice(len1 - 3, len1).reverse();
-        for (let i = 0 ; i < this.reviews.length; i++) {
-           this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+        for (let i = 0; i < this.reviews.length; i++) {
+          this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
         }
       }
       response = await queryMovieRatings('', this.$route.params.id);
@@ -606,7 +567,7 @@ export default {
         if (response.data.current_user != null) {
           this.rating = response.data.current_user.value / 2;
         }
-        for (let i = 0 ; i < this.ratings.length; i++) {
+        for (let i = 0; i < this.ratings.length; i++) {
           this.ratings[i].author_details.avatar = "http://localhost:8080/api/" + this.ratings[i].author_details.avatar;
         }
       }
@@ -615,13 +576,13 @@ export default {
         this.pictures = response.data.images;
       }
 
-      response = await queryMoviePositionStaff({ position: 0,}, this.$route.params.id);
+      response = await queryMoviePositionStaff({position: 0,}, this.$route.params.id);
       if (response.status === 200) {
         this.director = response.data.staffs[0];
       }
 
 
-      response = await queryMoviePositionStaff({ position: 1,}, this.$route.params.id);
+      response = await queryMoviePositionStaff({position: 1,}, this.$route.params.id);
       if (response.status === 200) {
         this.writer = response.data.staffs[0];
       }
@@ -667,12 +628,13 @@ export default {
       }
     },
     async submitRating() {
-      let content = this.rating_content === "" ? "该用户没有留下评论" :this.rating_content;
+      let content = this.rating_content === "" ? "该用户没有留下评论" : this.rating_content;
       let response = await submitMovieRating(
-          {value: this.rating * 2,
-                content: content,
-                },
-                this.$route.params.id);
+          {
+            value: this.rating * 2,
+            content: content,
+          },
+          this.$route.params.id);
       if (response.status === 200) {
         this.$message.success("评分成功");
         this.is_rating = false;
@@ -693,7 +655,7 @@ export default {
     },
     async cancelStar() {
       let user_id = this.$store.getters['user/id'];
-      let response = await unstarMovie('', user_id,  this.$route.params.id);
+      let response = await unstarMovie('', user_id, this.$route.params.id);
       response = await queryMovieStar('', this.$route.params.id);
       if (response.status === 200) {
         this.$message.success("取消收藏");

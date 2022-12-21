@@ -5,7 +5,7 @@
         <v-col lg="8" md="8" xs="12" style="margin-top: 0;">
           <h1>所有兴趣小组</h1>
           <v-item-group
-              multiple class="mt-5 pl-0" >
+              multiple class="mt-5 pl-0">
             <v-container fluid class="pl-0">
               <v-row>
                 <v-col v-for="group in groups"
@@ -33,7 +33,7 @@
                       共有{{ group.member_count }}位成员
                       &ensp;
                       &ensp;
-                      <span class="mx-auto"> 创建于{{group.create_at}}</span>
+                      <span class="mx-auto"> 创建于{{ group.create_at }}</span>
                     </v-card-subtitle>
                     <v-card-text>
                       {{ group.introduction }}
@@ -129,8 +129,6 @@ export default {
       }
     }
   },
-  computed: {
-
-  }
+  computed: {}
 }
 </script>
