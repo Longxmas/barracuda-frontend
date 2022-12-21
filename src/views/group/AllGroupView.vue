@@ -159,6 +159,7 @@ export default {
             introduction: response.data.groups[i].introduction,
             photo: 'http://localhost:8080/api/' + response.data.groups[i].avatar,
             create_at: response.data.groups[i].create_at,
+            member_count: response.data.groups[i].member_count,
           }
         }
       }

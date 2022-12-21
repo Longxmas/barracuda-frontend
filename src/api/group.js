@@ -22,6 +22,10 @@ export async function getGroupMember(data, id) {
     return getRequest(apiRoute.getAllGroup + '/' + id + '/member/', data);
 }
 
+export async function getGroupRecentMember(data, id) {
+    return getRequest(apiRoute.getAllGroup + '/' + id + '/member/recent/', data);
+}
+
 export async function getGroupDiscussion(data, id) {
     return getRequest(apiRoute.getAllGroup + '/' + id + '/discussion/', data);
 }

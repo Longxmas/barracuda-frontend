@@ -863,8 +863,13 @@ export default {
       let response = await queryMovieRatings('', movie.id);
       console.log(response.data)
       if (response.status === 200) {
-        this.currentRate = response.data.current_user.value/2;
-        this.currentComment = response.data.current_user.content;
+        if (response.data.current_user === null) {
+          this.currentRate = 0;
+          this.currentComment = '';
+        } else {
+          this.currentRate = response.data.current_user.value/2;
+          this.currentComment = response.data.current_user.content;
+        }
       } else {
         this.currentRate = 5;
         this.currentComment = '';
@@ -927,7 +932,6 @@ export default {
 </script>
 
 <style scoped>
-
 
 a {text-decoration: NONE}
 

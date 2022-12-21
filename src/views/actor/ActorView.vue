@@ -26,7 +26,7 @@
                   @click="starActor"
               >
                 关注
-                <v-icon right color="yellow" v-if="isStarred">mdi-star</v-icon>
+                <v-icon right color="yellow" v-if="this.isStarred">mdi-star</v-icon>
                 <v-icon right v-else>mdi-star</v-icon>
               </v-chip>
 
@@ -260,8 +260,6 @@ export default {
       partners: [],
     }
   },
-
-
   methods: {
     async refresh() {
       let response = await queryCelebrityDetail('', this.$route.params.id);
@@ -281,12 +279,14 @@ export default {
         this.movies = response.data.movies;
       }
       response = await getStarCelebrities('', this.$store.getters["user/id"]);
+      console.log(response)
       for (let i = 0; i < response.data.length; i++) {
-        if (response.data[i].id.toString() === this.$route.params.id.toString()) {
+        if (response.data[i].celebrity_name === this.actor_information.celebrity_name) {
           this.isStarred = true;
           break;
         }
       }
+      console.log(this.isStarred);
     },
     async starActor() {
       if (this.isStarred) {
