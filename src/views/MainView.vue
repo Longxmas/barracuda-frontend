@@ -308,6 +308,7 @@
 <script>
 import {queryLatestReview} from "@/api/review";
 import {queryMovieDetail} from "@/api/movie";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: "mainView",
@@ -454,7 +455,7 @@ export default {
         this.reviews = response.data.slice(0, 5);
       }
       for (let i = 0; i < this.reviews.length; i++) {
-        this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+        this.reviews[i].author_details.avatar = apiUrl + this.reviews[i].author_details.avatar;
       }
 
       let new_hotMovies = [];

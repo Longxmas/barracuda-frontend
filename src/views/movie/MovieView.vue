@@ -389,6 +389,7 @@ import {
   queryMovieStaff, queryMovieStar, submitMovieRating
 } from "@/api/movie";
 import {starMovie, unstarMovie} from "@/api/user";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: "movieDetail",
@@ -557,7 +558,7 @@ export default {
         let len1 = response.data.reviews.length;
         this.reviews = response.data.reviews.slice(len1 - 3, len1).reverse();
         for (let i = 0; i < this.reviews.length; i++) {
-          this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+          this.reviews[i].author_details.avatar = apiUrl + this.reviews[i].author_details.avatar;
         }
       }
       response = await queryMovieRatings('', this.$route.params.id);
@@ -568,7 +569,7 @@ export default {
           this.rating = response.data.current_user.value / 2;
         }
         for (let i = 0; i < this.ratings.length; i++) {
-          this.ratings[i].author_details.avatar = "http://localhost:8080/api/" + this.ratings[i].author_details.avatar;
+          this.ratings[i].author_details.avatar = apiUrl + this.ratings[i].author_details.avatar;
         }
       }
       response = await queryMovieImages('', this.$route.params.id);

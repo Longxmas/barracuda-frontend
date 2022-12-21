@@ -51,6 +51,7 @@
 
 <script>
 import * as api from "@/api/request";
+import {apiUrl} from "@/api/request";
 
 export default {
   data() {
@@ -80,7 +81,7 @@ export default {
           this.$store.commit('user/setNickname', user_info.data.nickname);
           this.$store.commit('user/setEmail', user_info.data.email);
           this.$store.commit('user/setRole', 'NormalUser');
-          this.$store.commit('user/setAvatar', 'http://localhost:8080/api/' + user_info.data.avatar);
+          this.$store.commit('user/setAvatar', apiUrl + user_info.data.avatar);
           this.$store.commit('user/setIslogin', 'true');
           await this.$router.push('/')
           this.$message({
@@ -165,7 +166,7 @@ export default {
 }
 
 .login-view {
-  background: url('../../assets/background.jpg');
+  background: url('@/assets/background.jpg');
   background-size: cover;
 }
 

@@ -2,6 +2,8 @@ import axios from 'axios';
 
 // axios.defaults.baseURL="http://localhost:8080";
 
+export const apiUrl = 'http://localhost:8080/api/';
+
 export async function getRequest(url, params) {
     try {
         return await axios(url, {

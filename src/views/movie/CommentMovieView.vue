@@ -9,7 +9,7 @@
 
     <v-tabs-items v-model="activeIndex">
       <v-tab-item :value="`tab-3`">
-        <v-container fluid style="width: 90%; margin-top: 0px; margin-left: 50px">
+        <v-container fluid style="width: 90%; margin-top: 0; margin-left: 50px">
 
           <v-row>
             <v-col class="px-0" cols="9">
@@ -224,7 +224,7 @@ export default {
       if (response.status === 200) {
         this.all_comments = response.data.rating.reverse();
         for (let i = 0 ; i < this.all_comments.length; i++) {
-          this.all_comments[i].author_details.avatar = "http://localhost:8080/api/" + this.all_comments[i].author_details.avatar;
+          this.all_comments[i].author_details.avatar = "http://localhost:8080/api" + this.all_comments[i].author_details.avatar;
         }
 
       }

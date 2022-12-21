@@ -104,10 +104,8 @@
 </template>
 
 <script>
-import {
-
-} from "@/api/movie";
 import {queryRandomReview} from "@/api/review";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: 'reviewHomeView',
@@ -239,7 +237,7 @@ export default {
         this.reviews = response.data;
       }
       for (let i = 0 ; i < this.reviews.length; i++) {
-        this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+        this.reviews[i].author_details.avatar = apiUrl + this.reviews[i].author_details.avatar;
       }
     },
 

@@ -266,6 +266,7 @@ import {
   getGroupRecentDiscussion,
   getGroupRecentMember, getIsGroupMember, joinGroup, postDiscussion, quitGroup
 } from "@/api/group";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: 'groupDetailView',
@@ -340,7 +341,7 @@ export default {
       let response = await getGroupDetail('', this.$route.params.id);
       if (response.status === 200) {
         this.group_meta.id = response.data.id;
-        this.group_meta.avatar = 'http://localhost:8080/api/' + response.data.avatar;
+        this.group_meta.avatar = apiUrl + response.data.avatar;
         this.group_meta.create_at = response.data.create_at;
         this.group_meta.introduction = response.data.introduction;
         this.group_meta.name = response.data.name;
@@ -354,7 +355,7 @@ export default {
             id: response.data.group_members[i].id,
             name: response.data.group_members[i].nickname,
             join_time: response.data.group_members[i].join_at,
-            photo: 'http://localhost:8080/api/' + response.data.group_members[i].avatar,
+            photo: apiUrl + response.data.group_members[i].avatar,
             introduction: response.data.group_members[i].introduction
           });
         }
@@ -368,7 +369,7 @@ export default {
             id: response.data[i].id,
             name: response.data[i].nickname,
             join_time: response.data[i].join_at,
-            photo: 'http://localhost:8080/api/' + response.data[i].avatar,
+            photo: apiUrl + response.data[i].avatar,
             introduction: response.data[i].introduction
           });
         }

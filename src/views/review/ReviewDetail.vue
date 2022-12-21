@@ -211,6 +211,7 @@ import {
   queryReviewReply,
   submitReviewReply
 } from "@/api/review";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: 'reviewDetail',
@@ -342,7 +343,7 @@ export default {
       if (response.status === 200) {
         this.review = response.data;
         this.author_details = response.data.author_details;
-        this.author_details.avatar = "http://localhost:8080/api/" + this.author_details.avatar;
+        this.author_details.avatar = apiUrl + this.author_details.avatar;
         this.movie_id = response.data.movie_details.movie_id;
         this.movie_details = response.data.movie_details;
       }
@@ -356,7 +357,7 @@ export default {
       if (response.status === 200) {
         this.replies = response.data.replies;
         for (let i = 0 ; i < this.replies.length; i++) {
-          this.replies[i].author_details.avatar = "http://localhost:8080/api/" + this.replies[i].author_details.avatar;
+          this.replies[i].author_details.avatar = apiUrl + this.replies[i].author_details.avatar;
         }
       }
 

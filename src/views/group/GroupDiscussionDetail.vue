@@ -186,7 +186,7 @@ import {
   getGroupDiscussionDetail,
   getGroupMember, getIsGroupMember, likeDiscussion
 } from "@/api/group";
-import {getRequest} from "@/api/request";
+import {apiUrl, getRequest} from "@/api/request";
 
 export default {
   name: 'groupDiscussionDetail',
@@ -222,7 +222,7 @@ export default {
       let response = await getGroupDetail('', this.$route.params.id);
       if (response.status === 200) {
         this.group.id = response.data.id;
-        this.group.photo = 'http://localhost:8080/api/' + response.data.avatar;
+        this.group.photo = apiUrl + response.data.avatar;
         this.group.create_at = response.data.create_at;
         this.group.introduction = response.data.introduction;
         this.group.name = response.data.name;
@@ -237,7 +237,7 @@ export default {
         this.discussion.group_name = response.data.group.name;
         this.discussion.user_name = response.data.author.nickname;
         this.discussion.user_id = response.data.author.id;
-        this.discussion.user_avatar = 'http://localhost:8080/api/' + response.data.author.avatar;
+        this.discussion.user_avatar = apiUrl + response.data.author.avatar;
         this.discussion.date = response.data.create_at;
         this.discussion.title = response.data.title;
         this.discussion.content = response.data.content;
@@ -253,7 +253,7 @@ export default {
             id: response.data[i].id,
             user_id: response.data[i].author.id,
             user_name: response.data[i].author.nickname,
-            user_avatar: 'http://localhost:8080/api/' + response.data[i].author.avatar,
+            user_avatar: apiUrl + response.data[i].author.avatar,
             reply_date: response.data[i].create_at,
             reply_content: response.data[i].content,
           });

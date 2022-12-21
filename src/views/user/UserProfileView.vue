@@ -587,6 +587,7 @@ import {
 } from "@/api/user";
 import Axios from "axios";
 import {queryMovieRatings} from "@/api/movie";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: "UserProfileView",
@@ -693,7 +694,7 @@ export default {
       fileList.slice(-1);
       let formData = new FormData();
       formData.append('avatar', file.raw);
-      let res = await Axios.post('http://0.0.0.0/api/user/' + this.$route.params.id + '/uploadavatar/', formData, {
+      let res = await Axios.post(apiUrl + 'user/' + this.$route.params.id + '/uploadavatar/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Access-Control-Allow-Origin': '*'
@@ -703,8 +704,8 @@ export default {
       if (res.status === 200) {
         this.$message.success('上传成功');
         let user_info = await api.getRequest('/userinfo/', '');
-        this.$store.commit('user/setAvatar', 'http://localhost:8080/api/' + user_info.data.avatar);
-        this.user.avatar = 'http://localhost:8080/api/' + user_info.data.avatar
+        this.$store.commit('user/setAvatar', apiUrl + user_info.data.avatar);
+        this.user.avatar = apiUrl + user_info.data.avatar
         await this.refresh();
       } else {
         this.$message.error('上传失败');
@@ -725,7 +726,7 @@ export default {
       if (response.status === 200) {
         this.user.id = response.data.id;
         this.user.name = response.data.nickname;
-        this.user.avatar = 'http://localhost:8080/api/' + response.data.avatar;
+        this.user.avatar = apiUrl + response.data.avatar;
         this.user.created_at = response.data.create_at;
         this.user.description = response.data.introduction;
         this.user.prefers = response.data.prefer_types;
@@ -767,7 +768,7 @@ export default {
           this.interest_groups[i] = {
             id: response.data[i].id,
             introduction: response.data[i].introduction,
-            avatar: 'http://localhost:8080/api/' + response.data[i].avatar,
+            avatar: apiUrl + response.data[i].avatar,
             created_at: response.data[i].created_at,
             name: response.data[i].name,
           }

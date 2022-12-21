@@ -128,6 +128,7 @@
 
 <script>
 import {queryMovieDetail, queryMovieReviews} from "@/api/movie";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: 'reviewMovieView',
@@ -282,7 +283,7 @@ export default {
         let len1 = response.data.reviews.length;
         this.reviews = response.data.reviews.slice(Math.max(0,len1-6), len1).reverse();
         for (let i = 0 ; i < this.reviews.length; i++) {
-          this.reviews[i].author_details.avatar = "http://localhost:8080/api/" + this.reviews[i].author_details.avatar;
+          this.reviews[i].author_details.avatar = apiUrl + this.reviews[i].author_details.avatar;
         }
       }
       response = await queryMovieDetail('', this.$route.params.id);

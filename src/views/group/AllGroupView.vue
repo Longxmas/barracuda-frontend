@@ -80,6 +80,7 @@
 
 <script>
 import {getAllGroup, getRandomDiscussion} from "@/api/group";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: 'allGroupView',
@@ -106,7 +107,7 @@ export default {
             id: response.data.groups[i].id,
             name: response.data.groups[i].name,
             introduction: response.data.groups[i].introduction,
-            photo: 'http://localhost:8080/api/' + response.data.groups[i].avatar,
+            photo: apiUrl + response.data.groups[i].avatar,
             create_at: response.data.groups[i].create_at,
             member_count: response.data.groups[i].member_count,
           })
