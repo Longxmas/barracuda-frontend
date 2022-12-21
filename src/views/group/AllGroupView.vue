@@ -121,8 +121,8 @@ export default {
             id: response.data[i].id,
             title: response.data[i].title,
             content: response.data[i].content,
-            group: response.data[i].group_name,
-            group_id: response.data[i].group_id,
+            group: response.data[i].group.group_name,
+            group_id: response.data[i].group.id,
             lastReplyTime: response.data[i].update_at,
           })
         }

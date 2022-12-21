@@ -353,7 +353,7 @@ export default {
           this.all_members.push({
             id: response.data.group_members[i].id,
             name: response.data.group_members[i].nickname,
-            join_time: response.data.group_members[i].join_time,
+            join_time: response.data.group_members[i].join_at,
             photo: 'http://localhost:8080/api/' + response.data.group_members[i].avatar,
             introduction: response.data.group_members[i].introduction
           });
@@ -367,7 +367,7 @@ export default {
           this.recent_members.push({
             id: response.data[i].id,
             name: response.data[i].nickname,
-            join_time: response.data[i].join_time,
+            join_time: response.data[i].join_at,
             photo: 'http://localhost:8080/api/' + response.data[i].avatar,
             introduction: response.data[i].introduction
           });
