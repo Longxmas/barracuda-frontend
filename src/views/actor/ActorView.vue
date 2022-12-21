@@ -258,6 +258,7 @@ export default {
       movies: [],
       photos: [],
       partners: [],
+      isStarred: false,
     }
   },
   methods: {
@@ -325,7 +326,6 @@ export default {
   },
 
   computed: {
-    isStarred: false,
   },
 
   async mounted() {

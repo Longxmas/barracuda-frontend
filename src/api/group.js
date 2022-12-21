@@ -30,6 +30,10 @@ export async function getGroupDiscussion(data, id) {
     return getRequest(apiRoute.getAllGroup + '/' + id + '/discussion/', data);
 }
 
+export async function getGroupRecentDiscussion(data, id) {
+    return getRequest(apiRoute.getAllGroup + '/' + id + '/discussion/random/', data);
+}
+
 export async function getIsGroupMember(data, id) {
     return getRequest(apiRoute.getAllGroup + '/' + id + '/is_member/', data);
 }
@@ -56,4 +60,12 @@ export async function addDiscussionComment(data, id) {
 
 export async function likeDiscussion(data, id) {
     return postRequest(apiRoute.getAllDiscussion + '/' + id + '/like/', data);
+}
+
+export async function dislikeDiscussion(data, id) {
+    return deleteRequest(apiRoute.getAllDiscussion + '/' + id + '/like/', data);
+}
+
+export async function postDiscussion(data, group_id) {
+    return postRequest('group/' + group_id + '/discussion/add/', data)
 }

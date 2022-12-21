@@ -55,7 +55,7 @@
               <v-list>
                 <v-list-item v-for="discussion in discussions"
                              :key="discussion.id"
-                             :to="{name: 'discussion', params: {id: discussion.id}}"
+                             :href="'/group/' + discussion.group_id + '/discussion/' + discussion.id"
                 >
                   <v-list-item-content>
                     <v-list-item-title>
@@ -66,9 +66,6 @@
                     </v-list-item-subtitle>
                     <v-list-item-action-text>
                       最后回复于 {{ discussion.lastReplyTime }}
-                    </v-list-item-action-text>
-                    <v-list-item-action-text>
-                      {{discussion.content}}
                     </v-list-item-action-text>
                   </v-list-item-content>
                 </v-list-item>
@@ -82,7 +79,7 @@
 </template>
 
 <script>
-import {getAllGroup} from "@/api/group";
+import {getAllGroup, getRandomDiscussion} from "@/api/group";
 
 export default {
   name: 'allGroupView',
@@ -91,56 +88,8 @@ export default {
       pageNumber: 1,
       itemLength: 20,
       whichPage: 1,
-      groups: [
-        {
-          id: 1,
-          name: "科幻片yyds",
-          introduction: "我们平等地热爱每一部优秀的科幻片" +
-              "我们平等地热爱每一部优秀的科幻片" +
-              "我们平等地热爱每一部优秀的科幻片" +
-              "我们平等地热爱每一部优秀的科幻片",
-          photo: require("../../assets/pics/syberpunk.jpg"),
-          create_at: '2022-11-16',
-          member_count: 3,
-        },
-        {
-          id: 2,
-          name: "小组2",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          member_count: 3,
-        },
-        {
-          id: 3,
-          name: "小组3",
-          introduction: "这是一个小组",
-          photo: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-          member_count: 3,
-        },
-      ],
-      discussions: [
-        {
-          id: 1,
-          title: "我做了一个1：1的地球仪，你往窗外看就能看见了",
-          group: "弱智吧",
-          lastReplyTime: "2020-12-12 12:12:12",
-          content: "我做了一个1：1的地球仪，你往窗外看就能看见了"
-        },
-        {
-          id: 2,
-          title: "人只有醒来后才知道自己睡了一觉",
-          group: "弱智吧",
-          lastReplyTime: "2020-12-12 12:12:12",
-          content: "人只有睡着了才会醒来"
-        },
-        {
-          id: 3,
-          title: '天生的哑巴，是不是也可以叫初音未来？',
-          group: "弱智吧",
-          lastReplyTime: "2020-12-12 12:12:12",
-          content: "如题"
-        }
-      ]
+      groups: [],
+      discussions: []
     }
   },
   async mounted() {
@@ -153,14 +102,29 @@ export default {
       if (response.status === 200) {
         this.groups = [];
         for (let i = 0; i < response.data.groups.length; i++) {
-          this.groups[i] = {
+          this.groups.push({
             id: response.data.groups[i].id,
             name: response.data.groups[i].name,
             introduction: response.data.groups[i].introduction,
             photo: 'http://localhost:8080/api/' + response.data.groups[i].avatar,
             create_at: response.data.groups[i].create_at,
             member_count: response.data.groups[i].member_count,
-          }
+          })
+        }
+      }
+
+      response = await getRandomDiscussion('');
+      if (response.status === 200) {
+        this.discussions = [];
+        for (let i = 0; i < response.data.length; i++) {
+          this.discussions.push({
+            id: response.data[i].id,
+            title: response.data[i].title,
+            content: response.data[i].content,
+            group: response.data[i].group_name,
+            group_id: response.data[i].group_id,
+            lastReplyTime: response.data[i].update_at,
+          })
         }
       }
     }

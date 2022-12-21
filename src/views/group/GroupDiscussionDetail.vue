@@ -14,37 +14,40 @@
                   <v-avatar>
                     <v-img :src="discussion.user_avatar" alt="Avatar"></v-img>
                   </v-avatar>
-                  &ensp;
+                  <a class="my-auto mr-5 ml-5" style="font-size: 16px" :href="'/user/' + discussion.user_id">
+                    <p class="my-auto mr-5" style="font-size: 16px"> {{ discussion.user_name }} </p>
+                  </a>
                   <p class="my-auto" style="font-size: 16px"> {{ discussion.date }} </p>
                 </v-row>
-              <v-row class="py-3">
-                <mavon-editor
-                    v-model="discussion.content"
-                    :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
-                    box-shadow-style="0 0 0 0 rgba(0,0,0,0)"
-                    preview-background="#fff"
-                />
-              </v-row>
+                <v-row class="py-3">
+                  <mavon-editor
+                      v-model="discussion.content"
+                      :subfield="false" :toolbarsFlag="false" defaultOpen="preview"
+                      box-shadow-style="0 0 0 0 rgba(0,0,0,0)"
+                      preview-background="#fff"
+                  />
+                </v-row>
 
-              <v-row class="pl-5 pb-5" style="text-align: center">
-                <v-col class="mx-auto">
-                  <v-btn large class="mr-5" style="color: white;background-color: skyblue">
-                    <v-icon class="my-auto"> mdi-heart</v-icon>
-                    &ensp;
-                    已有点赞
-                    &ensp;
-                    {{ discussion.thumb }}
-                  </v-btn>
+                <v-row class="pl-5 pb-5" style="text-align: center">
+                  <v-col class="mx-auto">
+                    <v-btn large class="mr-5" style="color: white;background-color: skyblue" @click="likeDiscussion">
+                      <v-icon class="my-auto" color="red" v-if="isStarred"> mdi-heart</v-icon>
+                      <v-icon class="my-auto" v-else> mdi-heart</v-icon>
+                      &ensp;
+                      已有点赞
+                      &ensp;
+                      {{ discussion.thumb }}
+                    </v-btn>
 
-                  <v-btn large class="mr-5" style="color: white;background-color: darkorange">
-                    <v-icon class="my-auto"> mdi-message</v-icon>
-                    &ensp;
-                    已有回复
-                    &ensp;
-                    {{ discussion.reply_count }}
-                  </v-btn>
-                </v-col>
-              </v-row>
+                    <v-btn large class="mr-5" style="color: white;background-color: darkorange">
+                      <v-icon class="my-auto"> mdi-message</v-icon>
+                      &ensp;
+                      已有回复
+                      &ensp;
+                      {{ discussion.reply_count }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-container>
             </v-card-title>
           </v-card>
@@ -76,7 +79,8 @@
 
                                   <v-row class="pl-0" style="background-color: #dff2fa">
                                     <a style="font-size: 16px; line-height: 25px"
-                                       class="my-auto pl-3">{{ comment.user_name }}</a>
+                                       class="my-auto pl-3"
+                                       :href="'/user/' + comment.user_id">{{ comment.user_name }}</a>
                                     <span class="my-auto pl-3">{{ comment.reply_date }}</span>
                                   </v-row>
 
@@ -121,8 +125,8 @@
                             filled
                             auto-grow
                             row-height="20px"
-                            value="先生所言极是！"
-                            placeholder="添加回复"
+                            placeholder="先生所言极是！"
+                            v-model="commentInput"
                             background-color="green lighten-5"
                         >
                         </v-textarea>
@@ -135,7 +139,9 @@
                       <span></span>
                     </v-col>
                     <v-col class="my-0 py-0">
-                      <v-btn color="green lighten-3" style="color: white" class="ml-5 mt-0">添加回复</v-btn>
+                      <v-btn color="green lighten-3" style="color: white" class="ml-5 mt-0" @click="postComment">
+                        添加回复
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -147,17 +153,17 @@
         <v-col cols="3">
           <v-card class="mt-10" flat>
             <v-card-title>
-              <a>{{ group.name }}</a>
+              <a :href="'/group/' + group.id">{{ group.name }}</a>
             </v-card-title>
             <v-card-text>
               <v-img :src="group.photo"
                      max-height="300px"></v-img>
               <v-container class="pt-8">
                 <v-row>
-                  <span>创建于： {{group.create_at}}</span>
+                  <span>创建于： {{ group.create_at }}</span>
                 </v-row>
                 <v-row>
-                  <span>小组成员数：{{group.member_count}}</span>
+                  <span>小组成员数：{{ group.member_count }}</span>
                 </v-row>
               </v-container>
 
@@ -173,24 +179,22 @@
 </template>
 
 <script>
-import {getGroupDetail, getGroupDiscussionDetail, getGroupMember} from "@/api/group";
+import {
+  addDiscussionComment, dislikeDiscussion,
+  getDiscussionComment,
+  getGroupDetail,
+  getGroupDiscussionDetail,
+  getGroupMember, getIsGroupMember, likeDiscussion
+} from "@/api/group";
+import {getRequest} from "@/api/request";
 
 export default {
   name: 'groupDiscussionDetail',
   data() {
     return {
-      breadcrumbs_items: [
-        {
-          text: 'XXX小组',
-          disabled: false,
-          href: '/movie',
-        },
-        {
-          text: '小组讨论',
-          disabled: false,
-          href: '/moviereview',
-        }
-      ],
+      isMember: false,
+      isStarred: false,
+      commentInput: "",
       discussion: {
         id: 1,
         group_id: 1,
@@ -202,44 +206,7 @@ export default {
         content: "分子构成物质，环境决定人的成长方位那么我炸书，周围就会充满了知识分子",
         thumb: 100,
         reply_count: 100,
-        reply: [
-          {
-            id: 1,
-            user_name: "Longxmas",
-            user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-            reply_date: "2020-01-01",
-            reply_content: "你会进化成恐怖分子",
-            reply_title: "",
-            reply_thumb: 100,
-          },
-          {
-            id: 2,
-            user_name: "Harahan",
-            user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-            reply_date: "2020-01-01",
-            reply_content: "书中自有黄金屋，你把书炸了，不是得被黄金埋了嘛",
-            reply_title: "",
-            reply_thumb: 100,
-          },
-          {
-            id: 3,
-            user_name: "Harahan",
-            user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-            reply_date: "2020-01-01",
-            reply_content: "()的恐怖分子被炸了那是不是就会出现更多的恐怖分子",
-            reply_title: "",
-            reply_thumb: 100,
-          },
-          {
-            id: 4,
-            user_name: "Harahan",
-            user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-            reply_date: "2020-01-01",
-            reply_content: "众所周知正所谓，书山书山。所以你炸书=炸山。而炸山很费钱，所以你很有钱。",
-            reply_title: "",
-            reply_thumb: 100,
-          },
-        ]
+        reply: []
       },
       group: {
         id: 1,
@@ -258,6 +225,21 @@ export default {
     await this.refresh();
   },
   methods: {
+    async likeDiscussion() {
+      if (this.isStarred) {
+        let response = await dislikeDiscussion('', this.discussion.id);
+        if (response.status === 200) {
+          this.$message.warning("取消点赞成功");
+          await this.refresh();
+        }
+      } else {
+        let response = await likeDiscussion('', this.discussion.id);
+        if (response.status === 200) {
+          this.$message.success("点赞成功");
+          await this.refresh();
+        }
+      }
+    },
     async refresh() {
       let response = await getGroupDetail('', this.$route.params.id);
       if (response.status === 200) {
@@ -276,6 +258,7 @@ export default {
         this.discussion.group_id = response.data.group.id;
         this.discussion.group_name = response.data.group.name;
         this.discussion.user_name = response.data.author.nickname;
+        this.discussion.user_id = response.data.author.id;
         this.discussion.user_avatar = 'http://localhost:8080/api/' + response.data.author.avatar;
         this.discussion.date = response.data.create_at;
         this.discussion.title = response.data.title;
@@ -283,10 +266,61 @@ export default {
         this.discussion.thumb = response.data.likes;
         this.discussion.reply_count = response.data.reply_count;
       }
+
+      response = await getDiscussionComment('', this.$route.params.id, this.$route.params.discussionId);
+      if (response.status === 200) {
+        this.discussion.reply = [];
+        for (let i = 0; i < response.data.length; i++) {
+          this.discussion.reply.push({
+            id: response.data[i].id,
+            user_id: response.data[i].author.id,
+            user_name: response.data[i].author.nickname,
+            user_avatar: 'http://localhost:8080/api/' + response.data[i].author.avatar,
+            reply_date: response.data[i].create_at,
+            reply_content: response.data[i].content,
+          });
+        }
+
+        response = await getRequest('/discussion/' + this.$route.params.discussionId + '/current_like/', '');
+        if (response.status === 200) {
+          this.isStarred = response.data.liked;
+        }
+
+        response = await getIsGroupMember('', this.$route.params.id);
+        if (response.status === 200) {
+          this.isMember = response.data.is_member;
+        }
+      }
+    },
+    async postComment() {
+      if (!this.isMember) {
+        this.$message.warning("先成为小组成员再来发言吧~");
+        return;
+      }
+      if (this.commentInput === "") {
+        this.$message.warning("你怎么啥也不说啊╮(╯-╰)╭");
+        return;
+      }
+      let payload = {
+        content: this.commentInput
+      }
+      let response = await addDiscussionComment(payload, this.$route.params.discussionId);
+      console.log(response)
+      if (response.status === 200) {
+        this.$message({
+          message: '评论成功',
+          type: 'success'
+        });
+        await this.refresh();
+      }
     }
   },
-  computed: {
-
-  }
+  computed: {}
 }
 </script>
+
+<style>
+a {
+  text-decoration: NONE
+}
+</style>

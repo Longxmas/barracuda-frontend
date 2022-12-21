@@ -475,10 +475,6 @@ export default {
         new_hotMovies.push(movie);
       }
       this.suggests = new_hotMovies;
-
-
-
-
     },
 
     async searchNow() {

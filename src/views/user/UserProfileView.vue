@@ -7,7 +7,10 @@
       <div class="inner_content">
         <v-container fluid>
           <v-row class="my-6">
-            <v-tooltip bottom>
+            <v-avatar size="150px" style="margin-left: 8%" v-if="!checkPrivilege">
+              <v-img :src="user.avatar"></v-img>
+            </v-avatar>
+            <v-tooltip bottom v-else>
               <template v-slot:activator="{ on, attrs }">
                 <el-upload
                     name="avatar"
@@ -99,12 +102,12 @@
           </v-container>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="red" class="my-auto" style="color: white" @click="logout">
+            <v-btn color="red" class="my-auto" style="color: white" @click="logout" v-if="checkPrivilege">
               退出登陆
             </v-btn>
             <v-btn color="#41b2e2" style="margin-left: 70%; color: white"
                    class="flex-column-reverse"
-                         @click.stop="editInfoDialog=true">
+                         @click.stop="editInfoDialog=true" v-if="checkPrivilege">
                     <span>编辑个人资料</span>
             </v-btn>
           </v-card-actions>
@@ -194,7 +197,7 @@
                               </v-btn>
 
                               <v-btn small class="mr-5" style="color: white;background-color: limegreen"
-                                     @click="deleteReview(review)">
+                                     @click="deleteReview(review)" v-if="checkPrivilege">
                                 <v-icon small class="my-auto"> mdi-delete</v-icon>
                                 &ensp;
                                 <span class="my-auto">删除影评</span>
@@ -305,6 +308,7 @@
                                           half-increments
                                           hover
                                           large
+                                          :readonly="!checkPrivilege"
                                           @input="changeRate(movie)"
                                       ></v-rating>
                                     </v-list-item>
@@ -312,17 +316,15 @@
 
                                 </v-menu>
 
-                                <span
-                                    style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">我的评分</span>
-
-
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">我的评分</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-else>他/她的评分</span>
                               </v-col>
 
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="green" large @click="unstarMovie(movie)">
+                                <v-btn icon color="green" large @click="unstarMovie(movie)" v-if="checkPrivilege">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">取消收藏</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">取消收藏</span>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -393,10 +395,10 @@
 
                             <v-row>
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="green" large @click="unStarCelebrity(actor)">
+                                <v-btn icon color="green" large @click="unStarCelebrity(actor)" v-if="checkPrivilege">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">删除</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">删除</span>
                               </v-col>
 
                             </v-row>
@@ -467,10 +469,10 @@
 
                             <v-row>
                               <v-col cols="8" sm="2" class="pa-0">
-                                <v-btn icon color="green" large @click="quitGroup(group)">
+                                <v-btn icon color="green" large @click="quitGroup(group)" v-if="checkPrivilege">
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5">退出兴趣小组</span>
+                                <span style="font-family: 微软雅黑, serif; font-size: 16px; color: #afb6b5" v-if="checkPrivilege">退出兴趣小组</span>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -588,6 +590,7 @@ export default {
   name: "UserProfileView",
   data() {
     return {
+      currentUserID: -1,
       user: {
         name: "longxmas",
         email: "1185267696@qq.com",
@@ -705,6 +708,9 @@ export default {
       }
     },
     async refresh() {
+      this.currentUserID = this.$store.getters["user/id"];
+      console.log(this.currentUserID.toString());
+      console.log(this.$route.params.id.toString())
       let response = await api.getRequest('/genre/', '');
       for (let i = 0; i < response.data.genres.length; i++) {
         this.prefer_headers[i] = {
@@ -876,6 +882,9 @@ export default {
       }
     },
     async changeRate(movie) {
+      if (this.$store.state.user.id.toString() !== this.$route.params.id.toString()) {
+        return;
+      }
       console.log(movie)
       console.log(this.currentRate)
       let payload = {
@@ -895,6 +904,10 @@ export default {
   },
 
   computed: {
+    checkPrivilege() {
+      console.log(this.currentUserID.toString() === this.$route.params.id.toString())
+      return this.currentUserID.toString() === this.$route.params.id.toString();
+    },
     user_headers() {
       return [
         {
