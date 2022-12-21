@@ -72,17 +72,32 @@ export default {
       console.log(loginForm)
       let it = await api.postRequest('/login/', loginForm);
       console.log(it);
-      alert(it.status);
       if (it.status === 200) {
-        let user_info = await api.getRequest('/userinfo/', '');
-        this.$store.commit('user/setId', user_info.data.id);
-        this.$store.commit('user/setUsername', loginForm.username);
-        this.$store.commit('user/setNickname', user_info.data.nickname);
-        this.$store.commit('user/setEmail', user_info.data.email);
-        this.$store.commit('user/setRole', 'NormalUser');
-        this.$store.commit('user/setAvatar', 'http://localhost:8080/api/' + user_info.data.avatar);
-        this.$store.commit('user/setIslogin', 'true');
-        await this.$router.push('/')
+        if (it.data.string === '登录成功') {
+          let user_info = await api.getRequest('/userinfo/', '');
+          this.$store.commit('user/setId', user_info.data.id);
+          this.$store.commit('user/setUsername', loginForm.username);
+          this.$store.commit('user/setNickname', user_info.data.nickname);
+          this.$store.commit('user/setEmail', user_info.data.email);
+          this.$store.commit('user/setRole', 'NormalUser');
+          this.$store.commit('user/setAvatar', 'http://localhost:8080/api/' + user_info.data.avatar);
+          this.$store.commit('user/setIslogin', 'true');
+          await this.$router.push('/')
+          this.$message({
+            message: '登录成功',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            message: '密码错误',
+            type: 'error'
+          });
+        }
+      } else {
+        this.$message({
+            message: '未知错误',
+            type: 'error'
+          });
       }
     },
     addUser() {
