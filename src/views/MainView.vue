@@ -465,7 +465,7 @@ export default {
 
 
       new_hotMovies = [];
-      let classicMovies_ids = [42, 231, 78, 38 , 90, 204, 75, 208, 189, 8, 80, 168, 43, 86, 70]
+      let classicMovies_ids = [42, 168,  78, 38 , 90, 204, 75, 208, 189, 8, 80, 231, 43, 86, 70]
       for (let i = 1; i <= 15; i++) {
         response = await queryMovieDetail('', classicMovies_ids[i - 1]);
         let movie = response.data;
