@@ -96,7 +96,7 @@
                   <v-card
                       class="mx-auto"
                       elevation="0"
-                      max-width="400"
+                      max-width="300"
                       style="text-align: center"
                       :href="'/movie/' + item.id"
                   >
@@ -122,7 +122,7 @@
                     </v-progress-circular>
 
                     <v-card-text class="text--primary" style="padding: 3px !important;">
-                      <div><h3>{{ item.movie_name }}</h3></div>
+                      <div><h4>{{ item.movie_name }}</h4></div>
                     </v-card-text>
 
                   </v-card>
@@ -404,10 +404,6 @@ export default {
           suggest_cotent: ""
         }
       ],
-      suggest_titles: [
-        "知己难求",
-        ""
-      ],
       suggest_contents: [
         {
           content: "每个人都至少有这么一个挚友，你和他/她在人生的拐点遇到，惊叹于彼此的不同或者相似," +
@@ -459,7 +455,7 @@ export default {
       }
 
       let new_hotMovies = [];
-      let hotMovies_ids = [1, 2, 10, 11, 12, 13, 14, 18, 22, 23, 24, 26, 30, 33, 35]
+      let hotMovies_ids = [1, 2, 10, 11, 12, 13, 14, 18, 22, 23, 24, 26, 68, 33, 35]
       for (let i = 1; i <= 15; i++) {
         response = await queryMovieDetail('', hotMovies_ids[i - 1]);
         let movie = response.data;
@@ -469,7 +465,7 @@ export default {
 
 
       new_hotMovies = [];
-      let classicMovies_ids = [61, 64, 68, 70, 74, 75, 76, 77, 79, 80, 83, 84, 86, 87, 90]
+      let classicMovies_ids = [42, 231, 78, 38 , 90, 204, 75, 208, 189, 8, 80, 168, 43, 86, 70]
       for (let i = 1; i <= 15; i++) {
         response = await queryMovieDetail('', classicMovies_ids[i - 1]);
         let movie = response.data;

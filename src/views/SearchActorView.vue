@@ -136,6 +136,7 @@
 <script>
 import {searchActor, starActor} from "@/api/celebrity";
 import {searchMovie} from "@/api/movie";
+import {getStarCelebrities} from "@/api/user";
 
 export default {
   name: 'searchActorView',
@@ -236,7 +237,25 @@ export default {
       this.$router.push({path: '/actor/' + actor.id});
     },
 
+    async checkStar(actor) {
+      let response = await getStarCelebrities('', this.$store.getters["user/id"]);
+      if (response.status === 200) {
+        this.isStarred = false;
+        console.log(response);
+        for (let i = 0; i < response.data.length; i++) {
+          if (response.data[i].id.toString() === actor.id.toString()) {
+            this.isStarred = true;
+            break;
+          }
+        }
+      }
+
+    },
+
+
+
     async starActor(actor) {
+      await this.checkStar(actor);
       if (this.isStarred) {
         this.$message.warning('虽然你很喜欢他/它，但是你也只能收藏一次捏~(￣▽￣)~*')
       } else {

@@ -124,7 +124,7 @@
                   <v-row class="pl-0 py-0 my-0">
                     <v-col cols="1" class="px-0">
                       <v-avatar tile class="ml-5 pt-2" size="55">
-                        <v-img :src="author_details.avatar"></v-img>
+                        <v-img :src="this.$store.getters['user/avatar']"></v-img>
                       </v-avatar>
                     </v-col>
                     <v-col class="pt-0 py-0 my-0" cols="10">
@@ -212,6 +212,7 @@ import {
   submitReviewReply
 } from "@/api/review";
 import {apiUrl} from "@/api/request";
+import user from "@/store/user";
 
 export default {
   name: 'reviewDetail',
@@ -334,6 +335,7 @@ export default {
       reply_title: "影评回复",
       reply_cotent: "",
       liked: false,
+
     }
 
   },
@@ -398,7 +400,7 @@ export default {
             content: this.reply_cotent,
           }, this.$route.params.id);
       if (response.status === 200) {
-        alert("回复成功");
+        this.$message.success("回复成功");
         await this.refresh();
       }
     },

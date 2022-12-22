@@ -281,7 +281,7 @@ export default {
       response = await queryMovieStar('', this.$route.params.id);
       if (response.status === 200) {
         this.stared = response.data.liked;
-        alert("收藏成功");
+        this.$message.success("收藏成功");
       }
       await this.refresh();
     },
@@ -290,7 +290,7 @@ export default {
       let response = await unstarMovie('', user_id,  this.$route.params.id);
       response = await queryMovieStar('', this.$route.params.id);
       if (response.status === 200) {
-        alert("取消收藏");
+        this.$message.success("取消收藏");
         this.stared = response.data.liked;
       }
       await this.refresh();
@@ -326,7 +326,7 @@ export default {
       if (this.stared) {
         return "red";
       } else {
-        return "green";
+        return "blue";
       }
     },
   }

@@ -59,7 +59,7 @@
 
             <v-list class="py-0 pl-0" width="95%">
               <v-list-item
-                  v-for="(comment, i) in discussion.reply"
+                  v-for="(comment, i) in replies"
                   :key=i
                   class="pl-0">
                 <v-container>
@@ -115,7 +115,7 @@
                   <v-row class="pl-0 py-0 my-0">
                     <v-col cols="1" class="px-0">
                       <v-avatar tile class="ml-5 pt-2" size="55">
-                        <v-img :src="discussion.user_avatar"></v-img>
+                        <v-img :src="this.$store.getters['user/avatar']"></v-img>
                       </v-avatar>
                     </v-col>
                     <v-col class="pt-0 py-0 my-0" cols="10">
@@ -197,6 +197,7 @@ export default {
       commentInput: "",
       discussion: {},
       group: {},
+      replies: [],
     }
   },
   async mounted() {
@@ -248,6 +249,7 @@ export default {
       response = await getDiscussionComment('', this.$route.params.id, this.$route.params.discussionId);
       if (response.status === 200) {
         this.discussion.reply = [];
+        this.replies = [];
         for (let i = 0; i < response.data.length; i++) {
           this.discussion.reply.push({
             id: response.data[i].id,
@@ -257,18 +259,27 @@ export default {
             reply_date: response.data[i].create_at,
             reply_content: response.data[i].content,
           });
-        }
-
-        response = await getRequest('/discussion/' + this.$route.params.discussionId + '/current_like/', '');
-        if (response.status === 200) {
-          this.isStarred = response.data.liked;
-        }
-
-        response = await getIsGroupMember('', this.$route.params.id);
-        if (response.status === 200) {
-          this.isMember = response.data.is_member;
+          this.replies.push({
+            id: response.data[i].id,
+            user_id: response.data[i].author.id,
+            user_name: response.data[i].author.nickname,
+            user_avatar: apiUrl + response.data[i].author.avatar,
+            reply_date: response.data[i].create_at,
+            reply_content: response.data[i].content,
+          });
         }
       }
+
+      response = await getRequest('/discussion/' + this.$route.params.discussionId + '/current_like/', '');
+      if (response.status === 200) {
+        this.isStarred = response.data.liked;
+      }
+
+      response = await getIsGroupMember('', this.$route.params.id);
+      if (response.status === 200) {
+        this.isMember = response.data.is_member;
+      }
+
     },
     async postComment() {
       if (!this.isMember) {
