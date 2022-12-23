@@ -227,10 +227,10 @@
       <v-tab-item>
         <v-card elevation="0" width="90%" class="mx-auto">
           <v-card-title>
-            <h2>{{ user.name }}的收藏</h2>
+            <h2>{{ user.nickname }}的收藏</h2>
           </v-card-title>
           <v-card-text v-if="starsMovies.length === 0">
-            <h3>{{ user.name }}暂无收藏的电影</h3>
+            <h3>{{ user.nickname }}暂无收藏的电影</h3>
           </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
@@ -351,10 +351,10 @@
       <v-tab-item>
         <v-card elevation="0" width="90%" class="mx-auto">
           <v-card-title>
-            <h2>{{ user.name }}关注的影人</h2>
+            <h2>{{ user.nickname }}关注的影人</h2>
           </v-card-title>
           <v-card-text v-if="starsActors.length === 0">
-            <h3>{{ user.name }}暂无关注的影人</h3>
+            <h3>{{ user.nickname }}暂无关注的影人</h3>
           </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
@@ -427,10 +427,10 @@
       <v-tab-item>
         <v-card elevation="0" width="90%" class="mx-auto">
           <v-card-title>
-            <h2>{{ user.name }}加入的兴趣小组</h2>
+            <h2>{{ user.nickname }}加入的兴趣小组</h2>
           </v-card-title>
           <v-card-text v-if="interest_groups.length === 0">
-            <h3>{{ user.name }}暂无加入的兴趣小组</h3>
+            <h3>{{ user.nickname }}暂无加入的兴趣小组</h3>
           </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
