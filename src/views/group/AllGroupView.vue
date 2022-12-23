@@ -3,7 +3,13 @@
     <v-container fluid style="width: 90%" class="mt-5">
       <v-row>
         <v-col lg="8" md="8" xs="12" style="margin-top: 0;">
-          <h1>所有兴趣小组</h1>
+          <h1>
+            所有兴趣小组
+            <v-btn color="green" style="color: white" class="mr-5" @click="showAddDialog=true">
+            添加一个兴趣小组
+          </v-btn>
+          </h1>
+
           <v-item-group
               multiple class="mt-5 pl-0">
             <v-container fluid class="pl-0">
@@ -75,6 +81,27 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <v-dialog v-model="showAddDialog">
+      <v-card>
+        <v-card-title>
+          添加一个兴趣小组
+        </v-card-title>
+        <v-card-text>
+
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" text @click="showAddDialog=false">
+            取消
+          </v-btn>
+          <v-btn color="green" text @click="showAddDialog=false">
+            确定
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 
@@ -86,6 +113,7 @@ export default {
   name: 'allGroupView',
   data() {
     return {
+      showAddDialog: false,
       pageNumber: 1,
       itemLength: 20,
       whichPage: 1,

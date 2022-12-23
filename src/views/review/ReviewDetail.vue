@@ -42,18 +42,20 @@
                   <v-btn large class="mr-5" style="color: white;background-color: skyblue"
                          @click="changeLike()">
                     <v-icon class="my-auto" :color="heart_color"> mdi-heart</v-icon>
-                    &ensp;
-                    已有点赞
-                    &ensp;
+                    &ensp;已有点赞&ensp;
                     {{ review.likes }}
                   </v-btn>
 
                   <v-btn large class="mr-5" style="color: white;background-color: darkorange" @click="toBottom">
                     <v-icon class="my-auto"> mdi-message</v-icon>
-                    &ensp;
-                    已有回复
-                    &ensp;
+                    &ensp;已有回复&ensp;
                     {{ review.reply_count }}
+                  </v-btn>
+
+                  <v-btn large class="mr-5" style="color: white;background-color: red"
+                         @click="deleteReview()" v-if="isAdmin || checkPrivilege">
+                    <v-icon class="my-auto"> mdi-delete</v-icon>
+                    &ensp;删除这篇影评&ensp;
                   </v-btn>
                 </v-col>
               </v-row>
@@ -211,14 +213,12 @@ import {
   queryReviewReply,
   submitReviewReply
 } from "@/api/review";
-import {apiUrl} from "@/api/request";
-import user from "@/store/user";
+import {apiUrl, deleteRequest} from "@/api/request";
 
 export default {
   name: 'reviewDetail',
   created() {
     this.breadcrumbs_items[1].text = this.review.movie_name;
-    //console.log(this.breadcrumbs_items[1])
   },
   async mounted() {
     await this.refresh();
@@ -434,9 +434,29 @@ export default {
       window.scrollTo(0, 500000);
     },
 
+    async deleteReview() {
+      let response = await deleteRequest('/review/' + this.$route.params.id + '/', '');
+      if (response.status === 200) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+        await this.$router.push({path: '/movie/' + this.movie.id});
+      }
+    },
 
   },
   computed: {
+    checkPrivilege() {
+      let currentUserID = this.$store.getters['user/id'];
+      console.log(currentUserID.toString() === this.$route.params.id.toString())
+      return currentUserID.toString() === this.author_details.id.toString();
+    },
+    isAdmin() {
+      console.log("ROLE")
+      console.log(this.$store.getters['user/role'])
+      return this.$store.getters['user/role'] === 'admin';
+    },
     heart_color: function () {
       if (this.liked) {
         return "red";

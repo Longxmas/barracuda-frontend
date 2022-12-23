@@ -46,6 +46,14 @@
                       &ensp;
                       {{ discussion.reply_count }}
                     </v-btn>
+
+                     <v-btn large class="mr-5" style="color: white;background-color: red"
+                         @click="deleteDiscussion()" v-if="isAdmin || checkPrivilege">
+                    <v-icon class="my-auto"> mdi-delete</v-icon>
+                       &ensp;
+                    删除这篇影评
+                       &ensp;
+                  </v-btn>
                   </v-col>
                 </v-row>
               </v-container>
@@ -186,7 +194,7 @@ import {
   getGroupDiscussionDetail,
   getGroupMember, getIsGroupMember, likeDiscussion
 } from "@/api/group";
-import {apiUrl, getRequest} from "@/api/request";
+import {apiUrl, deleteRequest, getRequest} from "@/api/request";
 
 export default {
   name: 'groupDiscussionDetail',
@@ -302,9 +310,30 @@ export default {
         });
         await this.refresh();
       }
-    }
+    },
+    async deleteDiscussion() {
+      let response = await deleteRequest('/discussion/' + this.$route.params.discussionId + '/', '');
+      if (response.status === 200) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+        await this.$router.push({path: '/group/' + this.$route.params.id});
+      }
+    },
   },
-  computed: {}
+  computed: {
+    checkPrivilege() {
+      let currentUserID = this.$store.getters['user/id'];
+      console.log(currentUserID.toString() === this.$route.params.id.toString())
+      return currentUserID.toString() === this.discussion.user_id.toString();
+    },
+    isAdmin() {
+      console.log("ROLE")
+      console.log(this.$store.getters['user/role'])
+      return this.$store.getters['user/role'] === 'admin';
+    },
+  }
 }
 </script>
 

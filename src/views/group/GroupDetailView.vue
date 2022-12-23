@@ -33,14 +33,28 @@
                     </v-row>
                   </v-container>
                   <v-divider></v-divider>
-                  <v-card-actions class="d-flex justify-space-between">
-                    创建于 {{ group_meta.create_at }}
-                    <v-btn color="green lighten-4" v-if="!isMember" @click="joinGroup">加入这个小组</v-btn>
-                    <v-btn color="red" v-else @click="quitGroup">退出这个小组</v-btn>
+                  <v-card-actions>
+                    <v-container>
+                      <v-row>
+                        <v-col class="d-flex">
+                          <div class="mt-3">
+                            创建于 {{ group_meta.create_at }}
+                          </div>
+                        </v-col>
+                        <v-col class="d-flex flex-row-reverse">
+                          <v-btn color="green lighten-4" v-if="!isMember" @click="joinGroup">加入这个小组</v-btn>
+                          <v-btn color="red" v-else @click="quitGroup">退出这个小组</v-btn>
+                          <v-btn class="mr-5" color="red lighten-4" @click="deleteGroup" v-if="isAdmin">
+                            <v-icon>mdi-delete</v-icon>
+                            删除这个小组
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-container>
                   </v-card-actions>
                 </v-card-text>
               </v-card>
-              <v-card>
+              <v-card class="mt-4">
                 <v-card-title><h3>最新讨论</h3>
                   <v-spacer></v-spacer>
                   <v-btn color="blue lighten-4" @click="jumpToAllDiscussion">查看全部讨论</v-btn>
@@ -162,51 +176,51 @@
 
       <v-dialog v-model="showNewDiscussion">
         <v-card>
-        <v-card-title class="headline">发布一篇新讨论</v-card-title>
+          <v-card-title class="headline">发布一篇新讨论</v-card-title>
 
-        <v-card-text>
-          <v-container>
-            <v-row class="pb-0">
-        <v-col>
-          <v-text-field
-              single-line
-              style="color: black; font-size: 25px; font-weight: bold"
-              placeholder="请输入讨论标题"
-              v-model="discussionTitle"
-          ></v-text-field>
-        </v-col>
-      </v-row>
+          <v-card-text>
+            <v-container>
+              <v-row class="pb-0">
+                <v-col>
+                  <v-text-field
+                      single-line
+                      style="color: black; font-size: 25px; font-weight: bold"
+                      placeholder="请输入讨论标题"
+                      v-model="discussionTitle"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
 
-      <v-row>
-        <v-col>
-          <mavon-editor ref="editor" v-model="discussionContent" :toolbars="toolbars"
-                        style="min-height: 600px"/>
-        </v-col>
-      </v-row>
-          </v-container>
-        </v-card-text>
+              <v-row>
+                <v-col>
+                  <mavon-editor ref="editor" v-model="discussionContent" :toolbars="toolbars"
+                                style="min-height: 600px"/>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-card-actions>
+            <v-spacer></v-spacer>
 
-          <v-btn
-            color="red"
-            text
-            @click="giveUpEdit"
-          >
-            放弃
-          </v-btn>
+            <v-btn
+                color="red"
+                text
+                @click="giveUpEdit"
+            >
+              放弃
+            </v-btn>
 
-          <v-btn
-            color="green"
-            text
-            @click="postDiscussion"
-          >
-            <v-icon>mdi-send</v-icon>
-            发布
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+            <v-btn
+                color="green"
+                text
+                @click="postDiscussion"
+            >
+              <v-icon>mdi-send</v-icon>
+              发布
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-dialog>
 
       <v-tab-item>
@@ -266,7 +280,7 @@ import {
   getGroupRecentDiscussion,
   getGroupRecentMember, getIsGroupMember, joinGroup, postDiscussion, quitGroup
 } from "@/api/group";
-import {apiUrl} from "@/api/request";
+import {apiUrl, deleteRequest} from "@/api/request";
 
 export default {
   name: 'groupDetailView',
@@ -277,8 +291,7 @@ export default {
       searchText: '',
       group_meta: {},
       topTabName: '0',
-      recent_members: [
-      ],
+      recent_members: [],
       all_members: [],
       discussionHeaders: [
         {text: "话题", value: "topic"},
@@ -349,7 +362,7 @@ export default {
       console.log(this.group_meta);
       response = await getGroupMember('', this.$route.params.id);
       if (response.status === 200) {
-        this.all_members=[];
+        this.all_members = [];
         for (let i = 0; i < response.data.group_members.length; i++) {
           this.all_members.push({
             id: response.data.group_members[i].id,
@@ -449,7 +462,20 @@ export default {
       this.discussionContent = '';
       this.showNewDiscussion = false;
     },
+    async deleteGroup() {
+      let response = await deleteRequest('/group/' + this.$route.params.id + '/remove/', '');
+      if (response.status === 200) {
+        this.$message.success('删除成功');
+        await this.$router.push('/group');
+      }
+    },
   },
-  computed: {}
+  computed: {
+    isAdmin() {
+      console.log("ROLE")
+      console.log(this.$store.getters['user/role'])
+      return this.$store.getters['user/role'] === 'admin';
+    },
+  }
 }
 </script>

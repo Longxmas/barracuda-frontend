@@ -33,7 +33,7 @@
 
             <v-card style="background-color: transparent; margin-left: 5%" elevation="0" class="py-10">
               <v-card-text>
-                <span class="user-name"> {{ user.name }}</span>
+                <span class="user-name"> {{ user.nickname }}</span>
                 <v-chip color="red" v-if="checkPrivilege && isAdmin" class="ml-5 mb-4">
                   Lv.6 管理员
               </v-chip>
@@ -67,7 +67,11 @@
                 <v-card-text>
 
                   <h4 style="font-size: 19px">用户名</h4>
-                  <span style="color: black; font-size: 17px; line-height: 30px">{{ user.name }}</span>
+                  <span style="color: black; font-size: 17px; line-height: 30px">{{ user.username }}</span>
+                  <br>
+                  <br>
+                  <h4 style="font-size: 19px">昵称</h4>
+                  <span style="color: black; font-size: 17px; line-height: 30px">{{ user.nickname }}</span>
                   <br>
                   <br>
                   <h4 style="font-size: 19px">邮箱</h4>
@@ -84,8 +88,6 @@
                   <br>
                   <h4 style="font-size: 19px">注册时间</h4>
                   <span style="color: black; font-size: 17px;  line-height: 30px">{{ user.created_at }} </span>
-                  <br>
-                  <br>
                 </v-card-text>
               </v-col>
 
@@ -512,7 +514,7 @@
               <v-col cols="12" sm="8" md="6">
                 <v-text-field
                     color="success"
-                    v-model="editedItem.name"
+                    v-model="editedItem.nickname"
                     :label="user_headers[1].text"
                 ></v-text-field>
               </v-col>
@@ -598,7 +600,7 @@ export default {
     return {
       currentUserID: -1,
       user: {
-        name: "longxmas",
+        nickname: "longxmas",
         email: "1185267696@qq.com",
         description: "我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影" +
             "我喜欢看电影我喜欢看电影我喜欢看电影" +
@@ -612,7 +614,7 @@ export default {
       editedItem: {
         // TODO: 改成向后端请求user_profile后，这里就不用赋初值了
         id: '114514',
-        name: '匿蝶',
+        nickname: '匿蝶',
         created_at: '2022-11-12',
         prefers: ["喜剧", "爱情", "动作"],
         email: '15807386853@qq.com',
@@ -728,7 +730,8 @@ export default {
       response = await getUserProfile('', this.$route.params.id);
       if (response.status === 200) {
         this.user.id = response.data.id;
-        this.user.name = response.data.username;
+        this.user.username = response.data.username;
+        this.user.nickname = response.data.nickname;
         this.user.avatar = apiUrl + response.data.avatar;
         this.user.email = response.data.email;
         this.user.created_at = response.data.create_at;
@@ -815,8 +818,7 @@ export default {
     },
     async submitUserProfile() {
       let payload = {
-        username: this.editedItem.name,
-        nickname: this.editedItem.name,
+        nickname: this.editedItem.nickname,
         introduction: this.editedItem.description,
         email: this.editedItem.email,
         prefer_types: []
@@ -928,8 +930,8 @@ export default {
           value: 'user_id'
         },
         {
-          text: '用户名',
-          value: 'name'
+          text: '昵称',
+          value: 'nickname'
         },
         {
           text: '邮箱',

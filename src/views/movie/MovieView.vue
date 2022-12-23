@@ -115,6 +115,10 @@
                                  @click="submitRating"
                           > 提交
                           </v-btn>
+                          <v-btn class="ml-2" color="red lighten-3" style="color: white"
+                                 @click="deleteRating"
+                          > 删除已有评分
+                          </v-btn>
                         </v-card-text>
                       </v-card>
 
@@ -381,6 +385,7 @@
 
 <script>
 import {
+  deleteMovieRating,
   queryMovieDetail,
   queryMovieImages,
   queryMoviePositionStaff,
@@ -567,6 +572,7 @@ export default {
         this.ratings = response.data.rating.slice(len2 - 4, len2).reverse();
         if (response.data.current_user != null) {
           this.rating = response.data.current_user.value / 2;
+          this.rating_content = response.data.current_user.content;
         }
         for (let i = 0; i < this.ratings.length; i++) {
           this.ratings[i].author_details.avatar = apiUrl + this.ratings[i].author_details.avatar;
@@ -641,7 +647,22 @@ export default {
         this.is_rating = false;
         await this.refresh();
       }
+    },
 
+    async deleteRating() {
+      let response = await queryMovieRatings('', this.$route.params.id);
+      if (response.data.current_user === null) {
+        this.$message.error("您还没有评分");
+        return;
+      }
+      response = await deleteMovieRating('', this.$route.params.id);
+      if (response.status === 200) {
+        this.$message.success("删除评分成功");
+        this.is_rating = false;
+        this.rating_content = "";
+        this.rating = 5;
+        await this.refresh();
+      }
     },
 
     async addStar() {
