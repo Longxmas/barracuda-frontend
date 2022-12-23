@@ -20,12 +20,31 @@
                   <v-container fluid class="pl-0">
                     <v-row>
                       <v-col lg="3" md="6" sm="12" xs="12">
-                        <v-avatar rounded size="200">
+                        <v-avatar rounded size="200" v-if="!isAdmin">
                           <v-img
                               aspect-ratio="1"
                               :src="group_meta.avatar">
                           </v-img>
                         </v-avatar>
+                        <v-tooltip bottom v-else>
+                          <template v-slot:activator="{ on, attrs }">
+                            <el-upload
+                                name="avatar"
+                                v-model="fileList"
+                                :action="'http://localhost:8080/api/user/'"
+                                :on-change="uploadAvatar"
+                                :auto-upload="false"
+                                size="150px"
+                                :show-file-list="false"
+                                style="margin-left: 8%"
+                            >
+                              <v-avatar rounded size="150px" style="margin-left: 8%" v-bind="attrs" v-on="on">
+                                <v-img :src="group_meta.avatar"></v-img>
+                              </v-avatar>
+                            </el-upload>
+                          </template>
+                          <span>点击修改头像</span>
+                        </v-tooltip>
                       </v-col>
                       <v-col lg="9" md="6" sm="12" xs="12">
                         <p>{{ group_meta.introduction }}</p>
@@ -281,11 +300,13 @@ import {
   getGroupRecentMember, getIsGroupMember, joinGroup, postDiscussion, quitGroup
 } from "@/api/group";
 import {apiUrl, deleteRequest} from "@/api/request";
+import Axios from "axios";
 
 export default {
   name: 'groupDetailView',
   data() {
     return {
+      fileList: [],
       showNewDiscussion: false,
       isMember: false,
       searchText: '',
@@ -467,6 +488,24 @@ export default {
       if (response.status === 200) {
         this.$message.success('删除成功');
         await this.$router.push('/group');
+      }
+    },
+    async uploadAvatar(file, fileList) {
+      fileList.slice(-1);
+      let formData = new FormData();
+      formData.append('avatar', file.raw);
+      let res = await Axios.post(apiUrl + 'group/' + this.$route.params.id + '/uploadavatar/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
+        }
+      });
+      this.fileList = [];
+      if (res.status === 200) {
+        this.$message.success('上传成功');
+        await this.refresh();
+      } else {
+        this.$message.error('上传失败');
       }
     },
   },

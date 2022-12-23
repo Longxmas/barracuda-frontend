@@ -88,14 +88,25 @@
           添加一个兴趣小组
         </v-card-title>
         <v-card-text>
-
+          <v-form>
+            <v-text-field
+                v-model="newGroup.name"
+                label="小组名称"
+                required
+            ></v-text-field>
+            <v-textarea
+                v-model="newGroup.introduction"
+                label="小组简介"
+                required
+            ></v-textarea>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green" text @click="showAddDialog=false">
+          <v-btn color="green" text @click="giveUpEdit">
             取消
           </v-btn>
-          <v-btn color="green" text @click="showAddDialog=false">
+          <v-btn color="green" text @click="submitAdd">
             确定
           </v-btn>
         </v-card-actions>
@@ -107,13 +118,18 @@
 
 <script>
 import {getAllGroup, getRandomDiscussion} from "@/api/group";
-import {apiUrl} from "@/api/request";
+import {apiUrl, postRequest} from "@/api/request";
 
 export default {
   name: 'allGroupView',
   data() {
     return {
       showAddDialog: false,
+      newGroup: {
+        name: '',
+        introduction: '',
+        photo: null
+      },
       pageNumber: 1,
       itemLength: 20,
       whichPage: 1,
@@ -156,7 +172,28 @@ export default {
           })
         }
       }
-    }
+    },
+    giveUpEdit() {
+      this.newGroup = {
+        name: '',
+        introduction: '',
+        photo: null
+      }
+      this.showAddDialog = false;
+    },
+    async submitAdd() {
+      let response = await postRequest('/group/create/', {
+        name: this.newGroup.name,
+        introduction: this.newGroup.introduction,
+      });
+      if (response.status === 200) {
+        this.$message.success('添加成功');
+        this.giveUpEdit();
+        await this.refresh();
+      } else {
+        this.$message.error('添加失败');
+      }
+    },
   },
   computed: {}
 }
