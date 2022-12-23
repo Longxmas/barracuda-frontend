@@ -131,6 +131,7 @@ import {
   queryMoviePositionStaff,
   queryMovieRatings,
 } from "@/api/movie";
+import {apiUrl} from "@/api/request";
 
 export default {
   name: 'CommentMovieView',
@@ -224,7 +225,7 @@ export default {
       if (response.status === 200) {
         this.all_comments = response.data.rating.reverse();
         for (let i = 0 ; i < this.all_comments.length; i++) {
-          this.all_comments[i].author_details.avatar = "http://localhost:8080/api" + this.all_comments[i].author_details.avatar;
+          this.all_comments[i].author_details.avatar = apiUrl + this.all_comments[i].author_details.avatar;
         }
 
       }

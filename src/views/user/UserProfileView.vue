@@ -727,6 +727,7 @@ export default {
         this.user.id = response.data.id;
         this.user.name = response.data.nickname;
         this.user.avatar = apiUrl + response.data.avatar;
+        this.user.email = response.data.email;
         this.user.created_at = response.data.create_at;
         this.user.description = response.data.introduction;
         this.user.prefers = response.data.prefer_types;
