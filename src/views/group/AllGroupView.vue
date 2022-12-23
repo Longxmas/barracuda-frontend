@@ -5,7 +5,7 @@
         <v-col lg="8" md="8" xs="12" style="margin-top: 0;">
           <h1>
             所有兴趣小组
-            <v-btn color="green" style="color: white" class="mr-5" @click="showAddDialog=true">
+            <v-btn color="green" style="color: white" class="mr-5" @click="showAddDialog=true" v-if="isAdmin">
             添加一个兴趣小组
           </v-btn>
           </h1>
@@ -195,6 +195,12 @@ export default {
       }
     },
   },
-  computed: {}
+  computed: {
+    isAdmin() {
+      console.log("ROLE")
+      console.log(this.$store.getters['user/role'])
+      return this.$store.getters['user/role'] === 'admin';
+    },
+  }
 }
 </script>

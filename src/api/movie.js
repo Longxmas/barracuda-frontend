@@ -15,7 +15,7 @@ export async function queryAllMovies(data) {
 }
 
 export async function queryMovieDetail(data, id) {
-    console.log(id);
+    //console.log(id);
     return getRequest(apiRoute.queryAllMovies + "/" + id + '/', data);
 }
 

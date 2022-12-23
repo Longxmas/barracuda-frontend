@@ -1,6 +1,6 @@
 <template>
   <div id="reviewHomeView">
-    <v-container style="width: 90%" class="mt-5">
+    <v-container style="width: 90%" class="mt-5" v-if="!loading">
       <v-row>
         <v-col cols="10">
           <h1>随便看看</h1>
@@ -114,6 +114,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       selection: '最近的影评',
       selection_items: [
         {
@@ -127,107 +128,7 @@ export default {
           href: '/reviewhome',
         },
       ],
-      reviews: [
-        {
-          id: 1,
-          movie_id: 1,
-          movie_poster: require('../../assets/interstellar2.png'),
-          movie_name: "肖申克的救赎",
-          user_name: "小鸟",
-          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-          user_rate: 5,
-          review_date: "2020-01-01",
-          review_title: "这是一部好电影",
-          review_content: "由于众所周知的原因，院线电影在沉寂了一个多月之后，" +
-              "终于上映了一部由众多年轻一代演员和老戏骨联手奉献的扫黑题材电影，给这个有点波澜不惊的电影市场注入了一剂新的强心剂。 近年来，扫黑题材影视作品并不少见，这次本片从近年来为人深恶痛绝的“套路贷”和暴力催收引发的案...  (展开)",
-          review_thumb: 100,
-          reply_count: 100,
-          reply: [
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-          ]
-        },
-        {
-          id: 2,
-          movie_id: 1,
-          movie_poster: require('../../assets/interstellar2.png'),
-          movie_name: "肖申克的救赎",
-          user_name: "小鸟",
-          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-          user_rate: 5,
-          review_date: "2020-01-01",
-          review_title: "这是一部好电影",
-          review_content: "好呀好呀好呀好",
-          review_digest: "好呀好呀好呀好",
-          review_thumb: 100,
-          reply_count: 100,
-          reply: [
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-          ]
-        },
-        {
-          id: 3,
-          movie_id: 1,
-          movie_poster: require('../../assets/interstellar2.png'),
-          movie_name: "肖申克的救赎",
-          user_name: "小鸟",
-          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-          user_rate: 5,
-          review_date: "2020-01-01",
-          review_title: "这是一部好电影",
-          review_content: "好呀好呀好呀好",
-          review_digest: "好呀好呀好呀好",
-          review_thumb: 100,
-          reply_count: 100,
-          reply: [
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-          ]
-        }
-      ]
+      reviews: [],
     }
   },
   methods: {
@@ -239,6 +140,7 @@ export default {
       for (let i = 0 ; i < this.reviews.length; i++) {
         this.reviews[i].author_details.avatar = apiUrl + this.reviews[i].author_details.avatar;
       }
+      this.loading = false;
     },
 
     jumpToMovieReview(review) {

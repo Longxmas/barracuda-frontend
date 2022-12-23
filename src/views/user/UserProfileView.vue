@@ -1,5 +1,5 @@
 <template>
-  <div id="UserProfileView">
+  <div id="UserProfileView" v-if="!loading">
 
     <!-- user profile page-->
     <!-- avator -->
@@ -123,10 +123,10 @@
       <v-tab-item>
         <v-card elevation="0" width="90%" class="mx-auto">
           <v-card-title>
-            <h2>{{ user.name }}的影评</h2>
+            <h2>{{ user.nickname }}的影评</h2>
           </v-card-title>
           <v-card-text v-if="reviews.length === 0">
-            <h3>{{ user.name }}暂无撰写的影评</h3>
+            <h3>{{ user.nickname }}暂无撰写的影评</h3>
           </v-card-text>
           <v-card-text style="padding: 0 0 0 0">
             <v-list>
@@ -452,7 +452,7 @@
                               <v-col>
                                 <a :href="'/group/' + group.id">
                                   <h3 style="font-family: 微软雅黑,serif;font-size: 20px;color: black; line-height: normal"
-                                      class="ma-auto pa-0 ">{{ group.name }}</h3>
+                                      class="ma-auto pa-0 my-auto">{{ group.name }}</h3>
                                 </a>
                                 <span>创建于{{ group.created_at }}</span>
                               </v-col>
@@ -554,14 +554,11 @@
               </v-card-text>
 
               <v-col cols="12" sm="8" md="6">
-                <v-card-text class="pa-0">
-                  {{ user_headers[5].text }}
-                </v-card-text>
-                <br>
-                <v-text-field
+                <v-textarea
                     color="success"
+                    :label="user_headers[5].text"
                     v-model="editedItem.description"
-                ></v-text-field>
+                ></v-textarea>
               </v-col>
 
               <v-col cols="12" sm="8" md="6">
@@ -598,30 +595,12 @@ export default {
   name: "UserProfileView",
   data() {
     return {
+      loading: true,
       currentUserID: -1,
       user: {
-        nickname: "longxmas",
-        email: "1185267696@qq.com",
-        description: "我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影" +
-            "我喜欢看电影我喜欢看电影我喜欢看电影" +
-            "我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影" +
-            "我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影我喜欢看电影",
-        created_at: "2022-11-12",
-        prefers: ["喜剧", "爱情", "动作"],
-        avatar: require("../../assets/pics/spiderman.jpg"),
         infoBackground: require("../../assets/pics/back.jpg")
       },
-      editedItem: {
-        // TODO: 改成向后端请求user_profile后，这里就不用赋初值了
-        id: '114514',
-        nickname: '匿蝶',
-        created_at: '2022-11-12',
-        prefers: ["喜剧", "爱情", "动作"],
-        email: '15807386853@qq.com',
-        description: "我爱看电影",
-        avatar: require("../../assets/pics/spiderman.jpg"),
-        valid: true
-      },
+      editedItem: {},
       currentRate: 5,
       currentComment: "",
       selectedAmenities: [],
@@ -629,63 +608,10 @@ export default {
       editInfoDialog: false,
       avatarInput: null,
       topTabName: "overview",
-      starsMovies: [
-        {
-          id: 1,
-          poster: 'https://lain.bgm.tv/pic/cover/l/e2/e7/328609_2EHLJ.jpg',
-          title: '寄生虫',
-          datePublished: '2019-05-30',
-          introduction: '《寄生虫》是由奉俊昊执导，宋康昊、李善均、赵茹珍、崔宇植、朴素丹主演的剧情片，于2019年5月30日在韩国上映。' +
-              '该片讲述了一家四口全是无业游民的爸爸金基泽成天游手好闲，直到积极向上的长子金基宇靠着伪造的文凭来到富豪朴社长的家应征家教，' +
-              '两个天差地别的家庭因而被卷入一连串的意外事件之中的故事。 基宇（崔宇植 饰）出生在一个贫穷的家庭之中，和妹妹基婷（朴素丹 饰）' +
-              '以及父母在狭窄的地下室里过着相依为命的日子。一天，基宇的同学上门拜访，他告诉基宇，自己在一个有钱人家里给他们的女儿做家教' +
-              '，太太是一个头脑简单出手又阔绰的女人，因为自己要出国留学，所以将家教的职位暂时转交给基宇。就这样，基宇来到了朴社长（李善均 饰）家中' +
-              '，并且见到了他的太太（赵汝贞 饰），' +
-              '没过多久，基宇的妹妹和父母也如同寄生虫一般的进入了朴社长家里工作。然而，他们的野心并没有止步于此' +
-              '，基宇更是和大小姐坠入了爱河。随着时间的推移，朴社长家里隐藏的秘密渐渐浮出了水面。',
-          rating: 4.5,
-        },
-      ],
-      starsActors: [
-        {
-          id: 0,
-          name: '宋康昊',
-          avatar: require('../../assets/pics/songKangHao.jpg'),
-          birthtime: "1985-6-17",
-          introduction: '宋康昊（Kang-ho Song），1985年6月17日出生于韩国首尔，韩国男演员、导演、编剧。' +
-              '2007年毕业于韩国演艺学院表演系。2007年至2008年，出演电视剧《爱情的故事》。2009年，出演电视剧《爱情的故事2》。' +
-              '2010年，出演电视剧《爱情的故事3》。2011年，出演电视剧《爱情的故事4》。2012年，出演电视剧《爱情的故事5》。' +
-              '2013年，出演电视剧《爱情的故事6》。2014年，出演电视剧《爱情的故事7》。2015年，出演电视剧《爱情的故事8》。' +
-              '2016年，出演电视剧《爱情的故事9》。2017年，出演电视剧《爱情的故事10》。2018年，出演电视剧《爱情的故事11》。' +
-              '2019年，出演电视剧《爱情的故事12》。2019年，出演电影《寄生虫》。'
-        },
-      ],
-      reviews: [
-        {
-          id: 1,
-          title: '生如夏花之绚烂，死如秋叶之静美',
-          user_name: 'longxmas',
-          movie_name: '赛博朋克：边缘行者',
-          movie_id: 2,
-          /*movie_pic应当是后端查询后返回*/
-          movie_picture: require('../../assets/pics/syberpunk.jpg'),
-          rating: 4.5,
-          time: '2022-11-12',
-          like_count: 170,
-          reply_count: 100,
-          introduction:
-              ' 每个人的一生都会有几个临界'
-        },
-      ],
-      interest_groups: [
-        {
-          id: 1,
-          name: '科幻片死忠粉',
-          avatar: require('../../assets/interstellar2.png'),
-          created_at: '2022-11-13',
-          introduction: '科幻片永远的神，欢迎大家分享喜欢的科幻电影，一起讨论科幻片的魅力！'
-        },
-      ],
+      starsMovies: [],
+      starsActors: [],
+      reviews: [],
+      interest_groups: [],
       prefer_headers: []
     }
   },
@@ -776,7 +702,7 @@ export default {
             id: response.data[i].id,
             introduction: response.data[i].introduction,
             avatar: apiUrl + response.data[i].avatar,
-            created_at: response.data[i].created_at,
+            created_at: response.data[i].create_at,
             name: response.data[i].name,
           }
         }
@@ -800,12 +726,13 @@ export default {
           }
         }
       }
-      console.log(this.reviews)
+      this.loading = false;
+      //console.log(this.reviews)
     },
     async logout() {
       let response = await api.getRequest('/logout/', '');
       if (response.status === 200) {
-        alert('成功退出登陆');
+        this.$message.success('登出成功');
         this.$store.commit('user/setId', '');
         this.$store.commit('user/setUsername', '');
         this.$store.commit('user/setNickname', '');

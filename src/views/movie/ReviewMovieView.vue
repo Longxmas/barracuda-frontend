@@ -1,5 +1,5 @@
 <template>
-  <div id="reviewMovieView">
+  <div id="reviewMovieView" v-if="!loading">
     <v-tabs centered v-model="activeIndex">
       <v-tab @click="jumpToOverView" :href="`#tab-1`">概览</v-tab>
       <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
@@ -137,6 +137,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       activeIndex: 'tab-4',
       movie: {},
       breadcrumbs_items: [
@@ -157,123 +158,8 @@ export default {
         { text: "回复数", value: "reply_count" },
         { text: "最后回复", value: "last_reply" },
       ],
-      discussionItems: [
-        {
-          avatar: require("../../assets/logo.png"),
-          title: "太好看了吧",
-          reply_count: 100,
-          time: "2020-10-10",
-          user: "user1",
-        },
-        {
-          avatar: require("../../assets/logo.png"),
-          title: "太垃圾了吧",
-          reply_count: 100,
-          time: "2020-10-10",
-          user: "user1",
-        }
-      ],
-      reviews: [
-        {
-          id: 1,
-          movie_id: 1,
-          movie_poster: require('../../assets/interstellar2.png'),
-          movie_name: "肖申克的救赎",
-          user_name: "小鸟",
-          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-          user_rate: 5,
-          review_date: "2020-01-01",
-          review_title: "这是一部好电影",
-          review_content: "由于众所周知的原因，院线电影在沉寂了一个多月之后，" +
-              "终于上映了一部由众多年轻一代演员和老戏骨联手奉献的扫黑题材电影，给这个有点波澜不惊的电影市场注入了一剂新的强心剂。 近年来，扫黑题材影视作品并不少见，这次本片从近年来为人深恶痛绝的“套路贷”和暴力催收引发的案...  (展开)",
-          review_thumb: 100,
-          reply_count: 100,
-          reply: [
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-          ]
-        },
-        {
-          id: 2,
-          movie_id: 1,
-          movie_poster: require('../../assets/interstellar2.png'),
-          movie_name: "肖申克的救赎",
-          user_name: "小鸟",
-          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-          user_rate: 5,
-          review_date: "2020-01-01",
-          review_title: "这是一部好电影",
-          review_content: "好呀好呀好呀好",
-          review_digest: "好呀好呀好呀好",
-          review_thumb: 100,
-          reply_count: 100,
-          reply: [
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-          ]
-        },
-        {
-          id: 3,
-          movie_id: 1,
-          movie_poster: require('../../assets/interstellar2.png'),
-          movie_name: "肖申克的救赎",
-          user_name: "小鸟",
-          user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-          user_rate: 5,
-          review_date: "2020-01-01",
-          review_title: "这是一部好电影",
-          review_content: "好呀好呀好呀好",
-          review_digest: "好呀好呀好呀好",
-          review_thumb: 100,
-          reply_count: 100,
-          reply: [
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-            {
-              user_name: "小鸟",
-              user_avatar: "https://img3.doubanio.com/icon/u1000001-1.jpg",
-              review_date: "2020-01-01",
-              review_content: "好呀好呀好呀好",
-              review_digest: "好呀好呀好呀好",
-              review_thumb: 100,
-            },
-          ]
-        }
-      ]
+      discussionItems: [],
+      reviews: []
     }
   },
   methods: {
@@ -291,6 +177,7 @@ export default {
         this.movie = response.data;
         this.breadcrumbs_items[1].text = this.movie.movie_name;
       }
+      this.loading = false;
     },
 
     jumpToOverView() {

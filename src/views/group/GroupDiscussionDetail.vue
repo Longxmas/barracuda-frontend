@@ -1,7 +1,7 @@
 <template>
   <div id="groupDiscussionDetail">
     <v-container fluid style="width: 90%; margin-top: 10px;margin-left: 50px;
-                            min-width:900px; overflow: scroll">
+                            min-width:900px; overflow: scroll" v-if="!loading">
       <v-row>
         <v-col cols="9">
           <v-card elevation="0">
@@ -47,13 +47,13 @@
                       {{ discussion.reply_count }}
                     </v-btn>
 
-                     <v-btn large class="mr-5" style="color: white;background-color: red"
-                         @click="deleteDiscussion()" v-if="isAdmin || checkPrivilege">
-                    <v-icon class="my-auto"> mdi-delete</v-icon>
-                       &ensp;
-                    删除这篇影评
-                       &ensp;
-                  </v-btn>
+                    <v-btn large class="mr-5" style="color: white;background-color: red"
+                           @click="deleteDiscussion()" v-if="isAdmin || checkPrivilege">
+                      <v-icon class="my-auto"> mdi-delete</v-icon>
+                      &ensp;
+                      删除这篇讨论
+                      &ensp;
+                    </v-btn>
                   </v-col>
                 </v-row>
               </v-container>
@@ -90,6 +90,12 @@
                                        class="my-auto pl-3"
                                        :href="'/user/' + comment.user_id">{{ comment.user_name }}</a>
                                     <span class="my-auto pl-3">{{ comment.reply_date }}</span>
+                                    <v-btn text
+                                           class="my-auto pl-3"
+                                           v-if="isAdmin || currentUser === comment.user_id.toString()"
+                                           @click="deleteComment(comment)">
+                                      删除
+                                    </v-btn>
                                   </v-row>
 
                                   <v-row class="pt-2 pl-1 pr-2">
@@ -200,6 +206,7 @@ export default {
   name: 'groupDiscussionDetail',
   data() {
     return {
+      loading: true,
       isMember: false,
       isStarred: false,
       commentInput: "",
@@ -253,8 +260,9 @@ export default {
         this.discussion.thumb = response.data.likes;
         this.discussion.reply_count = response.data.reply_count;
       }
+      //console.log(this.discussion);
 
-      response = await getDiscussionComment('', this.$route.params.id, this.$route.params.discussionId);
+      response = await getDiscussionComment('', this.$route.params.discussionId);
       if (response.status === 200) {
         this.discussion.reply = [];
         this.replies = [];
@@ -288,6 +296,7 @@ export default {
         this.isMember = response.data.is_member;
       }
 
+      this.loading = false
     },
     async postComment() {
       if (!this.isMember) {
@@ -308,6 +317,7 @@ export default {
           message: '评论成功',
           type: 'success'
         });
+        this.commentInput = ""
         await this.refresh();
       }
     },
@@ -321,17 +331,32 @@ export default {
         await this.$router.push({path: '/group/' + this.$route.params.id});
       }
     },
+    async deleteComment(comment) {
+      let response = await deleteRequest('/comment/' + comment.id + '/', '');
+      console.log(response)
+      if (response.status === 200) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+        await this.refresh();
+      }
+    },
   },
   computed: {
     checkPrivilege() {
       let currentUserID = this.$store.getters['user/id'];
-      console.log(currentUserID.toString() === this.$route.params.id.toString())
+      //console.log(currentUserID)
+      console.log(this.discussion.user_id)
       return currentUserID.toString() === this.discussion.user_id.toString();
     },
     isAdmin() {
-      console.log("ROLE")
-      console.log(this.$store.getters['user/role'])
+      //console.log("ROLE")
+      //console.log(this.$store.getters['user/role'])
       return this.$store.getters['user/role'] === 'admin';
+    },
+    currentUser() {
+      return this.$store.getters['user/id'].toString();
     },
   }
 }

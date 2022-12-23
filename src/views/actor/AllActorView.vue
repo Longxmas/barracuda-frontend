@@ -98,7 +98,7 @@ export default {
         this.page_count = response.data.meta.total_page;
         this.actors = response.data.celebrities;
       }
-      console.log(this.actors);
+      //console.log(this.actors);
     }
   },
   watch:{

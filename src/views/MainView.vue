@@ -321,49 +321,7 @@ export default {
       query: '',
       background_image: require("../assets/mainpage_background.png"),
 
-      hotMovies: [
-        {
-          id: 1,
-          name: "星际穿越",
-          src: require("../assets/interstellar2.png"),
-        },
-        {
-          name: "真探",
-          src: require("../assets/p2.webp"),
-        },
-        {
-          name: "星际穿越",
-          src: require("../assets/interstellar2.png"),
-        },
-        {
-          name: "真探",
-          src: require("../assets/p2.webp"),
-        },
-        {
-          name: "星际穿越",
-          src: require("../assets/interstellar2.png"),
-        },
-        {
-          name: "真探",
-          src: require("../assets/p2.webp"),
-        },
-        {
-          name: "星际穿越",
-          src: require("../assets/interstellar2.png"),
-        },
-        {
-          name: "真探",
-          src: require("../assets/p2.webp"),
-        },
-        {
-          name: "星际穿越",
-          src: require("../assets/interstellar2.png"),
-        },
-        {
-          name: "真探",
-          src: require("../assets/p2.webp"),
-        },
-      ],
+      hotMovies: [],
       classicMovies: [],
       reviews: [
         {
@@ -439,8 +397,6 @@ export default {
               "用比火柴棒稍粗的木棍对火云邪神的迎头轻轻一击。这轻轻一击，意味着他天良未泯，" +
               "终于选择善良需要极大的勇气，而在具备了这样的勇气之后，反抗恶势力——哪怕是最强的,也是顺理成章的事情。"
         },
-
-
       ],
     };
   },

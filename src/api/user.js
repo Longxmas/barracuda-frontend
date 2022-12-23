@@ -75,8 +75,7 @@ export async function unstarCelebrity(data, user_id, celebrity_id) {
 }
 
 export async function deleteReview(data, user_id, review_id) {
-    return deleteRequest(apiRoute.userRoot + user_id +
-        apiRoute.writtenReview + review_id + '/', data);
+    return deleteRequest('/review/' + review_id + '/', data);
 }
 
 export async function uploadAvatar(data, user_id) {

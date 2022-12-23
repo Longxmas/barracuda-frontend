@@ -1,5 +1,5 @@
 <template>
-  <div id="commentMovie">
+  <div id="commentMovie" v-if="!loading">
     <v-tabs centered v-model="activeIndex">
       <v-tab @click="jumpToOverView" :href="`#tab-1`">概览</v-tab>
       <v-tab @click="jumpToMedia" :href="`#tab-2`">媒体</v-tab>
@@ -140,78 +140,12 @@ export default {
   },
   data() {
     return {
+      loading: true,
       activeIndex: 'tab-3',
-      movie: {
-        "id": 1,
-        "movie_name": "摔跤吧！爸爸 Dangal",
-        "overview": "\t马哈维亚（阿米尔·汗 Aamir Khan饰）曾经是一名前途无量的摔跤运动员，在放弃了职业生涯后，他最大的遗憾就是没有能够替国家赢得金牌。马哈维亚将这份希望寄托在了尚未出生的儿子身上，哪知道妻子接连给他生了两个女儿，取名吉塔（法缇玛·萨那·纱卡 Fatima Sana Shaikh饰）和巴比塔（桑亚·玛荷塔 Sanya Malhotra饰）。让马哈维亚没有想到的是，两个姑娘展现出了杰出的摔跤天赋，让他幡然醒悟，就算是女孩，也能够昂首挺胸的站在比赛场上，为了国家和她们自己赢得荣誉。\n\t就这样，在马哈维亚的指导下，吉塔和巴比塔开始了艰苦的训练，两人进步神速，很快就因为在比赛中连连获胜而成为了当地的名人。为了获得更多的机会，吉塔进入了国家体育学院学习，在那里，她将面对更大的诱惑和更多的选择。\n",
-        "release_date": "2016-12-23",
-        "duration": "2H41M",
-        "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2401676338.jpg",
-        "region": "印度",
-        "vote_average": 0.0,
-        "vote_count": 0,
-        "movie_director" : " ",
-        "genres": [{"id": 1, "name": "剧情"}, {"id": 2, "name": "家庭"}, {"id": 3, "name": "传记"}, {
-          "id": 4,
-          "name": "运动"
-        }]
-      },
-      all_comments: [
-        {
-          id: 1,
-          avatar: require("../../assets/pics/anne.jpg"),
-          introduction: "最强科幻片不过如此",
-          rating: 4.0,
-          time: "2022-10-12",
-          user: "user2",
-        },
-        {
-          id: 2,
-          avatar: require("../../assets/pics/anne.jpg"),
-          introduction: "最强科幻片不过如此 最强科幻片不过如此 最强科幻片不过如此" +
-              "最强科幻片不过如此" +
-              "最强科幻片不过如此" +
-              "最强科幻片不过如此" +
-              "最强科幻片不过如此" +
-              "最强科幻片不过如此" +
-              "最强科幻片不过如此最强科幻片不过如此最强科幻片不过如此最强科幻片不过如此最强科幻片不过如此" +
-              "最强科幻片不过如此",
-          rating: 4.0,
-          time: "2022-10-12",
-          user: "user2",
-        },
-        {
-          id: 3,
-          avatar: require("../../assets/pics/anne.jpg"),
-          introduction: "最强科幻片不过如此",
-          rating: 4.0,
-          time: "2022-10-12",
-          user: "user2",
-        },
-        {
-          id: 4,
-          avatar: require("../../assets/pics/anne.jpg"),
-          introduction: "最强科幻片不过如此",
-          rating: 4.0,
-          time: "2022-10-12",
-          user: "user2",
-        }
-      ],
-      actors: [
-        {
-          "id": 85, "celebrity_name": "约翰·李·汉考克 John Lee Hancock", "biography": "",
-          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p39941.jpg",
-          "birthday": "1956年12月15日", "place_of_birth":
-              "美国,德克萨斯", "gender": 0, "career": "导演 / 编剧 / 制片人 / 演员 / 制片管理"
-        },
-        {
-          "id": 86, "celebrity_name": "迈克尔·刘易斯 Michael Lewis", "biography": "",
-          "image": "https://img2.doubanio.com/view/celebrity/raw/public/p1453114346.61.jpg", "birthday":
-              "+1960年10月15日", "place_of_birth": "美国,路易斯安那州,新奥尔良", "gender": 1, "career": "编剧"
-        }
-      ],
-      movie_director: "约翰·李·汉考克 John Lee Hancock",
+      movie: {},
+      all_comments: [],
+      actors: [],
+      movie_director: "",
     }
   },
   methods: {
@@ -239,8 +173,8 @@ export default {
       if (response.status === 200) {
         this.actors = response.data.staffs.slice(0, 2);
       }
-
-      console.log(this.actors)
+      this.loading = false;
+      //console.log(this.actors)
     },
     jumpToReview() {
       this.$router.push('/movie/' + this.$route.params.id + '/review');

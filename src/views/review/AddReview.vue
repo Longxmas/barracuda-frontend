@@ -271,8 +271,18 @@ export default {
           },
           this.$route.params.id
       );
-      console.log(response);
-      this.$router.back();
+      if (response.status === 200) {
+        this.$message({
+          message: '发布成功',
+          type: 'success'
+        });
+        this.$router.back();
+      } else {
+        this.$message({
+          message: '发布失败',
+          type: 'error'
+        });
+      }
     },
 
     async addStar() {

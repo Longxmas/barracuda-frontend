@@ -1,7 +1,7 @@
 <template>
   <div id="allMovieView">
 
-    <v-container fluid style="width: 90%; margin-top: 10px; margin-left: 50px">
+    <v-container fluid style="width: 90%; margin-top: 10px; margin-left: 50px" v-if="!loading">
       <h1>所有电影</h1>
       <v-container fluid>
         <v-row>
@@ -174,6 +174,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       name: "allMovieView",
       sortType: [
         '按评分排序',
@@ -188,55 +189,9 @@ export default {
       selectedLanguage: [],
       page_offset:1,
       page_count: 20,
-      languageTags: [
-        '英语',
-        '中文',
-        '日语',
-        '韩语',
-        '法语',
-        '德语',
-        '西班牙语',
-        '意大利语',
-        '俄语',
-        '葡萄牙语',
-        '泰语',
-        '阿拉伯语',
-        '其他',
-      ],
-      tags: ['Work',
-        'Home Improvement',
-        'Vacation',
-        'Food',
-        'Drawers',
-        'Shopping',
-        'Art',
-        'Tech',
-        'Creative Writing',],
-      movies: [
-          {
-            "id": 1,
-            "movie_name": "摔跤吧！爸爸 Dangal",
-            "overview": "\t马哈维亚（阿米尔·汗 Aamir Khan饰）曾经是一名前途无量的摔跤运动员，在放弃了职业生涯后，他最大的遗憾就是没有能够替国家赢得金牌。马哈维亚将这份希望寄托在了尚未出生的儿子身上，哪知道妻子接连给他生了两个女儿，取名吉塔（法缇玛·萨那·纱卡 Fatima Sana Shaikh饰）和巴比塔（桑亚·玛荷塔 Sanya Malhotra饰）。让马哈维亚没有想到的是，两个姑娘展现出了杰出的摔跤天赋，让他幡然醒悟，就算是女孩，也能够昂首挺胸的站在比赛场上，为了国家和她们自己赢得荣誉。\n\t就这样，在马哈维亚的指导下，吉塔和巴比塔开始了艰苦的训练，两人进步神速，很快就因为在比赛中连连获胜而成为了当地的名人。为了获得更多的机会，吉塔进入了国家体育学院学习，在那里，她将面对更大的诱惑和更多的选择。\n",
-            "release_date": "2016-12-23",
-            "duration": "2H41M",
-            "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2401676338.jpg",
-            "region": "印度",
-            "vote_average": 0.0,
-            "vote_count": 0,
-            "genres": [{"id": 1, "name": "剧情"}, {"id": 2, "name": "家庭"}, {"id": 3, "name": "传记"}, {"id": 4, "name": "运动"}]
-          },
-        {
-            "id": 2,
-            "movie_name": "何以为家 كفرناحوم",
-            "overview": "\t法庭上，十二岁的男孩赞恩向法官状告他的亲生父母，原因是，他们给了他生命。是什么样的经历让一个孩子做出如此不可思议的举动？故事中，赞恩的父母在无力抚养和教育的状况下依然不停生育，作为家中的长子赞恩，弱小的肩膀承担了无数生活的重压。当妹妹被强行卖给商贩为妻时，赞恩愤怒离家，之后遇到一对没有合法身份的母子，相互扶持勉强生活。然而生活并没有眷顾赞恩，重重磨难迫使他做出了令人震惊的举动……\n",
-            "release_date": "2018-05-17",
-            "duration": "2H6M",
-            "image": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2555295759.jpg",
-            "region": "黎巴嫩 / 美国 / 法国 / 塞浦路斯 / 卡塔尔 /英国",
-            "vote_average": 0.0,
-            "vote_count": 0,
-            "genres": [{"id": 1, "name": "剧情"}]}
-      ]
+      languageTags: [],
+      tags: [],
+      movies: []
     }
   },
   methods: {
@@ -281,8 +236,8 @@ export default {
         this.page_count = response.data.meta.total_page;
         this.movies = response.data.movies;
       }
-
-      console.log(this.movies);
+      this.loading = false
+      //console.log(this.movies);
     },
   },
   computed: {

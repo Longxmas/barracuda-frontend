@@ -21,7 +21,14 @@
             <el-form-item
                 prop="password">
               <el-input type="password" v-model="registerForm.password" placeholder="密码"></el-input>
+              <password v-model="registerForm.password" :strength-meter-only="true" style="height: 5px" class="my-auto"/>
             </el-form-item>
+
+            <el-form-item
+                prop="password">
+              <el-input type="password" v-model="registerForm.rewrite_password" placeholder="重复密码"></el-input>
+            </el-form-item>
+
             <el-form-item>
               <el-button type="danger" @click="submitRegisterForm(registerForm)"
                          style="width: 100%;
@@ -49,8 +56,9 @@
 
 <script>
 import * as api from "@/api/request";
-
+import Password from 'vue-password-strength-meter'
 export default {
+  components: { Password },
   data() {
     return {
       activeIndex: '1',
@@ -59,6 +67,7 @@ export default {
         username: '',
         password: '',
         email:'',
+        rewrite_password: '',
       },
       isRememberAccount: true
     };
@@ -67,14 +76,45 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    async submitRegisterForm(registerForm) {
-      console.log(registerForm.valueOf());
-      await api.postRequest('/register/', registerForm);
-      //Api.Login()
-      await this.$router.push('/login');
+    checkEmailValid(email) {
+      const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+      return reg.test(email);
     },
-    addUser() {
-      // Vue.$router.push()
+    async submitRegisterForm(registerForm) {
+      if (registerForm.email === '' || registerForm.password === '' || registerForm.username === '' || registerForm.rewrite_password === '') {
+        this.$message({
+          message: '请填写完整信息',
+          type: 'error'
+        });
+        return;
+      }
+      if (!this.checkEmailValid(registerForm.email)) {
+        this.$message({
+          message: '邮箱格式不正确',
+          type: 'error'
+        });
+        return;
+      }
+      if (registerForm.password !== registerForm.rewrite_password) {
+        this.$message.error('两次输入的密码不一致');
+        return;
+      }
+      console.log(registerForm.valueOf());
+      let response = await api.postRequest('/register/', registerForm);
+      if (response.status === 200) {
+        this.$message({
+          message: '注册成功，即将为您跳转到登录界面',
+          type: 'success'
+        });
+        setTimeout(() => {
+          this.$router.push('/login');
+        }, 1000);
+      } else {
+        this.$message({
+          message: '注册失败',
+          type: 'error'
+        });
+      }
     }
   }
 }
@@ -138,7 +178,7 @@ export default {
 }
 
 .login-view {
-  background: url('../../assets/background.jpg');
+  background: url('@/assets/background.jpg');
   background-size: cover;
 }
 

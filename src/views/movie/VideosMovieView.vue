@@ -1,5 +1,5 @@
 <template>
-  <div id="videosMovie">
+  <div id="videosMovie" v-if="!loading">
     <v-tabs centered v-model="activeIndex">
       <v-tab @click="jumpToOverView" :href="`#tab-1`">概览</v-tab>
       <v-tab :href="`#tab-2`">媒体</v-tab>
@@ -117,6 +117,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       choose_video: 1,
       playerOptions : {
         autoplay: true, //如果true,浏览器准备好时开始回放。
@@ -140,24 +141,8 @@ export default {
       },
       choose_type: 1,
       activeIndex: 'tab-2',
-      videos: [
-        {"video_path":
-              "https://vt1.doubanio.com/202211081423/00fd6e1f751fdfc40552287198d3d2c9/view/movie/M/301260575.mp4"},
-        {"video_path":
-          "https://vt1.doubanio.com/202211081423/75c5d28ebaa7b53680df6a65e735da71/view/movie/M/301370579.mp4"},
-        {"video_path":
-              "https://vt1.doubanio.com/202211081423/8a93c19f81f034cdf0d464106f634ec2/view/movie/M/402370922.mp4"},
-        {"video_path":
-              "https://vt1.doubanio.com/202211081438/e225e4e66799ca6c387b5c8c9f6f95f8/view/movie/M/301050966.mp4"}
-      ],
-      images: [
-        {"image_path": "https://img9.doubanio.com/view/photo/m/public/p443396084.jpg"},
-        {"image_path": "https://img9.doubanio.com/view/photo/m/public/p1779186376.jpg"},
-        {"image_path": "https://img1.doubanio.com/view/photo/m/public/p443394198.jpg"},
-        {"image_path": "https://img1.doubanio.com/view/photo/m/public/p443396637.jpg"},
-        {"image_path": "https://img1.doubanio.com/view/photo/m/public/p2152544798.jpg"},
-        {"image_path": "https://img9.doubanio.com/view/photo/m/public/p1779181635.jpg"},
-      ]
+      videos: [],
+      images: []
     }
   },
   methods: {
@@ -174,6 +159,7 @@ export default {
       if (this.videos !== null && this.videos.length > 0) {
         this.playerOptions.sources[0].src = this.videos[0].video_path;
       }
+      this.loading = false
     },
     jumpToOverView() {
       this.$router.push({path: `/movie/${this.$route.params.id}`});
