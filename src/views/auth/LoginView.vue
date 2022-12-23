@@ -80,7 +80,7 @@ export default {
           this.$store.commit('user/setUsername', loginForm.username);
           this.$store.commit('user/setNickname', user_info.data.nickname);
           this.$store.commit('user/setEmail', user_info.data.email);
-          this.$store.commit('user/setRole', 'NormalUser');
+          this.$store.commit('user/setRole', it.data.role);
           this.$store.commit('user/setAvatar', apiUrl + user_info.data.avatar);
           this.$store.commit('user/setIslogin', 'true');
           await this.$router.push('/')

@@ -34,6 +34,9 @@
             <v-card style="background-color: transparent; margin-left: 5%" elevation="0" class="py-10">
               <v-card-text>
                 <span class="user-name"> {{ user.name }}</span>
+                <v-chip color="red" v-if="checkPrivilege && isAdmin" class="ml-5 mb-4">
+                  Lv.6 管理员
+              </v-chip>
               </v-card-text>
             </v-card>
           </v-row>
@@ -725,7 +728,7 @@ export default {
       response = await getUserProfile('', this.$route.params.id);
       if (response.status === 200) {
         this.user.id = response.data.id;
-        this.user.name = response.data.nickname;
+        this.user.name = response.data.username;
         this.user.avatar = apiUrl + response.data.avatar;
         this.user.email = response.data.email;
         this.user.created_at = response.data.create_at;
@@ -912,6 +915,11 @@ export default {
     checkPrivilege() {
       console.log(this.currentUserID.toString() === this.$route.params.id.toString())
       return this.currentUserID.toString() === this.$route.params.id.toString();
+    },
+    isAdmin() {
+      console.log("ROLE")
+      console.log(this.$store.getters['user/role'])
+      return this.$store.getters['user/role'] === 'admin';
     },
     user_headers() {
       return [
