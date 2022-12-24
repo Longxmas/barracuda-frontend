@@ -793,7 +793,7 @@ export default {
       }
     },
     async quitGroup(group) {
-      let response = await quitGroup('', this.$route.params.id, group.id);
+      let response = await quitGroup('', group.id);
       if (response.status === 200) {
         this.$message.success('退出成功');
         await this.refresh();
