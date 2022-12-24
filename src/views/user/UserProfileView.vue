@@ -62,7 +62,7 @@
           </v-img>
           <v-container fluid>
             <v-row class="my-2">
-              <v-col cols="4">
+              <v-col cols="6">
                 <v-card-title class="pl-3 pt-1 pb-8"><h2>个人信息</h2></v-card-title>
                 <v-card-text>
 
@@ -91,7 +91,7 @@
                 </v-card-text>
               </v-col>
 
-              <v-col cols="8">
+              <v-col cols="6">
                 <v-card-text style="margin-top: 10%; height: 100%">
                   <h4 style="font-size: 19px">个人描述</h4>
                   <br>
