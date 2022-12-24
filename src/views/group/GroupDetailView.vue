@@ -121,7 +121,7 @@
                       <v-row>
                         <v-col v-for="member in recent_members"
                                :key="member.id"
-                               lg="3"
+                               lg="4"
                                md="4"
                                sm="6"
                                xs="12">
@@ -133,7 +133,7 @@
                             </v-row>
                             <v-row justify="center">
                               <a :href="'/user/' + member.id">
-                                <h3>{{ member.name }}</h3>
+                                <h4>{{ member.name }}</h4>
                               </a>
                             </v-row>
                           </v-container>
@@ -416,7 +416,7 @@ export default {
           this.recentDiscussionItems.push({
             id: response.data[i].id,
             topic: response.data[i].title,
-            author: "author",
+            author: response.data[i].author.nickname,
             reply_count: response.data[i].comment_count,
             last_reply_time: response.data[i].update_at,
           });
